@@ -1,12 +1,12 @@
+import "@fortawesome/fontawesome-free/css/all.min.css";
 import React, { useState } from "react";
 import { toast } from "react-toastify";
 import { loginUserApi } from "../../apis/api";
+
 const Login = () => {
-  // make ausestate for each input field
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  // make a error state
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
 
@@ -18,55 +18,47 @@ const Login = () => {
     setPassword(e.target.value);
   };
 
-  var validate = () => {
-    var isValid = true;
-
-    // validate the first name
+  const validate = () => {
+    let isValid = true;
 
     if (email.trim() === "" || !email.includes("@")) {
       setEmailError("Email is empty or invalid");
       isValid = false;
+    } else {
+      setEmailError("");
     }
+
     if (password.trim() === "") {
       setPasswordError("Password is required");
       isValid = false;
+    } else {
+      setPasswordError("");
     }
 
     return isValid;
   };
-  // make a function to handel thge form submission
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
     if (!validate()) {
       return;
     }
-    // make a object of the data
 
     const data = {
       email: email,
       password: password,
     };
-    // Api request
 
     loginUserApi(data).then((res) => {
-      // Received data : success, message
       if (res.data.success === false) {
         toast.error(res.data.message);
       } else {
         toast.success(res.data.message);
 
-        // success-bool, message-text, token-text, user-data -json object ako xa data
-
-        // setting token and  userdata in local storage
-
         localStorage.setItem("token", res.data.token);
 
-        // setting the user data
         const convertedData = JSON.stringify(res.data.userData);
-
-        // local storage set
-
         localStorage.setItem("user", convertedData);
         window.location.href = "/Homepage";
       }
@@ -75,52 +67,76 @@ const Login = () => {
 
   return (
     <div className="container mt-5">
-      <div className="row">
-        <div className="col-md-6">
-          <h2>Login</h2>
-          <form>
-            <div className="mb-3">
-              <label htmlFor="email">Email Address: {email}</label>
-              <input
-                type="email"
-                className="form-control"
-                id="email"
-                placeholder="Enter email"
-                onChange={handleEmail}
-                required
-                aria-describedby="emailHelp"
-              />
-              {emailError && <p className="text-danger">{emailError}</p>}
-            </div>
-            <div className="mb-3">
-              <label htmlFor="password">Password: {password}</label>
-              <input
-                type="password"
-                className="form-control"
-                id="password"
-                required
-                placeholder="Enter password"
-                onChange={handlePassword}
-              />
-              {passwordError && <p className="text-danger">{passwordError}</p>}
-            </div>
-            <button
-              type="submit"
-              className="btn btn-danger btn-block w-50 mt-5"
-              onClick={handleSubmit}
-            >
-              Login{" "}
-            </button>
-          </form>
-        </div>
+      <div className="row justify-content-center align-items-center">
         <div className="col-md-6 d-flex justify-content-center align-items-center">
           <img
             src="/assets/images/logo.png"
-            alt="Login"
+            alt="Logo"
             className="img-fluid"
             height={400}
             width={400}
           />
+        </div>
+        <div className="col-md-4">
+          <div
+            className="card"
+            style={{ maxWidth: "400px", margin: "0 auto", minHeight: "500px" }}
+          >
+            <div className="card-body">
+              <h2 className="card-title text-center mb-4">Login</h2>
+              <form onSubmit={handleSubmit}>
+                <div className="mb-4">
+                  <label htmlFor="email" className="form-label">
+                    Email Address :
+                  </label>
+                  <div className="input-group">
+                    <span className="input-group-text">
+                      <i className="fas fa-envelope"></i>
+                    </span>
+                    <input
+                      type="email"
+                      className="form-control"
+                      id="email"
+                      placeholder="Enter email"
+                      onChange={handleEmail}
+                      required
+                    />
+                  </div>
+                  {emailError && <p className="text-danger">{emailError}</p>}
+                </div>
+                <div className="mb-3">
+                  <label htmlFor="password" className="form-label">
+                    Password :
+                  </label>
+                  <div className="input-group">
+                    <span className="input-group-text">
+                      <i className="fas fa-lock"></i>
+                    </span>
+                    <input
+                      type="password"
+                      className="form-control"
+                      id="password"
+                      placeholder="Enter password"
+                      onChange={handlePassword}
+                      required
+                    />
+                  </div>
+                  {passwordError && (
+                    <p className="text-danger">{passwordError}</p>
+                  )}
+                </div>
+                <button
+                  type="submit"
+                  className="btn btn-primary btn-block w-100 mt-3"
+                >
+                  Login
+                </button>
+                <div className="text-center mt-3">
+                  <a href="#">Forgot Password?</a>{" "}
+                </div>
+              </form>
+            </div>
+          </div>
         </div>
       </div>
     </div>
