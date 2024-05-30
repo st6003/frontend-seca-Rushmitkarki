@@ -30,57 +30,62 @@ const Register = () => {
   const handlePassword = (e) => {
     setPassword(e.target.value);
   };
+
   const handleConfirmPassword = (e) => {
     setConfirmPassword(e.target.value);
   };
 
-  var validate = () => {
-    var isValid = true;
+  const validate = () => {
+    let isValid = true;
 
-    // validate the first name
     if (firstName.trim() === "") {
       setFirstNameError("First name is required");
       isValid = false;
+    } else {
+      setFirstNameError("");
     }
+
     if (lastName.trim() === "") {
       setLastNameError("Last name is required");
       isValid = false;
+    } else {
+      setLastNameError("");
     }
+
     if (email.trim() === "") {
-      setEmailError("EMail is required");
+      setEmailError("Email is required");
       isValid = false;
+    } else {
+      setEmailError("");
     }
+
     if (password.trim() === "") {
       setPasswordError("Password is required");
       isValid = false;
+    } else {
+      setPasswordError("");
     }
+
     if (confirmPassword.trim() === "") {
       setConfirmPasswordError("Confirm Password is required");
       isValid = false;
+    } else if (confirmPassword !== password) {
+      setConfirmPasswordError("Password and Confirm Password do not match");
+      isValid = false;
+    } else {
+      setConfirmPasswordError("");
     }
 
-    if (confirmPassword.trim() !== password.trim()) {
-      setConfirmPasswordError("Password and Confirm password doesn't match");
-      isValid = false;
-    }
     return isValid;
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // validate
-    var isValidated = validate();
-    if (!isValidated) {
+    if (!validate()) {
       return;
     }
 
-    // console.log(firstName, lastName, email, password, confirmPassword);
-
-    // sendging request to api from api.js
-
-    // Making the json object
-    // haveto  same form backend
     const data = {
       firstName: firstName,
       lastName: lastName,
@@ -89,112 +94,17 @@ const Register = () => {
     };
 
     registerUserApi(data).then((res) => {
-      // Received data : success, message
       if (res.data.success === false) {
         toast.error(res.data.message);
       } else {
         toast.success(res.data.message);
       }
     });
-
-    // const data = {
-    //   firstName: firstName,
-    //   lastName: lastName,
-    //   email: email,
-    //   password: password,
-    // };
   };
 
   return (
     <div className="container mt-5">
-      <div className="row">
-        <div className="col-md-6">
-          <h2>Register Now.. </h2>
-          <form >
-            <div className="mb-3">
-              <label htmlFor="firstName" className="form-label">
-                First Name
-              </label>
-              <input
-                type="text"
-                className="form-control"
-                placeholder="Enter your firstName"
-                value={firstName}
-                onChange={handleFirstName}
-                required
-              />
-              {firstNameError && (
-                <p className="text-danger">{firstNameError}</p>
-              )}
-            </div>
-            <div className="mb-3">
-              <label htmlFor="lastName" className="form-label">
-                Last Name
-              </label>
-              <input
-                type="text"
-                className="form-control"
-                placeholder="Enter your lastName"
-                value={lastName}
-                onChange={handleLastName}
-                required
-              />
-              {lastNameError && <p className="text-danger">{lastNameError}</p>}
-            </div>
-            <div className="mb-3">
-              <label htmlFor="email" className="form-label">
-                Email address
-              </label>
-              <input
-                type="email"
-                className="form-control"
-                placeholder="Enter your email"
-                value={email}
-                onChange={handleEmail}
-                aria-describedby="emailHelp"
-                required
-              />
-              {emailError && <p className="text-danger">{emailError}</p>}
-            </div>
-            <div className="mb-3">
-              <label htmlFor="password" className="form-label">
-                Password
-              </label>
-              <input
-                type="password"
-                className="form-control"
-                placeholder="Enter password"
-                value={password}
-                onChange={handlePassword}
-                required
-              />
-              {passwordError && <p className="text-danger">{passwordError}</p>}
-            </div>
-            <div className="mb-3">
-              <label htmlFor="confirmPassword" className="form-label">
-                Confirm Password
-              </label>
-              <input
-                type="password"
-                className="form-control"
-                placeholder=" Confirm your Password"
-                value={confirmPassword}
-                onChange={handleConfirmPassword}
-                required
-              />
-              {confirmPasswordError && (
-                <p className="text-danger">{confirmPasswordError}</p>
-              )}
-            </div>
-            <button
-              type="submit"
-              className="btn btn-primary btn-block"
-              onClick={handleSubmit}
-            >
-              Register
-            </button>
-          </form>
-        </div>
+      <div className="row justify-content-center align-items-center">
         <div className="col-md-6 d-flex justify-content-center align-items-center">
           <img
             src="/assets/images/logo.png"
@@ -203,6 +113,120 @@ const Register = () => {
             height={400}
             width={400}
           />
+        </div>
+        <div className="col-md-4">
+          <div
+            className="card"
+            style={{ maxWidth: "500px", margin: "30px", minHeight: "500px" }}
+          >
+            <div className="card-body">
+              <h2 className="card-title text-center mb-6">Register Now</h2>
+              <form onSubmit={handleSubmit}>
+                <div className="mb-3 input-group">
+                  <span className="input-group-text">
+                    <i className="fas fa-user"></i>
+                  </span>
+                  <input
+                    type="text"
+                    className="form-control"
+                    id="firstName"
+                    placeholder="Enter your first name"
+                    value={firstName}
+                    onChange={handleFirstName}
+                    required
+                  />
+                </div>
+                {firstNameError && (
+                  <p className="text-danger">{firstNameError}</p>
+                )}
+
+                <div style={{ marginBottom: "25px" }}></div>
+
+                <div className="mb-3 input-group">
+                  <span className="input-group-text">
+                    <i className="fas fa-user"></i>
+                  </span>
+                  <input
+                    type="text"
+                    className="form-control"
+                    id="lastName"
+                    placeholder="Enter your last name"
+                    value={lastName}
+                    onChange={handleLastName}
+                    required
+                  />
+                </div>
+                {lastNameError && (
+                  <p className="text-danger">{lastNameError}</p>
+                )}
+
+                <div style={{ marginBottom: "25px" }}></div>
+
+                <div className="mb-3 input-group">
+                  <span className="input-group-text">
+                    <i className="fas fa-envelope"></i>
+                  </span>
+                  <input
+                    type="email"
+                    className="form-control"
+                    id="email"
+                    placeholder="Enter your email"
+                    value={email}
+                    onChange={handleEmail}
+                    required
+                  />
+                </div>
+                {emailError && <p className="text-danger">{emailError}</p>}
+
+                <div style={{ marginBottom: "25px" }}></div>
+
+                <div className="mb-3 input-group">
+                  <span className="input-group-text">
+                    <i className="fas fa-lock"></i>
+                  </span>
+                  <input
+                    type="password"
+                    className="form-control"
+                    id="password"
+                    placeholder="Enter password"
+                    value={password}
+                    onChange={handlePassword}
+                    required
+                  />
+                </div>
+                {passwordError && (
+                  <p className="text-danger">{passwordError}</p>
+                )}
+
+                <div style={{ marginBottom: "25px" }}></div>
+
+                <div className="mb-3 input-group">
+                  <span className="input-group-text">
+                    <i className="fas fa-lock"></i>
+                  </span>
+                  <input
+                    type="password"
+                    className="form-control"
+                    id="confirmPassword"
+                    placeholder="Confirm your password"
+                    value={confirmPassword}
+                    onChange={handleConfirmPassword}
+                    required
+                  />
+                </div>
+                {confirmPasswordError && (
+                  <p className="text-danger">{confirmPasswordError}</p>
+                )}
+
+                <button
+                  type="submit"
+                  className="btn btn-primary btn-block w-100 mt-3"
+                >
+                  Register
+                </button>
+              </form>
+            </div>
+          </div>
         </div>
       </div>
     </div>
