@@ -80,7 +80,11 @@ const Login = () => {
         <div className="col-md-4">
           <div
             className="card"
-            style={{ maxWidth: "400px", margin: "0 auto", minHeight: "500px" }}
+            style={{
+              maxWidth: "200px",
+              margin: "0 auto",
+              minHeight: "500px",
+            }}
           >
             <div className="card-body">
               <h2 className="card-title text-center mb-4">Login</h2>
