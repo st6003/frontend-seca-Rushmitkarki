@@ -48,7 +48,7 @@ export default function AdminDashboard() {
             </div>
           </div>
         </div>
-        <div className="content">{/* Your dashboard content goes here */}</div>
+        <div className="content"></div>
       </div>
     </div>
   );

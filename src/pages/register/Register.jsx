@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { toast } from "react-toastify";
 import { registerUserApi } from "../../apis/api";
+import "./Register.css";
 
 const Register = () => {
   const [firstName, setFirstName] = useState("");
@@ -82,7 +83,8 @@ const Register = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (!validate()) {
+    var isValid = validate();
+    if (!isValid) {
       return;
     }
 
@@ -105,20 +107,17 @@ const Register = () => {
   return (
     <div className="container mt-5">
       <div className="row justify-content-center align-items-center">
-        <div className="col-md-6 d-flex justify-content-center align-items-center">
+        <div className="col-md-6 d-flex justify-content-center align-items-center logo-container">
           <img
             src="/assets/images/logo.png"
             alt="Register"
-            className="img-fluid"
+            className="img-fluid logo"
             height={400}
             width={400}
           />
         </div>
-        <div className="col-md-4">
-          <div
-            className="card"
-            style={{ maxWidth: "500px", margin: "30px", minHeight: "500px" }}
-          >
+        <div className="col-md-6 form-container">
+          <div className="card register-card">
             <div className="card-body">
               <h2 className="card-title text-center mb-6">Register Now</h2>
               <form onSubmit={handleSubmit}>
