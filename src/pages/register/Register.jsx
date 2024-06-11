@@ -83,7 +83,8 @@ const Register = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (!validate()) {
+    var isValid = validate();
+    if (!isValid) {
       return;
     }
 
