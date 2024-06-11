@@ -74,38 +74,19 @@
   }
   
   .main-content {
-    margin-left: 270px; 
+    margin-left: 270px;
     flex: 1;
     padding: 20px;
     background-color: #ffffff;
     display: flex;
     flex-direction: column;
+    align-items: center; /* Center horizontally */
+    justify-content: center; /* Center vertically */
+    height: 100vh; /* Ensure full height for vertical centering */
   }
   
   .health-chart {
-    margin-bottom: 20px;
+    /* Existing styles for the chart */
+    /* No margin-bottom here */
   }
-  
-  .chart {
-    display: flex;
-    align-items: center;
-  }
-  
-  .chart svg {
-    margin-right: 10px;
-  }
-  
-  .chart-legend {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-  }
-  
-  .chart-legend span {
-    margin-bottom: 5px;
-  }
-  
-  .content {
-    flex: 1;
-  }
-  
+    
