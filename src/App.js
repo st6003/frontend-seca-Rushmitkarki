@@ -8,7 +8,6 @@ import Register from "./pages/register/Register";
 // Toast configuration
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import PrivateRoute from "./components/PrivateRoute";
 import AdminDashboard from "./pages/admin/adminDashboard/AdminDahboard";
 
 function App() {
@@ -21,14 +20,7 @@ function App() {
         <Route path="/Homepage" element={<Homepage />} />
         <Route path="/Login" element={<Login />} />
         <Route path="/Register" element={<Register />} />
-        <Route
-          path="/Admin/Dashboard"
-          element={
-            <PrivateRoute roles={["admin"]}>
-              <AdminDashboard />
-            </PrivateRoute>
-          }
-        />
+        <Route path="/Admin/Dashboard" element={<AdminDashboard />} />
       </Routes>
     </Router>
   );

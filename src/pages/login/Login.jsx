@@ -19,21 +19,17 @@ const Login = () => {
     setPassword(e.target.value);
   };
 
-  const validate = () => {
-    let isValid = true;
+  var validate = () => {
+    var isValid = true;
 
     if (email.trim() === "" || !email.includes("@")) {
       setEmailError("Email is empty or invalid");
       isValid = false;
-    } else {
-      setEmailError("");
     }
 
     if (password.trim() === "") {
       setPasswordError("Password is required");
       isValid = false;
-    } else {
-      setPasswordError("");
     }
 
     return isValid;
@@ -61,14 +57,6 @@ const Login = () => {
 
         const convertedData = JSON.stringify(res.data.userData);
         localStorage.setItem("user", convertedData);
-
-        // Redirect based on role
-        const userRole = res.data.userData.role;
-        if (userRole === "admin") {
-          window.location.href = "/AdminDashboard";
-        } else {
-          window.location.href = "/Homepage";
-        }
       }
     });
   };
