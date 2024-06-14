@@ -2,53 +2,77 @@ import React from "react";
 import "./AdminDashboard.css";
 export default function AdminDashboard() {
   return (
-    <div className="container">
+    <div className="dashboard-container">
       <div className="sidebar">
-        <div className="user-profile">
-          <img
-            src="/assets/images/profile.png"
-            alt="user"
-            height={100}
-            width={100}
-          />
-          <span>Hello, MR. Rushmit karki</span>
-        </div>
-        <div className="nav-bar">
-          <button className="nav-button">
-            <i className="fas fa-tachometer-alt"></i> Dashboard
-          </button>
-          <button className="nav-button">
-            <i className="fas fa-users"></i> Patients
-          </button>
-          <button className="nav-button">
-            <i className="fas fa-credit-card"></i> Payment
-          </button>
-          <button className="nav-button">
-            <i className="fas fa-comments"></i> Chat
-          </button>
-          <div className="spacer"></div>
-          <button className="nav-button logout">
-            <i className="fas fa-sign-out-alt"></i> Log Out
-          </button>
-        </div>
+        <nav>
+          <ul>
+            <li>
+              <button
+                // className={activeButton === "dashboard" ? "active" : ""}
+                // onClick={() => handleButtonClick("dashboard")}
+              >
+                <i className="fas fa-tachometer-alt icon"></i> Dashboard
+              </button>
+            </li>
+            <li>
+              <button
+                // className={activeButton === "doctor" ? "active" : ""}
+                // onClick={() => handleButtonClick("doctor")}
+              >
+                <i className="fas fa-user-md icon"></i> Doctor
+              </button>
+            </li>
+            <li>
+              <button
+                // className={activeButton === "users" ? "active" : ""}
+                // onClick={() => handleButtonClick("users")}
+              >
+                <i className="fas fa-users icon"></i> Users
+              </button>
+            </li>
+            <li>
+              <button
+                // className={activeButton === "payment" ? "active" : ""}
+                // onClick={() => handleButtonClick("payment")}
+              >
+                <i className="fas fa-credit-card icon"></i> Payment
+              </button>
+            </li>
+            <li>
+              <button
+                // className={activeButton === "chat" ? "active" : ""}
+                // onClick={() => handleButtonClick("chat")}
+              >
+                <i className="fas fa-comments icon"></i> Chat
+              </button>
+            </li>
+            <li>
+              <button
+                // className="logout"
+                // onClick={() => handleButtonClick("logout")}
+              >
+                <i className="fas fa-sign-out-alt icon"></i> Logout
+              </button>
+            </li>
+          </ul>
+        </nav>
       </div>
       <div className="main-content">
-        <div className="health-chart">
-          <h3>Health Overview</h3>
-          <div className="chart">
-            <svg width="100" height="100">
-              <circle cx="50" cy="50" r="40" fill="#C6E2B5" />
-              <circle cx="50" cy="50" r="30" fill="#F7DC6F" />
-              <circle cx="50" cy="50" r="20" fill="#9BC2E6" />
-            </svg>
-            <div className="chart-legend">
-              <span>80%</span>
-              <span>60%</span>
-              <span>40%</span>
+        <header>
+          <h1>Admin Dashboard</h1>
+        </header>
+        <div className="content">
+          <div className="dashboard-cards">
+            <div className="card">
+              <h2>Active Users</h2>
+              <p>69</p>
+            </div>
+            <div className="card">
+              <h2>Active Doctors</h2>
+              <p>43</p>
             </div>
           </div>
         </div>
-        <div className="content"></div>
       </div>
     </div>
   );
