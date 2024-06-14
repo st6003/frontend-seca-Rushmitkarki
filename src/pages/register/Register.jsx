@@ -83,8 +83,8 @@ const Register = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    var isValid = validate();
-    if (!isValid) {
+    const isValidate = validate();
+    if (!isValidate) {
       return;
     }
 
@@ -94,6 +94,8 @@ const Register = () => {
       email: email,
       password: password,
     };
+
+    console.log(data);
 
     registerUserApi(data).then((res) => {
       if (res.data.success === false) {
@@ -218,6 +220,7 @@ const Register = () => {
                 )}
 
                 <button
+                  onClick={handleSubmit}
                   type="submit"
                   className="btn btn-primary btn-block w-100 mt-3"
                 >
