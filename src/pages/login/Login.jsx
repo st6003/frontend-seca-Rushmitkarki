@@ -2,6 +2,7 @@ import "@fortawesome/fontawesome-free/css/all.min.css";
 import React, { useState } from "react";
 import { toast } from "react-toastify";
 import { loginUserApi } from "../../apis/api";
+import "./Login.css";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -18,21 +19,17 @@ const Login = () => {
     setPassword(e.target.value);
   };
 
-  const validate = () => {
-    let isValid = true;
+  var validate = () => {
+    var isValid = true;
 
     if (email.trim() === "" || !email.includes("@")) {
       setEmailError("Email is empty or invalid");
       isValid = false;
-    } else {
-      setEmailError("");
     }
 
     if (password.trim() === "") {
       setPasswordError("Password is required");
       isValid = false;
-    } else {
-      setPasswordError("");
     }
 
     return isValid;
@@ -60,7 +57,6 @@ const Login = () => {
 
         const convertedData = JSON.stringify(res.data.userData);
         localStorage.setItem("user", convertedData);
-        window.location.href = "/Homepage";
       }
     });
   };
@@ -68,20 +64,17 @@ const Login = () => {
   return (
     <div className="container mt-5">
       <div className="row justify-content-center align-items-center">
-        <div className="col-md-6 d-flex justify-content-center align-items-center">
+        <div className="col-md-6 d-flex justify-content-center align-items-center logo-container">
           <img
             src="/assets/images/logo.png"
             alt="Logo"
-            className="img-fluid"
+            className="img-fluid logo"
             height={400}
             width={400}
           />
         </div>
-        <div className="col-md-4">
-          <div
-            className="card"
-            style={{ maxWidth: "400px", margin: "0 auto", minHeight: "500px" }}
-          >
+        <div className="col-md-6 form-container">
+          <div className="card login-card">
             <div className="card-body">
               <h2 className="card-title text-center mb-4">Login</h2>
               <form onSubmit={handleSubmit}>
@@ -132,7 +125,7 @@ const Login = () => {
                   Login
                 </button>
                 <div className="text-center mt-3">
-                  <a href="#">Forgot Password?</a>{" "}
+                  <a href="#">Forgot Password?</a>
                 </div>
               </form>
             </div>

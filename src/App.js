@@ -8,6 +8,7 @@ import Register from "./pages/register/Register";
 // Toast configuration
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import AdminDashboard from "./pages/admin/adminDashboard/AdminDahboard";
 
 function App() {
   return (
@@ -15,11 +16,14 @@ function App() {
       <Navbar />
       <ToastContainer />
       <Routes>
+        <Route path="/" element={<Homepage />} />
         <Route path="/Homepage" element={<Homepage />} />
         <Route path="/Login" element={<Login />} />
         <Route path="/Register" element={<Register />} />
+        <Route path="/Admin/Dashboard" element={<AdminDashboard />} />
       </Routes>
     </Router>
   );
 }
+
 export default App;
