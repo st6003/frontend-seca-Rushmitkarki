@@ -1,0 +1,92 @@
+/* AdminDashboard.css */
+.container {
+    display: flex;
+    height: 100vh;
+  }
+  
+  .sidebar {
+    width: 250px;
+    background-color: #f8f9fa;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    position: fixed; 
+    left: 0;
+    top: 0;
+    bottom: 0;
+  }
+  
+  .user-profile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .user-profile img {
+    border-radius: 50%;
+    margin-bottom: 10px;
+  }
+  
+  .nav-bar {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+  }
+  
+  .nav-button {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    background-color: #68a1dd;
+    color: white;
+    border: none;
+    cursor: pointer;
+    text-align: left;
+    padding-left: 10px;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+  }
+  
+  .nav-button i {
+    margin-right: 10px;
+  }
+  
+  .nav-button:hover {
+    background-color: #0056b3;
+  }
+  
+  .spacer {
+    flex-grow: 1;
+  }
+  
+  .logout {
+    background-color: #dc3545;
+    margin-bottom: 20px; 
+  }
+  
+  .logout:hover {
+    background-color: #c82333;
+  }
+  
+  .main-content {
+    margin-left: 270px;
+    flex: 1;
+    padding: 20px;
+    background-color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center horizontally */
+    justify-content: center; /* Center vertically */
+    height: 100vh; /* Ensure full height for vertical centering */
+  }
+  
+  .health-chart {
+    /* Existing styles for the chart */
+    /* No margin-bottom here */
+  }
+    

@@ -1,0 +1,82 @@
+/* CSS for Login Component */
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh; /* Full height of the viewport */
+  }
+  
+  .row {
+    width: 100%;
+  }
+  
+  .logo-container {
+    display: flex;
+    justify-content: flex-end; /* Align logo to the right of the column */
+    align-items: center;
+    padding-right: 50px; /* Space between logo and form */
+  }
+  
+  .logo {
+    max-width: 100%;
+    height: auto;
+  }
+  
+  .form-container {
+    display: flex;
+    justify-content: flex-start; /* Align form to the left of the column */
+    align-items: center;
+  }
+  
+  .login-card {
+    width: 100%;
+    max-width: 400px;
+  }
+  
+  .card-title {
+    font-size: 2rem;
+  }
+  
+  .input-group-text {
+    background-color: #e9ecef;
+    border: none;
+  }
+  
+  .input-group-text i {
+    color: #495057;
+  }
+  
+  .form-control {
+    border-left: 0;
+  }
+  
+  .text-danger {
+    font-size: 0.875rem;
+  }
+  
+  .btn-block {
+    display: block;
+    width: 100%;
+  }
+  
+  @media (max-width: 768px) {
+    .logo-container, .form-container {
+      flex: 0 0 100%;
+      max-width: 100%;
+      justify-content: center;
+    }
+    .logo-container {
+      padding-right: 0;
+      margin-bottom: 20px; /* Add spacing for smaller screens */
+    }
+    .login-card {
+      max-width: 100%;
+      padding: 0 20px;
+    }
+    .logo {
+      max-width: 80%;
+      margin: 0 auto;
+    }
+  }
+  
