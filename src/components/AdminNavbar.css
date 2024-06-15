@@ -1,0 +1,87 @@
+/* Container styles */
+.dashboard-container {
+    display: flex;
+    height: 100vh;
+  }
+  
+  /* Sidebar styles */
+  .sidebar {
+    width: 200px;
+    background-color: #444494; 
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 20px;
+    box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+  }
+  
+  .sidebar nav ul {
+    list-style: none;
+    padding: 0;
+    flex-grow: 1;
+  }
+  
+  .sidebar nav ul li {
+    margin: 10px 0;
+  }
+  
+  .sidebar nav ul li button {
+    width: 100%;
+    background: none;
+    border: none;
+    text-align: left;
+    padding: 10px;
+    color: #ccc; /* Button text color */
+    display: flex;
+    align-items: center;
+    transition: background-color 0.3s, color 0.3s;
+    cursor: pointer;
+  }
+  
+  .sidebar nav ul li button:hover,
+  .sidebar nav ul li button.active {
+    background-color: #007bff;
+    color: #fff;
+  }
+  
+  .sidebar nav ul li button.logout {
+    color: red;
+    background-color: transparent;
+    padding-top: 10px;
+    margin-top: auto;
+    border-top: 1px solid #ccc;
+  }
+  
+  /* Icon styles */
+  .sidebar nav ul li button .icon {
+    margin-right: 10px;
+  }
+  
+  /* Main content styles */
+  .main-content {
+    flex-grow: 1;
+    padding: 20px;
+  }
+  
+  header {
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 10px;
+  }
+  
+  .content {
+    margin-top: 20px;
+  }
+  
+  .dashboard-cards {
+    display: flex;
+    gap: 20px;
+  }
+  
+  .card {
+    background-color: #fff;
+    padding: 20px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    flex: 1;
+    text-align: center;
+  }
+  

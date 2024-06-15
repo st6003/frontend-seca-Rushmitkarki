@@ -1,6 +1,7 @@
 import axios from "axios";
 
-const api = axios.create({
+//creating backend config
+const Api = axios.create({
   baseURL: "http://localhost:5000",
   withCredentials: true,
   headers: {
@@ -8,5 +9,7 @@ const api = axios.create({
   },
 });
 
-export const registerUserApi = (data) => api.post("/api/user/create", data);
-export const loginUserApi = (data) => api.post("/api/user/login", data);
+export const registerUserApi = (data) => Api.post("/api/user/create", data);
+
+//Login API
+export const loginUserApi = (data) => Api.post("/api/user/login", data);
