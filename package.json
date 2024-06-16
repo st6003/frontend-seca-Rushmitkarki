@@ -12,9 +12,7 @@
     "react-router-dom": "^6.23.1",
     "react-scripts": "^3.0.1",
     "react-toastify": "^10.0.5",
-    "web-vitals": "^2.1.4",
-    "webpack": "^4.42.0",
-    "yarn": "^1.22.22"
+    "web-vitals": "^2.1.4"
   },
   "scripts": {
     "start": "react-scripts start",
