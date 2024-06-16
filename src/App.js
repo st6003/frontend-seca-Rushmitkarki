@@ -4,6 +4,7 @@ import Navbar from "./components/Navbar";
 import Homepage from "./pages/homepage/Homepage";
 import Login from "./pages/login/Login";
 import Register from "./pages/register/Register";
+import AdminLayout from "./components/AdminNavbar";
 
 // Toast configuration
 import { ToastContainer } from "react-toastify";
@@ -16,6 +17,7 @@ function App() {
       <Navbar />
       <ToastContainer />
       <Routes>
+      
         <Route path="/" element={<Homepage />} />
         <Route path="/Homepage" element={<Homepage />} />
         <Route path="/Login" element={<Login />} />

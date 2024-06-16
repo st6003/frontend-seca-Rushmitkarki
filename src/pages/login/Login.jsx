@@ -60,6 +60,12 @@ const Login = () => {
 
           const convertedData = JSON.stringify(res.data.userData);
           localStorage.setItem("user", convertedData);
+
+          if (res.data.userData.isAdmin) {
+            window.location.href = "/admin/dashboard";
+          } else {
+            window.location.href = "/";
+          }
         }
       })
       .catch((error) => {
