@@ -4,7 +4,6 @@ import { toast } from "react-toastify";
 import { loginUserApi } from "../../apis/api";
 import "./Login.css";
 
-
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");

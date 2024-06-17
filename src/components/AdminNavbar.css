@@ -1,0 +1,84 @@
+/* AdminNavbar.css */
+
+/* Main button to open the offcanvas menu */
+.btn-primary {
+    background-color: #1c77d2;
+    border-color: hsl(240, 33%, 52%);
+    color: white;
+  }
+  
+  .btn-primary:hover {
+    background-color: #0056b3;
+    border-color: #f4f8fc;
+  }
+  
+  /* Offcanvas menu styles */
+  .offcanvas-start {
+    background-color: #343a40; /* Dark background for the offcanvas */
+    color: white;
+  }
+  
+  .offcanvas-header {
+    border-bottom: 1px solid #495057; /* Divider line */
+  }
+  
+  .offcanvas-title {
+    color: #ffffff; /* Title color */
+  }
+  
+  .btn-close {
+    filter: invert(1); /* Invert color for close button on dark background */
+  }
+  
+  /* Nav styles */
+  .nav-pills .nav-link {
+    color: #ffffff;
+  }
+  
+  .nav-pills .nav-link:hover {
+    background-color: #495057;
+  }
+  
+  .nav-item .btn-outline-primary {
+    border-color: #eceef0;
+    color: #dde1e6;
+  }
+  
+  .nav-item .btn-outline-primary:hover {
+    background-color: #007bff;
+    color: white;
+  }
+  
+  .nav-item .btn-outline-primary .icon {
+    margin-right: 10px; /* Space between icon and text */
+  }
+  
+  /* Specific button styles */
+  .nav-item .btn-outline-primary {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 10px;
+    border-radius: 5px;
+  }
+  
+  .nav-item .btn-outline-primary i {
+    margin-right: 8px;
+  }
+  
+  /* Menu button styles */
+  .btn {
+    margin-bottom: 10px;
+  }
+  
+  /* Logout button specific styles */
+  .nav-item .btn-outline-primary.logout-btn {
+    color: #dc3545;
+    border-color: #dc3545;
+  }
+  
+  .nav-item .btn-outline-primary.logout-btn:hover {
+    background-color: #dc3545;
+    color: white;
+  }
+  

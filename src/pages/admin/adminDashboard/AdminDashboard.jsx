@@ -121,7 +121,7 @@ const AdminDashboard = () => {
             <div className="d-flex justify-content-between align-items-center mb-4">
               <h2 className="card-title">Doctor List</h2>
               <button
-                className="btn btn-primary"
+                className="btn btn-success"
                 data-bs-toggle="modal"
                 data-bs-target="#addDoctorModal"
                 id="openModalButton"
@@ -157,7 +157,7 @@ const AdminDashboard = () => {
                       <td>{doctor.doctorFee}</td>
                       <td>
                         <button
-                          className="btn btn-warning btn-sm me-2"
+                          className="btn btn-warning "
                           onClick={() => openEditModal(doctor)}
                           data-bs-toggle="modal"
                           data-bs-target="#addDoctorModal"
@@ -165,7 +165,7 @@ const AdminDashboard = () => {
                           Edit
                         </button>
                         <button
-                          className="btn btn-danger btn-sm"
+                          className="btn btn-danger"
                           onClick={() => handleDeleteDoctor(doctor._id)}
                         >
                           Delete
@@ -285,4 +285,3 @@ const AdminDashboard = () => {
   );
 };
 export default AdminDashboard;
-

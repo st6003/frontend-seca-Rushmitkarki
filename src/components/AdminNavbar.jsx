@@ -12,7 +12,7 @@ const AdminNavbar = () => {
         data-bs-target="#offcanvasExample"
         aria-controls="offcanvasExample"
       >
-        Toggle Menu
+        <i className="fas fa-bars"></i>
       </button>
 
       <div
@@ -61,8 +61,17 @@ const AdminNavbar = () => {
                 </button>
               </li>
               <li className="nav-item mb-2">
-                <button className="btn btn-outline-danger w-100 text-left">
-                  <i className="fas fa-sign-out-alt icon"></i> Logout
+                <button
+                  onClick={() => {
+                    localStorage.removeItem("user");
+                    localStorage.removeItem("token");
+                    window.location.href = "/login";
+                  }}
+                  className="btn btn-outline-primary w-100 text-left"
+                  to="/logout"
+                >
+                  <i className="fas fa-sign-out-alt icon"></i>
+                  Logout
                 </button>
               </li>
             </ul>
