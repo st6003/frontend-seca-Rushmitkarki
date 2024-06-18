@@ -10,100 +10,69 @@ const Register = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
-  const [firstNameError, setFirstNameError] = useState("");
-  const [lastNameError, setLastNameError] = useState("");
-  const [emailError, setEmailError] = useState("");
-  const [passwordError, setPasswordError] = useState("");
-  const [confirmPasswordError, setConfirmPasswordError] = useState("");
-
-  const handleFirstName = (e) => {
-    setFirstName(e.target.value);
-  };
-
-  const handleLastName = (e) => {
-    setLastName(e.target.value);
-  };
-
-  const handleEmail = (e) => {
-    setEmail(e.target.value);
-  };
-
-  const handlePassword = (e) => {
-    setPassword(e.target.value);
-  };
-
-  const handleConfirmPassword = (e) => {
-    setConfirmPassword(e.target.value);
-  };
+  const [errors, setErrors] = useState({});
 
   const validate = () => {
+    let validationErrors = {};
     let isValid = true;
 
     if (firstName.trim() === "") {
-      setFirstNameError("First name is required");
+      validationErrors.firstName = "First name is required";
       isValid = false;
-    } else {
-      setFirstNameError("");
     }
 
     if (lastName.trim() === "") {
-      setLastNameError("Last name is required");
+      validationErrors.lastName = "Last name is required";
       isValid = false;
-    } else {
-      setLastNameError("");
     }
 
     if (email.trim() === "") {
-      setEmailError("Email is required");
+      validationErrors.email = "Email is required";
       isValid = false;
-    } else {
-      setEmailError("");
+    } else if (!email.includes("@")) {
+      validationErrors.email = "Email is invalid";
+      isValid = false;
     }
 
     if (password.trim() === "") {
-      setPasswordError("Password is required");
+      validationErrors.password = "Password is required";
       isValid = false;
-    } else {
-      setPasswordError("");
     }
 
     if (confirmPassword.trim() === "") {
-      setConfirmPasswordError("Confirm Password is required");
+      validationErrors.confirmPassword = "Confirm Password is required";
       isValid = false;
     } else if (confirmPassword !== password) {
-      setConfirmPasswordError("Password and Confirm Password do not match");
+      validationErrors.confirmPassword =
+        "Password and Confirm Password do not match";
       isValid = false;
-    } else {
-      setConfirmPasswordError("");
     }
 
+    setErrors(validationErrors);
     return isValid;
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    const isValidate = validate();
-    if (!isValidate) {
+    if (!validate()) {
       return;
     }
 
     const data = {
-      firstName: firstName,
-      lastName: lastName,
-      email: email,
-      password: password,
+      firstName,
+      lastName,
+      email,
+      password,
     };
 
-    console.log(data);
-
-    registerUserApi(data).then((res) => {
-      if (res.data.success === false) {
-        toast.error(res.data.message);
-      } else {
+    registerUserApi(data)
+      .then((res) => {
         toast.success(res.data.message);
-      }
-    });
+      })
+      .catch((error) => {
+        toast.error(error.response.data.message);
+      });
   };
 
   return (
@@ -132,13 +101,12 @@ const Register = () => {
                     className="form-control"
                     id="firstName"
                     placeholder="Enter your first name"
-                    value={firstName}
-                    onChange={handleFirstName}
+                    onChange={(e) => setFirstName(e.target.value)}
                     required
                   />
                 </div>
-                {firstNameError && (
-                  <p className="text-danger">{firstNameError}</p>
+                {errors.firstName && (
+                  <p className="text-danger">{errors.firstName}</p>
                 )}
 
                 <div style={{ marginBottom: "25px" }}></div>
@@ -152,13 +120,12 @@ const Register = () => {
                     className="form-control"
                     id="lastName"
                     placeholder="Enter your last name"
-                    value={lastName}
-                    onChange={handleLastName}
+                    onChange={(e) => setLastName(e.target.value)}
                     required
                   />
                 </div>
-                {lastNameError && (
-                  <p className="text-danger">{lastNameError}</p>
+                {errors.lastName && (
+                  <p className="text-danger">{errors.lastName}</p>
                 )}
 
                 <div style={{ marginBottom: "25px" }}></div>
@@ -172,12 +139,11 @@ const Register = () => {
                     className="form-control"
                     id="email"
                     placeholder="Enter your email"
-                    value={email}
-                    onChange={handleEmail}
+                    onChange={(e) => setEmail(e.target.value)}
                     required
                   />
                 </div>
-                {emailError && <p className="text-danger">{emailError}</p>}
+                {errors.email && <p className="text-danger">{errors.email}</p>}
 
                 <div style={{ marginBottom: "25px" }}></div>
 
@@ -190,13 +156,12 @@ const Register = () => {
                     className="form-control"
                     id="password"
                     placeholder="Enter password"
-                    value={password}
-                    onChange={handlePassword}
+                    onChange={(e) => setPassword(e.target.value)}
                     required
                   />
                 </div>
-                {passwordError && (
-                  <p className="text-danger">{passwordError}</p>
+                {errors.password && (
+                  <p className="text-danger">{errors.password}</p>
                 )}
 
                 <div style={{ marginBottom: "25px" }}></div>
@@ -210,17 +175,15 @@ const Register = () => {
                     className="form-control"
                     id="confirmPassword"
                     placeholder="Confirm your password"
-                    value={confirmPassword}
-                    onChange={handleConfirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
                     required
                   />
                 </div>
-                {confirmPasswordError && (
-                  <p className="text-danger">{confirmPasswordError}</p>
+                {errors.confirmPassword && (
+                  <p className="text-danger">{errors.confirmPassword}</p>
                 )}
 
                 <button
-                  onClick={handleSubmit}
                   type="submit"
                   className="btn btn-primary btn-block w-100 mt-3"
                 >

@@ -13,14 +13,16 @@ const Login = () => {
 
   const handleEmail = (e) => {
     setEmail(e.target.value);
+    if (e.target.value.trim() !== "") setEmailError("");
   };
 
   const handlePassword = (e) => {
     setPassword(e.target.value);
+    if (e.target.value.trim() !== "") setPasswordError("");
   };
 
-  var validate = () => {
-    var isValid = true;
+  const validate = () => {
+    let isValid = true;
 
     if (email.trim() === "" || !email.includes("@")) {
       setEmailError("Email is empty or invalid");
@@ -47,18 +49,28 @@ const Login = () => {
       password: password,
     };
 
-    loginUserApi(data).then((res) => {
-      if (res.data.success === false) {
-        toast.error(res.data.message);
-      } else {
-        toast.success(res.data.message);
+    loginUserApi(data)
+      .then((res) => {
+        if (res.data.success === false) {
+          toast.error(res.data.message);
+        } else {
+          toast.success(res.data.message);
 
-        localStorage.setItem("token", res.data.token);
+          localStorage.setItem("token", res.data.token);
 
-        const convertedData = JSON.stringify(res.data.userData);
-        localStorage.setItem("user", convertedData);
-      }
-    });
+          const convertedData = JSON.stringify(res.data.userData);
+          localStorage.setItem("user", convertedData);
+
+          if (res.data.userData.isAdmin) {
+            window.location.href = "/admin/dashboard";
+          } else {
+            window.location.href = "/";
+          }
+        }
+      })
+      .catch((error) => {
+        toast.error("An error occurred");
+      });
   };
 
   return (
@@ -124,9 +136,9 @@ const Login = () => {
                 >
                   Login
                 </button>
-                <div className="text-center mt-3">
+                {/* <div className="text-center mt-3">
                   <a href="#">Forgot Password?</a>
-                </div>
+                </div> */}
               </form>
             </div>
           </div>

@@ -8,7 +8,7 @@ import Register from "./pages/register/Register";
 // Toast configuration
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import AdminDashboard from "./pages/admin/adminDashboard/AdminDahboard";
+import AdminDashboard from "./pages/admin/adminDashboard/AdminDashboard";
 
 function App() {
   return (
