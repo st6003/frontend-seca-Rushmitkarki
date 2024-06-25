@@ -69,7 +69,7 @@ const Login = () => {
         }
       })
       .catch((error) => {
-        toast.error("An error occurred");
+        toast.error("Cannot login at the moment. Please try again later.");
       });
   };
 
