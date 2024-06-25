@@ -8,6 +8,12 @@ const Api = axios.create({
     "Content-Type": "multipart/form-data",
   },
 });
+// make a config
+const config={
+  headers:{
+    authorization : `Bearer ${localStorage.getItem("token")}`
+  }
+}
 
 export const registerUserApi = (data) => Api.post("/api/user/create", data);
 
@@ -16,7 +22,7 @@ export const loginUserApi = (data) => Api.post("/api/user/login", data);
 // Create doctor
 export const createDoctor = (data) => Api.post("/api/doctor/create", data);
 //Route to fetch all doctor
-export const getAllDoctors = () => Api.get("/api/doctor/get_all_doctors");
+export const getAllDoctors = () => Api.get("/api/doctor/get_all_doctors",config);
 // FOr single doctor
 export const getSingleDoctor = (id) => Api.get(`/api/doctor/get_single_doctor/${id}`);
 // Update doctor

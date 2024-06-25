@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { getAllDoctors } from "../../apis/api";
 import DoctorCard from "../../components/DoctorCard";
+import index from "toastify";
+
 
 const Homepage = () => {
   const [doctors, setDoctors] = useState([]);
@@ -9,7 +11,14 @@ const Homepage = () => {
   useEffect(() => {
     getAllDoctors()
       .then((res) => {
-        setDoctors(res.data.doctors);
+        if(Array.isArray(res.data.doctors)){
+          setDoctors(res.data.doctors);
+
+        }else{
+          console.log('Expected an array of doctors, but received:', res.data.doctors);
+          setDoctors([]);
+        }
+        
       })
       .catch((error) => {
         console.log(error);
@@ -74,15 +83,14 @@ const Homepage = () => {
         </div>
         <h2 className="mt-5">Available Doctors</h2>
         <div className="row row-cols-1 row-cols-md-4 g-4">
-          {doctors && doctors.length > 0 ? (
+          {
             doctors.map((singleDoctor, index) => (
-              <div className="col" key={index}>
+              <div className="col" key={singleDoctor.id || index} >
                 <DoctorCard doctorInformation={singleDoctor} color={"red"} />
               </div>
             ))
-          ) : (
-            <p>No doctors available</p>
-          )}
+          
+          }
         </div>
       </div>
     </>
