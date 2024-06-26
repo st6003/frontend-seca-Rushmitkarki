@@ -233,7 +233,7 @@ const AdminDashboard = () => {
                 <div className="form-group">
                   <label htmlFor="doctorExperience">Experience</label>
                   <input
-                    type="text"
+                    type="number"
                     className="form-control"
                     id="doctorExperience"
                     value={experience}
@@ -245,7 +245,7 @@ const AdminDashboard = () => {
                 <div className="form-group">
                   <label htmlFor="doctorFee">Fee</label>
                   <input
-                    type="text"
+                    type="number"
                     className="form-control"
                     id="doctorFee"
                     value={fee}
