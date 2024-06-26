@@ -1,6 +1,3 @@
-.carousel .carousel-inner img{
-    height:60vh;
-    width: 100%;
-    object-fit: coverq;
-    
-}
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
