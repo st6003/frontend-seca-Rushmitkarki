@@ -8,7 +8,7 @@ const Homepage = () => {
   useEffect(() => {
     getAllDoctors()
       .then((res) => {
-        console.log("API Response:", res); 
+        console.log("API Response:", res);
         if (Array.isArray(res.data.doctors)) {
           setDoctors(res.data.doctors);
         } else {
@@ -25,31 +25,31 @@ const Homepage = () => {
   }, []);
 
   return (
-    <div className="container">
+    <div className="container mx-auto">
       <div
         id="carouselExampleControls"
-        className="carousel slide"
+        className="carousel slide mt-4"
         data-bs-ride="carousel"
       >
         <div className="carousel-inner">
           <div className="carousel-item active">
             <img
               src="assets/images/logo.png"
-              className="d-block w-100"
+              className="d-block w-full object-cover h-60vh"
               alt="..."
             />
           </div>
           <div className="carousel-item">
             <img
-              src="assets/images/doctor.png"
-              className="d-block w-100"
+              src="assets/images/logo.png"
+              className="d-block w-full object-cover h-60vh"
               alt="..."
             />
           </div>
           <div className="carousel-item">
             <img
-              src="assets/images/doctor.png"
-              className="d-block w-100"
+              src="assets/images/logo.png"
+              className="d-block w-full object-cover h-60vh"
               alt="..."
             />
           </div>
@@ -79,10 +79,11 @@ const Homepage = () => {
           <span className="visually-hidden">Next</span>
         </button>
       </div>
-      <h2 className="mt-5">Available Doctors</h2>
-      <div className="row row-cols-1 row-cols-md-4 g-4">
+
+      <h2 className="mt-5 text-2xl font-bold">Available Doctors</h2>
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mt-4">
         {doctors.map((singleDoctor, index) => (
-          <div className="col" key={singleDoctor.id || index}>
+          <div key={singleDoctor.id || index}>
             <DoctorCard doctorInformation={singleDoctor} color={"red"} />
           </div>
         ))}

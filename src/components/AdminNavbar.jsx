@@ -8,7 +8,7 @@ const AdminNavbar = () => {
     localStorage.removeItem("user");
     localStorage.removeItem("token");
     navigate("/login");
-    // Notify other components of the logout
+    
     window.dispatchEvent(new Event("storage"));
   };
 

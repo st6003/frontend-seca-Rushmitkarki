@@ -17,7 +17,7 @@ const AdminDashboard = () => {
   const [imageFile, setImageFile] = useState(null);
 
   useEffect(() => {
-    // Fetch all doctors from the backend
+    
     getAllDoctors()
       .then((res) => {
         setDoctors(res.data.doctor);
