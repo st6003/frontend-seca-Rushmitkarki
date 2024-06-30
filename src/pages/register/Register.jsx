@@ -7,6 +7,7 @@ const Register = () => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
@@ -31,6 +32,10 @@ const Register = () => {
       isValid = false;
     } else if (!email.includes("@")) {
       validationErrors.email = "Email is invalid";
+      isValid = false;
+    }
+    if (phone.trim() === "") {
+      validationErrors.phone = "Phone number is required";
       isValid = false;
     }
 
@@ -63,6 +68,7 @@ const Register = () => {
       firstName,
       lastName,
       email,
+      phone,
       password,
     };
 
@@ -144,6 +150,22 @@ const Register = () => {
                   />
                 </div>
                 {errors.email && <p className="text-danger">{errors.email}</p>}
+                <div style={{ marginBottom: "25px" }}></div>
+
+                <div className="mb-3 input-group">
+                  <span className="input-group-text">
+                    <i className="fas fa-phone"></i>
+                  </span>
+                  <input
+                    type="number"
+                    className="form-control"
+                    id="phone"
+                    placeholder="Enter your phone"
+                    onChange={(e) => setPhone(e.target.value)}
+                    required
+                  />
+                </div>
+                {errors.phone && <p className="text-danger">{errors.phone}</p>}
 
                 <div style={{ marginBottom: "25px" }}></div>
 

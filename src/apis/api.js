@@ -32,4 +32,13 @@ export const deleteDoctor = (id) => Api.delete(`/api/doctor/delete_doctor/${id}`
 // pagination
 export const doctorPagination = (id) => {
   return Api.get(`/api/doctor/pagination/?page=${id}`,config);
-}
+
+};
+// forget password api
+export const forgotPasswordApi = (data) =>{
+  return Api.post("/api/user/forget_password",data);
+};
+// reset password api
+export const resetPasswordApi = (data) =>{
+  return Api.post("/api/user/reset_password",data);
+};
