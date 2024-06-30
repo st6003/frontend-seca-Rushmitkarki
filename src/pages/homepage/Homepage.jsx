@@ -41,21 +41,21 @@ const Homepage = () => {
             <div className="carousel-inner">
               <div className="carousel-item active">
                 <img
-                  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSUalcsSg6Q709neUZb-h6rb_bQYjCBIKdU_g&s"
+                  src="assets/images/sideimage1.png"
                   className="d-block w-full object-cover h-60vh"
                   alt="..."
                 />
               </div>
               <div className="carousel-item">
                 <img
-                  src="https://www.shutterstock.com/image-photo/profile-photo-attractive-family-doc-600nw-1724693776.jpg"
+                  src="assets/images/sideimage2.jpg"
                   className="d-block w-full object-cover h-60vh"
                   alt="..."
                 />
               </div>
               <div className="carousel-item">
                 <img
-                  src="https://t3.ftcdn.net/jpg/01/67/15/98/360_F_167159846_MCrwVzB7ysdZKr2vIiJkiCacEoNWagdn.jpg"
+                  src="assets/images/sideimage4.png"
                   className="d-block w-full object-cover h-60vh"
                   alt="..."
                 />

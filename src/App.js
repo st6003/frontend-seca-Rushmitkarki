@@ -8,8 +8,9 @@ import AdminRoutes from "./protected_routes/AdminRoutes";
 // Toast configuration
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import AdminDashboard from "./pages/admin/adminDashboard/AdminDashboard";
 import Navbar from "./components/Navbar";
+import AdminDashboard from "./pages/admin/adminDashboard/AdminDashboard";
+import About from "./pages/homepage/About";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
         <ToastContainer />
         <Routes>
           <Route path="/" element={<Homepage />} />
+          <Route path="/About" element={<About />} />
           <Route path="/Homepage" element={<Homepage />} />
           <Route path="/Login" element={<Login />} />
           <Route path="/Register" element={<Register />} />
