@@ -3,7 +3,7 @@
   position: fixed;
   top: 0;
   left: 0;
-  overflow-y: auto;
+ 
   height: 100vh; /* Ensure the sidebar spans the full height of the viewport */
 }
 

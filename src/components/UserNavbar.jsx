@@ -15,10 +15,18 @@ const UserNavbar = () => {
           <ul className="nav nav-pills flex-column">
             <li className="nav-item mb-2">
               <Link
-                to="/"
+                to="/Homepage"
                 className="btn w-full text-left border border-gray-300 text-gray-400 hover:bg-blue-600 hover:text-white flex items-center justify-start p-2 rounded"
               >
                 <i className="fas fa-tachometer-alt mr-2"></i> Dashboard
+              </Link>
+            </li>
+            <li className="nav-item mb-2">
+              <Link
+                to="/Payment"
+                className="btn w-full text-left border border-gray-300 text-gray-400 hover:bg-blue-600 hover:text-white flex items-center justify-start p-2 rounded"
+              >
+                <i className="fas fa-money-bill-alt mr-2"></i> Payment
               </Link>
             </li>
             <li className="nav-item mb-2">
@@ -39,7 +47,7 @@ const UserNavbar = () => {
             </li>
             <li className="nav-item mb-2">
               <Link
-                to="/about"
+                to="/About"
                 className="btn w-full text-left border border-gray-300 text-gray-400 hover:bg-blue-600 hover:text-white flex items-center justify-start p-2 rounded"
               >
                 <i className="fas fa-info-circle mr-2"></i> About Us
@@ -53,22 +61,40 @@ const UserNavbar = () => {
                 <i className="fas fa-comments mr-2"></i> Contact Us
               </Link>
             </li>
-            <li className="nav-item mb-2">
-              <Link
-                to="/login"
-                className="btn w-full text-left border border-gray-300 text-gray-400 hover:bg-blue-600 hover:text-white flex items-center justify-start p-2 rounded"
-              >
-                <i className="fas fa-sign-in-alt mr-2"></i> Login
-              </Link>
-            </li>
-            <li className="nav-item mb-2">
-              <Link
-                to="/register"
-                className="btn w-full text-left border border-gray-300 text-gray-400 hover:bg-blue-600 hover:text-white flex items-center justify-start p-2 rounded"
-              >
-                <i className="fas fa-user-plus mr-2"></i> Register
-              </Link>
-            </li>
+            {user ? (
+              <>
+                <li className="nav-item mb-2">
+                  <Link
+                    to="/profile"
+                    className="btn w-full text-left border border-gray-300 text-gray-400 hover:bg-blue-600 hover:text-white flex items-center justify-start p-2 rounded"
+                  >
+                    <span>
+                      <i className="fas fa-user mr-2"></i>
+                    </span>
+                    <strong>{user.firstName}</strong>
+                  </Link>
+                </li>
+              </>
+            ) : (
+              <>
+                <li className="nav-item mb-2">
+                  <Link
+                    to="/login"
+                    className="btn w-full text-left border border-gray-300 text-gray-400 hover:bg-blue-600 hover:text-white flex items-center justify-start p-2 rounded"
+                  >
+                    <i className="fas fa-sign-in-alt mr-2"></i> Login
+                  </Link>
+                </li>
+                <li className="nav-item mb-2">
+                  <Link
+                    to="/register"
+                    className="btn w-full text-left border border-gray-300 text-gray-400 hover:bg-blue-600 hover:text-white flex items-center justify-start p-2 rounded"
+                  >
+                    <i className="fas fa-user-plus mr-2"></i> Register
+                  </Link>
+                </li>
+              </>
+            )}
           </ul>
         </nav>
       </div>
