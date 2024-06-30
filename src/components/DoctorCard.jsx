@@ -2,22 +2,15 @@ import React from "react";
 
 const DoctorCard = ({ doctorInformation, color }) => {
   return (
-    <div
-      className="card"
-      style={{
-        width: "18rem",
-      }}
-    >
+    <div className="card">
       <span
         style={{ backgroundColor: color }}
         className="badge position-absolute top-0"
-      >
-        {doctorInformation.speciality}
-      </span>
+      ></span>
       <img
         src={`http://localhost:5000/doctors/${doctorInformation.doctorImage}`}
         className="card-img-top"
-        alt="Doctor"
+        alt={doctorInformation.doctorName}
       />
       <div className="card-body">
         <div className="d-flex justify-content-between">
@@ -29,7 +22,7 @@ const DoctorCard = ({ doctorInformation, color }) => {
         <p className="card-text">
           {doctorInformation.doctorField.slice(0, 30)}
         </p>
-        <a href="#" className="btn btn-outline-dark w-100">
+        <a href="" className="btn btn-outline-dark w-100">
           View Profile
         </a>
       </div>
