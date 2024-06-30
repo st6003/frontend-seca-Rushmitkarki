@@ -1,0 +1,39 @@
+.App-logo {
+    height: 4rem;
+}
+
+.navbar {
+    background-color: #09aec7a3;
+}
+
+.nav-link {
+    color: #050101;
+}
+
+
+.navbar-nav .nav-link.active,
+.navbar-nav .nav-link.show {
+    color: #9A93FF;
+}
+
+/* Hover nav */
+.navbar-nav .nav-link:hover {
+    color: #9A93FF;
+}
+
+/* Navbar button */
+.navbar-toggler-icon {
+    background-color: #FFFFFF;
+}
+
+.login-logo {
+    height: 75%;
+}
+
+.text-right {
+    text-align: right;
+}
+
+.text-center {
+    text-align: center;
+}

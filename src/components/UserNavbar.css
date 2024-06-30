@@ -1,0 +1,25 @@
+.sidebar {
+  width: 250px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  overflow-y: auto;
+  height: 100vh; /* Ensure the sidebar spans the full height of the viewport */
+}
+
+.sidebar-header {
+  background-color: #1f2937; /* Tailwind's bg-gray-800 */
+}
+
+.sidebar-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.sidebar-body {
+  padding: 1rem;
+}
+
+.nav-item {
+  margin-bottom: 0.5rem;
+}
