@@ -11,6 +11,7 @@ import "react-toastify/dist/ReactToastify.css";
 import Navbar from "./components/Navbar";
 import AdminDashboard from "./pages/admin/adminDashboard/AdminDashboard";
 import About from "./pages/homepage/About";
+import UserProfile from "./pages/userprofile/UserProfile";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
         <ToastContainer />
         <Routes>
           <Route path="/" element={<Homepage />} />
+          <Route path = "/Profile" element={<UserProfile/>}/>
           <Route path="/About" element={<About />} />
           <Route path="/Homepage" element={<Homepage />} />
           <Route path="/Login" element={<Login />} />
