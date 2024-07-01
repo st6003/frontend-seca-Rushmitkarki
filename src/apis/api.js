@@ -30,9 +30,13 @@ export const updateDoctor = (id, data) => Api.put(`/api/doctor/update_doctor/${i
 // Delete doctor
 export const deleteDoctor = (id) => Api.delete(`/api/doctor/delete_doctor/${id}`);
 // pagination
-export const doctorPagination = (id) => {
-  return Api.get(`/api/doctor/pagination/?page=${id}`,config);
+export const doctorPagination = (page,limit) => {
+  return Api.get(`/api/doctor/pagination/?page=${page}${limit}`,config);
 
+};
+// get doctor count
+export const getDoctorCount = () => {
+  return Api.get("/api/doctor/get_doctor_count",config);
 };
 // forget password api
 export const forgotPasswordApi = (data) =>{
@@ -42,3 +46,4 @@ export const forgotPasswordApi = (data) =>{
 export const resetPasswordApi = (data) =>{
   return Api.post("/api/user/reset_password",data);
 };
+

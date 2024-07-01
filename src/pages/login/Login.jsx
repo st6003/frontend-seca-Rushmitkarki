@@ -66,10 +66,10 @@ const Login = () => {
 
           localStorage.setItem("token", res.data.token);
 
-          const convertedData = JSON.stringify(res.data.user);
-          localStorage.setItem("user", convertedData);
+          const convertedUser = JSON.stringify(res.data.userData);
+          localStorage.setItem("user", convertedUser);
 
-          if (res.data.user.isAdmin) {
+          if (res.data.userData.isAdmin) {
             window.location.href = "/admin/dashboard";
           } else {
             window.location.href = "/";
@@ -77,7 +77,7 @@ const Login = () => {
         }
       })
       .catch((error) => {
-        toast.error("Cannot login at the moment. Please try again later.");
+        toast.error("Login failed");
       });
   };
 
