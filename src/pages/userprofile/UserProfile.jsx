@@ -1,14 +1,37 @@
-import React, { useState } from 'react';
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import { toast } from "react-toastify";
+import { updateUserProfile } from "../../apis/api";
 
 const UserProfile = () => {
-  const [editing, setEditing] = useState(false);
+  const { id } = useParams(); // Assuming your route provides an id
+
   const [userData, setUserData] = useState({
-    firstName: 'John',
-    lastName: 'Doe',
-    email: 'johndoe@example.com',
-    phone: '123-456-7890',
-    password: '********', // For security reasons, you might want to mask this
+    firstName: "",
+    lastName: "",
+    email: "",
+    phone: "",
+    password: "",
   });
+
+  const [editing, setEditing] = useState(false);
+
+  useEffect(() => {
+    // Fetch user data from API using id
+    fetchUserData(id);
+  }, [id]);
+
+  const fetchUserData = async (id) => {
+    try {
+      const response = await axios.get(`/api/user/update_profile/${id}`);
+      const fetchedUserData = response.data.userData;
+      setUserData(fetchedUserData);
+    } catch (error) {
+      // console.error("Error fetching user data:", error);
+      toast.error("Failed to fetch user data");
+    }
+  };
 
   const handleEditToggle = () => {
     setEditing(!editing);
@@ -23,21 +46,35 @@ const UserProfile = () => {
   };
 
   const handleLogout = () => {
-    // Implement your logout logic here
-    alert('Logging out...'); // Placeholder for demonstration
+    // Clear token from localStorage
+    localStorage.removeItem("user");
+    localStorage.removeItem("token");
+
+    window.location.href = "/login";
+
+    alert("Logging out..."); // Placeholder for demonstration
   };
 
   const saveChanges = () => {
-    // Implement save changes logic here
-    alert('Saving changes...'); // Placeholder for demonstration
-    setEditing(false); // Turn off editing mode after saving changes
+    // Update user profile API call
+    updateUserProfile(id, userData)
+      .then((res) => {
+        toast.success("Profile updated successfully");
+        setEditing(false);
+      })
+      .catch((error) => {
+        console.error("Error updating profile:", error);
+        toast.error("Failed to update profile");
+      });
   };
 
   return (
     <div className="max-w-md mx-auto mt-8 p-6 bg-white rounded-lg shadow-md">
       <h2 className="text-xl font-semibold mb-4">User Profile</h2>
       <div className="mb-4">
-        <label className="block text-sm font-medium text-gray-700">First Name</label>
+        <label className="block text-sm font-medium text-gray-700">
+          First Name
+        </label>
         <input
           type="text"
           name="firstName"
@@ -48,7 +85,9 @@ const UserProfile = () => {
         />
       </div>
       <div className="mb-4">
-        <label className="block text-sm font-medium text-gray-700">Last Name</label>
+        <label className="block text-sm font-medium text-gray-700">
+          Last Name
+        </label>
         <input
           type="text"
           name="lastName"
@@ -81,7 +120,9 @@ const UserProfile = () => {
         />
       </div>
       <div className="mb-4">
-        <label className="block text-sm font-medium text-gray-700">Password</label>
+        <label className="block text-sm font-medium text-gray-700">
+          Password
+        </label>
         <input
           type="password"
           name="password"
