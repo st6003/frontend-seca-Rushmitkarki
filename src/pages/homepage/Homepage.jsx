@@ -105,7 +105,7 @@ const Homepage = () => {
         </div>
         <div>
           {/* Doctors List */}
-          <h2 className="mt-5 text-2xl font-bold">Available Doctors</h2>
+          <h2 className="mt-5 text-2xl font-bold">Meet out Professional Doctors</h2>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mt-4">
             {error ? (
               <h1>{error}</h1>

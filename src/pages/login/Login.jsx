@@ -65,6 +65,7 @@ const Login = () => {
           toast.success(res.data.message);
 
           localStorage.setItem("token", res.data.token);
+          localStorage.setItem("user", JSON.stringify(res.data.user));
 
           const convertedUser = JSON.stringify(res.data.userData);
           localStorage.setItem("user", convertedUser);

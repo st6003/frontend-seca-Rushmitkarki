@@ -1,48 +1,70 @@
-import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
-import { updateUserProfile } from "../../apis/api";
+import { getSingleUser, updateUserProfile } from "../../apis/api";
 
 const UserProfile = () => {
-  const { id } = useParams(); // Assuming your route provides an id
-
+  const { id } = useParams();
   const [userData, setUserData] = useState({
     firstName: "",
     lastName: "",
     email: "",
     phone: "",
-    password: "",
+    password: ""
   });
-
   const [editing, setEditing] = useState(false);
 
   useEffect(() => {
-    // Fetch user data from API using id
-    fetchUserData(id);
+    const fetchUserData = async () => {
+      try {
+        const response = await getSingleUser(id);
+        const { user } = response.data;
+        setUserData({
+          firstName: user.firstName,
+          lastName: user.lastName,
+          email: user.email,
+          phone: user.phone,
+          password: "" 
+        });
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+        toast.error("Failed to fetch user data");
+      }
+    };
+
+    fetchUserData();
   }, [id]);
-
-  const fetchUserData = async (id) => {
-    try {
-      const response = await axios.get(`/api/user/update_profile/${id}`);
-      const fetchedUserData = response.data.userData;
-      setUserData(fetchedUserData);
-    } catch (error) {
-      // console.error("Error fetching user data:", error);
-      toast.error("Failed to fetch user data");
-    }
-  };
-
-  const handleEditToggle = () => {
-    setEditing(!editing);
-  };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setUserData({
-      ...userData,
-      [name]: value,
-    });
+    setUserData((prevData) => ({
+      ...prevData,
+      [name]: value
+    }));
+  };
+
+  const saveChanges = async () => {
+    try {
+      const formData = new FormData();
+      formData.append("firstName", userData.firstName);
+      formData.append("lastName", userData.lastName);
+      formData.append("email", userData.email);
+      formData.append("phone", userData.phone);
+      formData.append("password", userData.password);
+
+      const response = await updateUserProfile(id, formData);
+      if (response.status === 200) {
+        toast.success("User updated successfully");
+        setEditing(false);
+      }
+    } catch (error) {
+      console.error("Error updating user profile:", error);
+      if (error.response && error.response.status === 400) {
+        toast.error(error.response.data.message);
+      } else {
+        toast.error("Failed to update user profile");
+      }
+    }
   };
 
   const handleLogout = () => {
@@ -52,20 +74,7 @@ const UserProfile = () => {
 
     window.location.href = "/login";
 
-    alert("Logging out..."); // Placeholder for demonstration
-  };
-
-  const saveChanges = () => {
-    // Update user profile API call
-    updateUserProfile(id, userData)
-      .then((res) => {
-        toast.success("Profile updated successfully");
-        setEditing(false);
-      })
-      .catch((error) => {
-        console.error("Error updating profile:", error);
-        toast.error("Failed to update profile");
-      });
+    alert("Logging out..."); 
   };
 
   return (
@@ -142,7 +151,7 @@ const UserProfile = () => {
           </button>
         ) : (
           <button
-            onClick={handleEditToggle}
+            onClick={() => setEditing(true)}
             className="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
           >
             Edit
