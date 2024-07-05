@@ -1,12 +1,12 @@
 import React from "react";
- 
+
 const Footer = () => {
   return (
     <footer className="footer">
       <div className="container-fluid">
         <div className="row">
           <div className="col-md-4">
-            <h5>Gadget Mart</h5>
+            <h5>Memory_Guardian</h5>
             <p>Stay in the loop and sign up for the Wardiere newsletter:</p>
           </div>
           <div className="col-md-2">
@@ -69,7 +69,7 @@ const Footer = () => {
         </div>
         <div className="row mt-3">
           <div className="col-12 text-center">
-            <p>© Gadget Mart. All Rights Reserved 2023</p>
+            <p>© Memory_Guardian. All Rights Reserved 2023</p>
             <a href="/terms-conditions">Terms & Conditions</a>
           </div>
         </div>
@@ -77,5 +77,5 @@ const Footer = () => {
     </footer>
   );
 };
- 
+
 export default Footer;
