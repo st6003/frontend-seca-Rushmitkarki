@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import { getAllUsers } from "../../../apis/api";
+import { deleteUser, getAllUsers } from "../../../apis/api";
 
 const UsersList = () => {
   const [users, setUsers] = useState([]);
@@ -20,29 +20,59 @@ const UsersList = () => {
       });
   }, []);
 
+  const handleDelete = async (id) => {
+    if (window.confirm("Are you sure you want to delete this user?")) {
+      try {
+        const response = await deleteUser(id);
+        toast.success(response.data.message);
+        setUsers(users.filter((user) => user._id !== id));
+      } catch (error) {
+        toast.error("Error deleting user");
+        console.error("Error deleting user:", error);
+      }
+    }
+  };
+
   if (loading) {
     return <div className="text-center py-4">Loading...</div>;
   }
 
   return (
-    <div className="container mx-auto py-8">
-      <div className="bg-white shadow overflow-hidden sm:rounded-lg">
-        <div className="grid grid-cols-3 gap-4 bg-gray-50 p-4">
-          <div className="font-semibold">First Name</div>
-          <div className="font-semibold">Last Name</div>
-          <div className="font-semibold">Email</div>
-        </div>
-        {users.map((user) => (
-          <div
-            key={user._id}
-            className="grid grid-cols-3 gap-4 p-4 border-t border-gray-200"
-          >
-            <div>{user.firstName}</div>
-            <div>{user.lastName}</div>
-            <div>{user.email}</div>
-          </div>
-        ))}
-      </div>
+    <div className="p-6">
+      <h2 className="text-4xl mb-4">Users List</h2>
+      <table className="min-w-full bg-white border">
+        <thead>
+          <tr className="bg-gray-100">
+            <th className="py-3 px-4 border-b border-gray-200">First Name</th>
+            <th className="py-3 px-4 border-b border-gray-200">Last Name</th>
+            <th className="py-3 px-4 border-b border-gray-200">Email</th>
+            <th className="py-3 px-4 border-b border-gray-200">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {users.map((user) => (
+            <tr key={user._id} className="hover:bg-gray-50">
+              <td className="py-3 px-4 border-b border-gray-200">
+                {user.firstName}
+              </td>
+              <td className="py-3 px-4 border-b border-gray-200">
+                {user.lastName}
+              </td>
+              <td className="py-3 px-4 border-b border-gray-200">
+                {user.email}
+              </td>
+              <td className="py-3 px-4 border-b border-gray-200">
+                <button
+                  onClick={() => handleDelete(user._id)}
+                  className="bg-red-500 text-white py-1 px-4 rounded"
+                >
+                  Delete
+                </button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 };
