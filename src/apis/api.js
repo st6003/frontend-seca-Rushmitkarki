@@ -78,3 +78,5 @@ export const addToFavoriteApi = (data) =>
 export const appointmentDoctor = (data) => Api.post("/api/booking/create_appointments",data)
 // fetch all user data
 export const getUsersWithAppointments = () => Api.get("/api/booking/users_with_appointments");
+// delete appointment
+export const deleteAppointment = (id) => Api.delete(`/api/booking/delete_appointments/${id}`,config);

@@ -59,7 +59,7 @@ const AdminNavbar = () => {
               <li className="nav-item mb-2">
                 <button
                   className="btn w-full text-left border border-gray-300 text-gray-400 hover:bg-blue-600 hover:text-white flex items-center justify-start p-2 rounded"
-                  onClick={() => handleNavigation("/doctor")}
+                  onClick={() => handleNavigation("/DoctorsList")}
                 >
                   <i className="fas fa-user-md mr-2"></i> Doctor
                 </button>
@@ -67,7 +67,7 @@ const AdminNavbar = () => {
               <li className="nav-item mb-2">
                 <button
                   className="btn w-full text-left border border-gray-300 text-gray-400 hover:bg-blue-600 hover:text-white flex items-center justify-start p-2 rounded"
-                  onClick={() => handleNavigation("/users-list")}
+                  onClick={() => handleNavigation("/UserList")}
                 >
                   <i className="fas fa-users mr-2"></i> Users List
                 </button>
