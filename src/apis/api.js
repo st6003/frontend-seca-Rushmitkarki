@@ -69,3 +69,10 @@ export const getAllUsers = () => Api.get("/api/user/get_all_users");
 // Update user profile
 export const updateUserProfile = (id, userData) =>
   Api.put(`/api/user/update_profile`, userData, config);
+
+// favorites
+export const addToFavoriteApi = (data) =>
+  Api.post("/api/favourite/add", data, config);
+
+// appointment doctors
+export const appointmentDoctor = (data) => Api.post("/api/booking/create_appointments",data)
