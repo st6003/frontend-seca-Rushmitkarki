@@ -8,8 +8,12 @@ const AdminNavbar = () => {
     localStorage.removeItem("user");
     localStorage.removeItem("token");
     navigate("/login");
-    
+
     window.dispatchEvent(new Event("storage"));
+  };
+
+  const handleNavigation = (path) => {
+    navigate(path);
   };
 
   return (
@@ -45,33 +49,50 @@ const AdminNavbar = () => {
           <nav className="nav flex-column">
             <ul className="nav nav-pills flex-column">
               <li className="nav-item mb-2">
-                <button className="btn w-full text-left border border-gray-300 text-gray-400 hover:bg-blue-600 hover:text-white flex items-center justify-start p-2 rounded">
+                <button
+                  className="btn w-full text-left border border-gray-300 text-gray-400 hover:bg-blue-600 hover:text-white flex items-center justify-start p-2 rounded"
+                  onClick={() => handleNavigation("/dashboard")}
+                >
                   <i className="fas fa-tachometer-alt mr-2"></i> Dashboard
                 </button>
               </li>
               <li className="nav-item mb-2">
-                <button className="btn w-full text-left border border-gray-300 text-gray-400 hover:bg-blue-600 hover:text-white flex items-center justify-start p-2 rounded">
+                <button
+                  className="btn w-full text-left border border-gray-300 text-gray-400 hover:bg-blue-600 hover:text-white flex items-center justify-start p-2 rounded"
+                  onClick={() => handleNavigation("/DoctorsList")}
+                >
                   <i className="fas fa-user-md mr-2"></i> Doctor
                 </button>
               </li>
               <li className="nav-item mb-2">
-                <button className="btn w-full text-left border border-gray-300 text-gray-400 hover:bg-blue-600 hover:text-white flex items-center justify-start p-2 rounded">
+                <button
+                  className="btn w-full text-left border border-gray-300 text-gray-400 hover:bg-blue-600 hover:text-white flex items-center justify-start p-2 rounded"
+                  onClick={() => handleNavigation("/UserList")}
+                >
                   <i className="fas fa-users mr-2"></i> Users List
                 </button>
               </li>
               <li className="nav-item mb-2">
-                <button className="btn w-full text-left border border-gray-300 text-gray-400 hover:bg-blue-600 hover:text-white flex items-center justify-start p-2 rounded">
+                <button
+                  className="btn w-full text-left border border-gray-300 text-gray-400 hover:bg-blue-600 hover:text-white flex items-center justify-start p-2 rounded"
+                  onClick={() => handleNavigation("/payment")}
+                >
                   <i className="fas fa-credit-card mr-2"></i> Payment
                 </button>
               </li>
               <li className="nav-item mb-2">
-                <button className="btn w-full text-left border border-gray-300 text-gray-400 hover:bg-blue-600 hover:text-white flex items-center justify-start p-2 rounded">
-                  <i className="fas fa-list mr-2"></i> Appoinment List
+                <button
+                  className="btn w-full text-left border border-gray-300 text-gray-400 hover:bg-blue-600 hover:text-white flex items-center justify-start p-2 rounded"
+                  onClick={() => handleNavigation("/Appointmentlist")}
+                >
+                  <i className="fas fa-list mr-2"></i> Appointment List
                 </button>
               </li>
-              
               <li className="nav-item mb-2">
-                <button className="btn w-full text-left border border-gray-300 text-gray-400 hover:bg-blue-600 hover:text-white flex items-center justify-start p-2 rounded">
+                <button
+                  className="btn w-full text-left border border-gray-300 text-gray-400 hover:bg-blue-600 hover:text-white flex items-center justify-start p-2 rounded"
+                  onClick={() => handleNavigation("/chat")}
+                >
                   <i className="fas fa-comments mr-2"></i> Chat
                 </button>
               </li>

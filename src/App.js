@@ -1,20 +1,24 @@
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import "./App.css";
 
+import Footer from "./components/Footer";
 import Homepage from "./pages/homepage/Homepage";
 import Login from "./pages/login/Login";
 import Register from "./pages/register/Register";
 import AdminRoutes from "./protected_routes/AdminRoutes";
-import Footer from "./components/Footer";
 // Toast configuration
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Navbar from "./components/Navbar";
 import AdminDashboard from "./pages/admin/adminDashboard/AdminDashboard";
-import About from "./pages/homepage/About";
-import UserProfile from "./pages/userprofile/UserProfile";
-import Payment from "./pages/payment/Payment";
+import Appointmentlist from "./pages/admin/appointmentlist/Appointmentlist";
+import DoctorsList from "./pages/admin/doctorlists/DoctorsList";
+import UsersList from "./pages/admin/usersList/UsersList";
 import DoctorAppointment from "./pages/appointment/DoctorAppointment";
+import About from "./pages/homepage/About";
+import Payment from "./pages/payment/Payment";
+import UserProfile from "./pages/userprofile/UserProfile";
+
 
 function App() {
   return (
@@ -34,6 +38,9 @@ function App() {
           <Route path="/Register" element={<Register />} />
           <Route element={<AdminRoutes />}>
             <Route path="/Admin/Dashboard" element={<AdminDashboard />} />
+            <Route path="/DoctorsList" element={<DoctorsList/>}/>
+            <Route path = "/UserList" element={<UsersList/>}/>
+            <Route path = '/Appointmentlist' element={<Appointmentlist/>}/>
           </Route>
         </Routes>
         <Footer/>
