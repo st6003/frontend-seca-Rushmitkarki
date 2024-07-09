@@ -1,20 +1,45 @@
+import {
+  BarElement,
+  CategoryScale,
+  Chart as ChartJS,
+  Legend,
+  LinearScale,
+  Title,
+  Tooltip,
+} from "chart.js";
+import React from "react";
+import { Bar } from "react-chartjs-2";
 
-
-import React from 'react';
-import { Bar } from 'react-chartjs-2';
-import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js';
-
-ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend
+);
 
 const DashboardChart = ({ data }) => {
   const chartData = {
-    labels: ['Total User Logins', 'Total Doctors Added', 'Total Appointments'],
+    labels: ["Total User Logins", "Total Doctors Added", "Total Appointments"],
     datasets: [
       {
-        label: 'Statistics',
-        data: [data.totalUserLogins, data.totalDoctorsAdded, data.totalAppointments],
-        backgroundColor: ['rgba(75, 192, 192, 0.2)', 'rgba(153, 102, 255, 0.2)', 'rgba(255, 159, 64, 0.2)'],
-        borderColor: ['rgba(75, 192, 192, 1)', 'rgba(153, 102, 255, 1)', 'rgba(255, 159, 64, 1)'],
+        label: "Statistics",
+        data: [
+          data.totalUserLogins,
+          data.totalDoctorsAdded,
+          data.totalAppointments,
+        ],
+        backgroundColor: [
+          "rgba(75, 192, 192, 0.2)",
+          "rgba(153, 102, 255, 0.2)",
+          "rgba(255, 159, 64, 0.2)",
+        ],
+        borderColor: [
+          "rgba(75, 192, 192, 1)",
+          "rgba(153, 102, 255, 1)",
+          "rgba(255, 159, 64, 1)",
+        ],
         borderWidth: 1,
       },
     ],
@@ -23,13 +48,13 @@ const DashboardChart = ({ data }) => {
   const options = {
     responsive: true,
     plugins: {
-      legend: { position: 'top' },
-      title: { display: true, text: 'Admin Dashboard Statistics' },
+      legend: { position: "top" },
+      title: { display: true, text: "Admin Dashboard Statistics" },
     },
   };
 
   return (
-    <div className="p-6">
+    <div className="p-6 flex flex-col items-center justify-center">
       <h2 className="text-4xl mb-4">Admin Dashboard</h2>
       <Bar data={chartData} options={options} />
     </div>
