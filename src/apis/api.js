@@ -76,3 +76,5 @@ export const addToFavoriteApi = (data) =>
 
 // appointment doctors
 export const appointmentDoctor = (data) => Api.post("/api/booking/create_appointments",data)
+// fetch all user data
+export const getUsersWithAppointments = () => Api.get("/api/booking/users_with_appointments");

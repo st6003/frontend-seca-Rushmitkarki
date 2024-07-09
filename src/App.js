@@ -15,6 +15,7 @@ import About from "./pages/homepage/About";
 import UserProfile from "./pages/userprofile/UserProfile";
 import Payment from "./pages/payment/Payment";
 import DoctorAppointment from "./pages/appointment/DoctorAppointment";
+import Appointmentlist from "./pages/admin/appointmentlist/Appointmentlist";
 
 function App() {
   return (
@@ -34,6 +35,7 @@ function App() {
           <Route path="/Register" element={<Register />} />
           <Route element={<AdminRoutes />}>
             <Route path="/Admin/Dashboard" element={<AdminDashboard />} />
+            <Route path = '/Appointmentlist' element={<Appointmentlist/>}/>
           </Route>
         </Routes>
         <Footer/>
