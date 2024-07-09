@@ -85,3 +85,9 @@ export const getUsersWithAppointments = () =>
 // delete appointment
 export const deleteAppointment = (id) =>
   Api.delete(`/api/booking/delete_appointments/${id}`, config);
+
+// for adminchart
+export const get_Dashboard_Stats = async()=>{
+  return Api.get("/api/admin/dashboard_stats");
+}
+
