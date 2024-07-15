@@ -110,5 +110,9 @@ export const getSingleInsurance = (id) => Api.get(`/api/insurance/get_single_ins
 export const initializeKhaltiPayment = (data) =>
   Api.post("/api/khalti/initialize-khalti", data);
 
+// chat
+export const chat =(data)  =>
+  Api.post("/api/chat/send",data);
+
 
   

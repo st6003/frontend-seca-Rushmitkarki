@@ -1,0 +1,36 @@
+/* Tailwind CSS - Add this to your main CSS file or create a separate component file */
+.chat-container {
+    width: 60%; /* Adjust width as needed */
+    margin: 20px auto;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.chat-messages {
+  height: 300px; /* Adjust as needed */
+}
+
+.chat-message {
+  max-width: 80%; /* Adjust as needed */
+}
+
+.self-end {
+  text-align: right;
+}
+
+.self-start {
+  text-align: left;
+}
+
+.bg-blue-100 {
+  background-color: #e2f2ff; /* Light blue */
+}
+
+.bg-green-100 {
+  background-color: #d1fdd5; /* Light green */
+}
+
+.chat-input {
+    padding: 10px;
+}
