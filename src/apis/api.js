@@ -5,7 +5,8 @@ const Api = axios.create({
   baseURL: "http://localhost:5000",
   withCredentials: true,
   headers: {
-    "Content-Type": "multipart/form-data",
+    "Content-Type": "application/json",
+    // "Content-Type": "multipart/form-data",
   },
 });
 
@@ -96,4 +97,18 @@ export const searchDoctor = (query) =>
   Api.get(`/api/doctor/search?query=${query}`, config);
 
 
+// insurance
+export const createInsurance = (data) => Api.post("/api/insurance/create", data, config);
+export const getInsurance = () => Api.get("/api/insurance/get_all_insurances", config);
+export const deleteInsurance = (id) => Api.delete(`/api/insurance/delete_insurance/${id}`, config);
+export const updateInsurance = (id, data) => Api.put(`/api/insurance/update_insurance/${id}`, data, config);
+export const getSingleInsurance = (id) => Api.get(`/api/insurance/get_single_insurance/${id}`, config);
 
+
+
+// khalti
+export const initializeKhaltiPayment = (data) =>
+  Api.post("/api/khalti/initialize-khalti", data);
+
+
+  

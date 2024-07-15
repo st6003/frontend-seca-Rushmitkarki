@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Button, Modal } from "react-bootstrap";
 import { toast } from "react-toastify";
-import { addToFavoriteApi, appointmentDoctor } from "../apis/api";
+import { addToFavoriteApi,  } from "../apis/api";
 
 const DoctorCard = ({ doctorInformation, color }) => {
   const [show, setShow] = useState(false);
@@ -80,7 +80,7 @@ const DoctorCard = ({ doctorInformation, color }) => {
           >
             Add to Favorites
           </Button>
-          <Button
+          {/* <Button
             variant="primary"
             onClick={() => {
               appointmentDoctor();
@@ -88,7 +88,7 @@ const DoctorCard = ({ doctorInformation, color }) => {
             }}
           >
             Make an appointment
-          </Button>
+          </Button> */}
         </Modal.Footer>
       </Modal>
     </>
