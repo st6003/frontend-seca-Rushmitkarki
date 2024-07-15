@@ -11,11 +11,11 @@ import { appointmentDoctor } from "../../apis/api";
 const DoctorAppointment = () => {
   const [today] = useState(new Date().toISOString().split("T")[0]);
   const [formData, setFormData] = useState({
-    patientName: "", // Changed from name to patientName
+    patientName: "",
     appointmentDate: "",
     phoneNumber: "",
     email: "",
-    appointmentDescription: "", // Changed from description to appointmentDescription
+    appointmentDescription: "",
   });
 
   const handleChange = (e) => {
@@ -56,9 +56,9 @@ const DoctorAppointment = () => {
           Name:
           <input
             type="text"
-            name="patientName" // Changed from name to patientName
+            name="patientName"
             className="ml-2 flex-grow p-2 border rounded"
-            value={formData.patientName} // Changed from formData.name to formData.patientName
+            value={formData.patientName}
             onChange={handleChange}
             required
           />
@@ -114,7 +114,7 @@ const DoctorAppointment = () => {
 
         <button
           type="submit"
-          className="self-center bg-red-500 text-white px-8 py-3 rounded hover:bg-red-600"
+          className="self-center bg-sky-500 text-white px-8 py-3 rounded hover:bg-red-600"
         >
           Submit
         </button>

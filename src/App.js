@@ -15,35 +15,36 @@ import Appointmentlist from "./pages/admin/appointmentlist/Appointmentlist";
 import DoctorsList from "./pages/admin/doctorlists/DoctorsList";
 import UsersList from "./pages/admin/usersList/UsersList";
 import DoctorAppointment from "./pages/appointment/DoctorAppointment";
+import Doctor from "./pages/doctor/Doctor";
 import About from "./pages/homepage/About";
 import Payment from "./pages/payment/Payment";
 import UserProfile from "./pages/userprofile/UserProfile";
-
 
 function App() {
   return (
     <Router>
       <div>
         <Navbar />
-        
+
         <ToastContainer />
         <Routes>
           <Route path="/" element={<Homepage />} />
-          <Route path= "/Appointment" element={<DoctorAppointment/>}/>
-          <Route path="/payment" element={<Payment/>}/>
-          <Route path = "/Profile" element={<UserProfile/>}/>
+          <Route path="/doctor" element={<Doctor />} />
+          <Route path="/payment" element={<Payment />} />
+          <Route path="/Appointment" element={<DoctorAppointment />} />
+          <Route path="/Profile" element={<UserProfile />} />
           <Route path="/About" element={<About />} />
           <Route path="/Homepage" element={<Homepage />} />
           <Route path="/Login" element={<Login />} />
           <Route path="/Register" element={<Register />} />
           <Route element={<AdminRoutes />}>
             <Route path="/Admin/Dashboard" element={<AdminDashboard />} />
-            <Route path="/DoctorsList" element={<DoctorsList/>}/>
-            <Route path = "/UserList" element={<UsersList/>}/>
-            <Route path = '/Appointmentlist' element={<Appointmentlist/>}/>
+            <Route path="/DoctorsList" element={<DoctorsList />} />
+            <Route path="/UserList" element={<UsersList />} />
+            <Route path="/Appointmentlist" element={<Appointmentlist />} />
           </Route>
         </Routes>
-        <Footer/>
+        <Footer />
       </div>
     </Router>
   );
