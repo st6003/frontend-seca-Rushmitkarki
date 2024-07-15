@@ -5,7 +5,7 @@ const Api = axios.create({
   baseURL: "http://localhost:5000",
   withCredentials: true,
   headers: {
-    "Content-Type": "application/json",
+    "Content-Type": "multipart/form-data",
   },
 });
 
@@ -41,8 +41,9 @@ export const deleteDoctor = (id) =>
   Api.delete(`/api/doctor/delete_doctor/${id}`, config);
 
 // Pagination
-export const doctorPagination = (page, limit) => {
-  return Api.get(`/api/doctor/pagination?page=${page}&limit=${limit}`, config);
+export const doctorPagination = (page, limit, searchQuery = '', sortOrder = 'asc') => {
+  const query = `?page=${page}&limit=${limit}&q=${searchQuery}&sort=${sortOrder}`;
+  return Api.get(`/api/doctor/pagination${query}`, config);
 };
 
 // Get doctor count
@@ -90,4 +91,9 @@ export const deleteAppointment = (id) =>
 export const getDashboardStats = async()=>{
   return Api.get("/api/admin/dashboard_stats");
 }
+// search
+export const searchDoctor = (query) =>
+  Api.get(`/api/doctor/search?query=${query}`, config);
+
+
 

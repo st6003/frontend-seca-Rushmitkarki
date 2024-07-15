@@ -22,8 +22,7 @@ const Appointmentlist = () => {
     if (window.confirm("Are you sure you want to delete this appointment?")) {
       try {
         const response = await deleteAppointment(id);
-        console.log(response.data.message); // Log success message from backend
-        // Update state or fetch appointments again after successful deletion
+        console.log(response.data.message); 
         setUsersWithAppointments(usersWithAppointments.filter(appointment => appointment._id !== id));
       } catch (error) {
         console.error("Error deleting appointment:", error);
