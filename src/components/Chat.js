@@ -1,7 +1,7 @@
-// components/Chat.js
+
 
 import React, { useState, useEffect } from 'react';
-import { getMessages, sendMessage } from '../api'; // Import your API functions
+import { getMessages, sendMessage } from '../apis/api';
 
 const Chat = ({ userId, chatUserId }) => {
   const [messages, setMessages] = useState([]);

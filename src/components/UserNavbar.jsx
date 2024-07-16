@@ -6,6 +6,7 @@ const UserNavbar = () => {
   const user = JSON.parse(localStorage.getItem("user"));
 
   return (
+    <div className="sidebar bg-gray-800 text-white h-screen fixed left-0 top-0 w-64">
     <div className="sidebar bg-gray-800 text-white h-screen fixed ">
       <div className="sidebar-header border-b border-gray-600 p-4">
         <h5 className="sidebar-title text-white">Menu</h5>
@@ -99,6 +100,8 @@ const UserNavbar = () => {
         </nav>
       </div>
     </div>
+    </div>
+    
   );
 };
 
