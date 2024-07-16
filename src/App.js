@@ -21,11 +21,11 @@ import Payment from "./pages/payment/Payment";
 import UserProfile from "./pages/userprofile/UserProfile";
 import Insurance from "./pages/admin/insurance/Insurance";
 import Chat from "./pages/chat/Chat";
-import { ChatProvider } from "./components/ChatContext";
+
 
 function App() {
   return (
-    <ChatProvider>
+    
     <Router>
       <div>
         <Navbar />
@@ -53,7 +53,7 @@ function App() {
         <Footer />
       </div>
     </Router>
-    </ChatProvider>
+   
   );
 }
 

@@ -1,53 +1,75 @@
-import React, { useContext, useState } from 'react';
-import { ChatContext } from '../../components/ChatContext';
-import "./chat.css"
+import React, { useEffect, useState } from 'react';
+import { getAllUsers, searchUsers } from '../../apis/api';
+import './chat.css';
 
+const Chat = ({ userId }) => {
+  const [users, setUsers] = useState([]);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [selectedUser, setSelectedUser] = useState(null);
 
-const Chat = () => {
-  const { messages, sendMessage } = useContext(ChatContext);
-  const [newMessage, setNewMessage] = useState('');
+  useEffect(() => {
+    fetchUsers();
+  }, []);
 
-  const handleSendMessage = (e) => {
-    e.preventDefault();
-    if (newMessage.trim()) {
-      sendMessage(newMessage);
-      setNewMessage('');
+  const fetchUsers = async () => {
+    try {
+      const response = await getAllUsers();
+      setUsers(response.data.users);
+    } catch (error) {
+      console.error('Error fetching users:', error);
     }
   };
 
-  return (
-    <div className="container" style={{ marginleft:"20rem" }}>
-      <h1 className="mt-5 text-3xl font-bold mb-6 text-center">Chat Room</h1>
+  const handleSearch = async () => {
+    try {
+      const response = await searchUsers(searchQuery);
+      setUsers(response.data.users);
+    } catch (error) {
+      console.error('Error searching users:', error);
+    }
+  };
 
-      <div className="chat-container"> 
-        <div className="chat-messages border border-gray-300 p-4 h-96 overflow-y-scroll mb-4 bg-gray-50 rounded-lg shadow-inner">
-          {messages.map((msg, index) => (
+  const handleUserSelect = (user) => {
+    setSelectedUser(user);
+  };
+
+  return (
+    <div className="chat-container">
+      <div className="sidebar">
+        {/* Sidebar content here */}
+      </div>
+      <div className="chat-content-container">
+        <div className="header">
+          <input
+            type="text"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            placeholder="Search User"
+            className="search-input"
+          />
+          <button className="new-group-chat">New Group Chat +</button>
+        </div>
+        <div className="chat-list">
+          {users.map((user) => (
             <div
-              key={index}
-              className={`chat-message p-3 mb-3 rounded-lg shadow ${
-                index % 2 === 0 ? 'bg-blue-100 self-end' : 'bg-green-100 self-start'
-              }`}
+              key={user._id}
+              className={`chat-list-item ${selectedUser && selectedUser._id === user._id ? 'selected' : ''}`}
+              onClick={() => handleUserSelect(user)}
             >
-              {msg}
+              <div className="chat-user-name">{`${user.firstName} ${user.lastName}`}</div>
+              <div className="chat-last-message">Last message preview...</div>
             </div>
           ))}
         </div>
-
-        <form onSubmit={handleSendMessage} className="chat-input flex">
-          <input
-            type="text"
-            value={newMessage}
-            onChange={(e) => setNewMessage(e.target.value)}
-            placeholder="Type a message..."
-            className="flex-1 p-4 border border-gray-300 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
-          />
-          <button
-            type="submit"
-            className="p-4 bg-blue-500 text-white rounded-r-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400"
-          >
-            Send
-          </button>
-        </form>
+        <div className="chat-window">
+          {selectedUser ? (
+            <div className="chat-content">
+              {/* Render chat messages here */}
+            </div>
+          ) : (
+            <div className="chat-placeholder">Click on a user to start chatting</div>
+          )}
+        </div>
       </div>
     </div>
   );

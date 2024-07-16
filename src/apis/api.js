@@ -111,8 +111,22 @@ export const initializeKhaltiPayment = (data) =>
   Api.post("/api/khalti/initialize-khalti", data);
 
 // chat
-export const chat =(data)  =>
-  Api.post("/api/chat/send",data);
+// chat
+
+// Create a chat
+export const createChat = (userIds) => Api.post("/api/chat/create", userIds, config);
+
+// Get chats for a specific user
+export const getChats = (userId) => Api.get(`/api/chat/${userId}`, config);
+
+// Send a message
+export const sendMessage = (senderId, receiverId, message) => Api.post("/api/message/send", { senderId, receiverId, message }, config);
+
+// Get messages between two users
+export const getMessages = (userId, chatUserId) => Api.get(`/api/message/messages/${userId}/${chatUserId}`, config);
+
+// Search for users
+export const searchUsers = (query) => Api.get(`/api/user/search?query=${query}`, config);
 
 
   
