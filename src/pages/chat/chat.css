@@ -1,36 +1,68 @@
-/* Tailwind CSS - Add this to your main CSS file or create a separate component file */
+/* chat.css */
 .chat-container {
-    width: 60%; /* Adjust width as needed */
-    margin: 20px auto;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  display: flex;
+  height: 100%;
 }
 
-.chat-messages {
-  height: 300px; /* Adjust as needed */
+.search-input {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin-right: 10px;
+  flex-grow: 1;
 }
 
-.chat-message {
-  max-width: 80%; /* Adjust as needed */
+.new-group-chat {
+  padding: 10px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
 }
 
-.self-end {
-  text-align: right;
+.chat-list {
+  flex-grow: 1;
+  overflow-y: auto;
 }
 
-.self-start {
-  text-align: left;
+.chat-list-item {
+  padding: 10px;
+  border: 1px solid #524799;
+  border-radius: 4px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  background-color: rgb(36, 111, 148); /* Ensure background is white */
+  color: black; /* Ensure text color is black */
 }
 
-.bg-blue-100 {
-  background-color: #e2f2ff; /* Light blue */
+.chat-list-item.selected {
+  background-color: #7c81d4;
 }
 
-.bg-green-100 {
-  background-color: #d1fdd5; /* Light green */
+.chat-user-name {
+  font-weight: bold;
+  color: #0c0101; 
 }
 
-.chat-input {
-    padding: 10px;
+.chat-last-message {
+  color: #4f56d2; 
+}
+
+.chat-window {
+  flex-grow: 1;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.chat-content {
+  width: 100%;
+  height: 100%;
+}
+
+.chat-placeholder {
+  color: #888;
+  font-size: 18px;
 }
