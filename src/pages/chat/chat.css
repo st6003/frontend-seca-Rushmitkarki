@@ -17,7 +17,7 @@
   flex: 1;
   display: flex;
   flex-direction: column;
-  padding: 20px;
+  padding: 15px;
   overflow-y: auto;
   height: 100%;
   width: 200%;
@@ -27,7 +27,7 @@
   display: flex;
   flex-direction: column;
   height: 100%;
-  background-color: #f0f0f0;
+  background-color: #fffefe;
   border-radius: 40px;
   width: 100%;
   overflow: hidden;
@@ -39,6 +39,7 @@
   padding: 20px;
   display: flex;
   flex-direction: column;
+  background-color: #dbdfe4;
 }
 
 .message {
@@ -46,13 +47,13 @@
   border-radius: 18px;
   margin-bottom: 10px;
   max-width: 70%;
-  word-wrap: break-word;
+  background-color: rgb(235, 236, 238);
 }
 
 .message-input {
   display: flex;
   padding: 15px;
-  background-color: #fff;
+  background-color: #eff2f3;
 }
 
 .message-input input {
@@ -61,7 +62,7 @@
   font-size: 16px;
   border: none;
   border-radius: 25px;
-  background-color: #f0f0f0;
+  background-color: #e7ebee;
 }
 
 .message-input button {
@@ -73,4 +74,66 @@
   margin-left: 15px;
   cursor: pointer;
   font-size: 16px;
+}
+
+.sent {
+  align-self: flex-end;
+  background-color: rgb(42, 118, 87);
+}
+
+.received {
+  align-self: flex-start;
+}
+
+.sent > div {
+  border-bottom-right-radius: 0;
+}
+
+.received > div {
+  border-bottom-left-radius: 0;
+}
+
+.message-from-test {
+  background-color: #71c19d;
+}
+
+.search-results {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+
+.user-result {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.user-result:hover {
+  background-color: #f0f0f0;
+}
+
+.user-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.user-name {
+  font-weight: bold;
+}
+
+.user-email {
+  font-size: 0.9em;
+  color: #666;
+}
+
+
+.search-text {
+  color: #000; 
+}
+.new-user {
+  background-color: #71c19d; 
 }
