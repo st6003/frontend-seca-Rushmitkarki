@@ -21,6 +21,7 @@ const Payment = () => {
   };
 
   return (
+    <div className="container mt-5">
     <div className="container" style={{ marginLeft: "20rem" }}>
       <div className="flex flex-col">
         <h2 className="mt-5 text-2xl font-bold">Available Insurances</h2>
@@ -36,6 +37,7 @@ const Payment = () => {
           )}
         </div>
       </div>
+    </div>
     </div>
   );
 };

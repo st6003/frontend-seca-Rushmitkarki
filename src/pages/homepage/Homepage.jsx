@@ -41,6 +41,7 @@ const Homepage = () => {
   };
 
   return (
+    <div className="container mt-5">
     <div
       className="container"
       style={{
@@ -174,6 +175,7 @@ const Homepage = () => {
         </div>
       </div>
     </div>
+  </div>
   );
 };
 
