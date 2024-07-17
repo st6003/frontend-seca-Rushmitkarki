@@ -128,3 +128,9 @@ export const renameGroup = (data) => Api.put("/api/chat/rename", data, config);
 export const addToGroup = (data) => Api.put("/api/chat/groupadd", data, config);
 // remove from group
 export const removeFromGroup = (data) => Api.put("/api/chat/groupremove", data, config);
+
+// sendMessage function
+export const sendMessage = (data) => Api.post("/api/message/send", data, config);
+
+// allMessages function
+export const allMessages = (id) => Api.get(`/api/message/${id}`, config);
