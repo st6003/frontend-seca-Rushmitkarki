@@ -1,4 +1,5 @@
 import axios from "axios";
+import App from "../App";
 
 // Creating backend config
 const Api = axios.create({
@@ -66,7 +67,7 @@ export const resetPasswordApi = (data) => {
 export const getSingleUser = () => Api.get(`/api/user/get_single_user`, config);
 
 // Fetch all users
-export const getAllUsers = () => Api.get("/api/user/get_all_users");
+export const getAllUsers = () => Api.get("/api/user/get_all_users",config);
 // delete user
 export const deleteUser = (id) => Api.delete(`/api/user/delete_user/${id}`,config);
 
@@ -96,6 +97,10 @@ export const getDashboardStats = async()=>{
 export const searchDoctor = (query) =>
   Api.get(`/api/doctor/search?query=${query}`, config);
 
+// search user
+export const searchUsers = (query)=>
+  Api.get(`/api/user/search_users?query=${query}`, config);
+
 
 // insurance
 export const createInsurance = (data) => Api.post("/api/insurance/create", data, config);
@@ -105,29 +110,27 @@ export const updateInsurance = (id, data) => Api.put(`/api/insurance/update_insu
 export const getSingleInsurance = (id) => Api.get(`/api/insurance/get_single_insurance/${id}`, config);
 
 
-
 // khalti
 export const initializeKhaltiPayment = (data) =>
   Api.post("/api/khalti/initialize-khalti", data);
 
+
 // chat
-// chat
+// create chat
+export const createChat = (data) => Api.post("/api/chat/create", data, config);
+// get all chat
+export const getChat = () => Api.get("/api/chat/fetch", config);
+// groupchat
+export const createGroupChat = (data) => Api.post("/api/chat/group", data, config);
+// rename group
+export const renameGroup = (data) => Api.put("/api/chat/rename", data, config);
+// add to group
+export const addToGroup = (data) => Api.put("/api/chat/groupadd", data, config);
+// remove from group
+export const removeFromGroup = (data) => Api.put("/api/chat/groupremove", data, config);
 
-// Create a chat
-export const createChat = (userIds) => Api.post("/api/chat/create", userIds, config);
+// sendMessage function
+export const sendMessage = (data) => Api.post("/api/message/send", data, config);
 
-// Get chats for a specific user
-export const getChats = (userId) => Api.get(`/api/chat/${userId}`, config);
-
-// Send a message
-export const sendMessage = (senderId, receiverId, message) => Api.post("/api/message/send", { senderId, receiverId, message }, config);
-
-// Get messages between two users
-export const getMessages = (userId, chatUserId) => Api.get(`/api/message/messages/${userId}/${chatUserId}`, config);
-
-// Search for users
-export const searchUsers = (query) => Api.get(`/api/user/search?query=${query}`, config);
-
-
-
-  
+// allMessages function
+export const allMessages = (id) => Api.get(`/api/message/${id}`, config);

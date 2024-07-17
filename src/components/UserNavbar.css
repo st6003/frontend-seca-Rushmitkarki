@@ -3,7 +3,7 @@
   position: fixed;
   top: 0;
   left: 0;
- 
+  background-color: #1f2937; /* Tailwind's bg-gray-800 */
   height: 100vh; /* Ensure the sidebar spans the full height of the viewport */
 }
 
@@ -22,4 +22,64 @@
 
 .nav-item {
   margin-bottom: 0.5rem;
+}
+
+.chat-interface {
+  margin-left: 250px; /* Add a left margin equal to the width of the sidebar */
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.chat-header {
+  background-color: #f0f0f0;
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.search-input {
+  padding: 5px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.chat-content {
+  display: flex;
+  flex: 1;
+}
+
+.chat-list {
+  width: 300px;
+  border-right: 1px solid #ccc;
+  padding: 10px;
+}
+
+.new-group-btn {
+  background-color: #4299e1;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+
+.chat-list ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.chat-list li {
+  background-color: #f0f0f0;
+  margin-bottom: 5px;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.chat-area {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

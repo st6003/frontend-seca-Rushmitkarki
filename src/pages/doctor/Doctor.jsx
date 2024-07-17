@@ -55,6 +55,8 @@ const Doctor = () => {
 
   return (
     <>
+    <div className="container mt-5">
+    
       <div className="container" style={{ marginLeft: "20rem" }}>
         <div className="flex flex-col">
           <div>
@@ -162,6 +164,7 @@ const Doctor = () => {
             </nav>
           </div>
         </div>
+      </div>
       </div>
     </>
   );
