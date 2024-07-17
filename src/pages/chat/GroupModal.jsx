@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { getAllUsers, createGroupChat } from '../../apis/api';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { getAllUsers, createGroupChat, searchUsers } from '../../apis/api';
 
 const GroupModal = ({ closeModal }) => {
   const [users, setUsers] = useState([]);
   const [selectedUsers, setSelectedUsers] = useState([]);
   const [groupName, setGroupName] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
+  const [filteredUsers, setFilteredUsers] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
@@ -19,8 +22,10 @@ const GroupModal = ({ closeModal }) => {
       const response = await getAllUsers();
       if (response.data && Array.isArray(response.data)) {
         setUsers(response.data);
+        setFilteredUsers(response.data);
       } else {
         setUsers([]);
+        setFilteredUsers([]);
       }
       setLoading(false);
     } catch (error) {
@@ -40,6 +45,22 @@ const GroupModal = ({ closeModal }) => {
     setSelectedUsers(selectedUsers.filter(u => u._id !== user._id));
   };
 
+  const handleSearch = async (e) => {
+    const term = e.target.value.toLowerCase();
+    setSearchTerm(term);
+    if (term.trim() === "") {
+      setFilteredUsers(users);
+      return;
+    }
+
+    try {
+      const response = await searchUsers(term);
+      setFilteredUsers(response.data.users);
+    } catch (error) {
+      console.error("Failed to search users", error);
+    }
+  };
+
   const handleCreateGroup = async () => {
     if (!groupName || selectedUsers.length < 2) {
       alert("Please provide a group name and select at least 2 users");
@@ -52,17 +73,12 @@ const GroupModal = ({ closeModal }) => {
         users: JSON.stringify(selectedUsers.map(user => user._id))
       });
 
-      console.log("Group created successfully:", response.data);
+      toast.success("Group created successfully!");
       closeModal();
     } catch (error) {
       console.error("Failed to create group", error);
     }
   };
-
-  const filteredUsers = users.filter(user => 
-    user.firstName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    user.lastName.toLowerCase().includes(searchTerm.toLowerCase())
-  );
 
   if (loading) {
     return <div>Loading...</div>;
@@ -75,7 +91,11 @@ const GroupModal = ({ closeModal }) => {
   return (
     <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full flex items-center justify-center">
       <div className="bg-white p-5 rounded-lg shadow-lg w-96">
-        <h2 className="text-xl font-bold mb-4">Create Group Chat</h2>
+        <ToastContainer />
+        <div className="flex justify-between items-center mb-4">
+          <h2 className="text-xl font-bold">Create Group Chat</h2>
+          <button onClick={closeModal} className="text-gray-500 hover:text-gray-700">×</button>
+        </div>
         <input
           type="text"
           placeholder="Group Name"
@@ -91,13 +111,18 @@ const GroupModal = ({ closeModal }) => {
             </span>
           ))}
         </div>
-        <input
-          type="text"
-          placeholder="Add Users e.g. John, Piyush, Jane"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          className="w-full p-2 mb-4 border rounded"
-        />
+        <div className="relative mb-4">
+          <input
+            type="text"
+            placeholder="Add Users e.g. John, Piyush, Jane"
+            value={searchTerm}
+            onChange={handleSearch}
+            className="w-full p-2 border rounded"
+          />
+          <button className="absolute top-0 right-0 mt-2 mr-2" onClick={handleSearch}>
+            🔍
+          </button>
+        </div>
         <div className="user-list max-h-40 overflow-y-auto">
           {filteredUsers.map(user => (
             <div 
@@ -105,7 +130,6 @@ const GroupModal = ({ closeModal }) => {
               onClick={() => handleUserSelect(user)}
               className="flex items-center p-2 hover:bg-gray-100 cursor-pointer"
             >
-              <img src={user.avatar || 'default-avatar.png'} alt={user.firstName} className="w-8 h-8 rounded-full mr-2" />
               <div>
                 <div>{user.firstName} {user.lastName}</div>
                 <div className="text-sm text-gray-500">Email: {user.email}</div>
