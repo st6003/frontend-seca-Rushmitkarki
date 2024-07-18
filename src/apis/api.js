@@ -129,6 +129,9 @@ export const addToGroup = (data) => Api.put("/api/chat/groupadd", data, config);
 // remove from group
 export const removeFromGroup = (data) => Api.put("/api/chat/groupremove", data, config);
 
+// leave group
+export const leaveGroup = (data) => Api.put("/api/chat/groupleave", data, config);
+
 // sendMessage function
 export const sendMessage = (data) => Api.post("/api/message/send", data, config);
 
