@@ -15,6 +15,53 @@ import GroupModal from "./GroupModal";
 import "./chat.css";
 const ENDPOINT = "http://localhost:5000";
 
+const isSameSenderMargin = (messages, message, index, userId) => {
+  if (
+    index < messages.length - 1 &&
+    messages[index + 1].sender._id === message.sender._id &&
+    messages[index].sender._id !== userId
+  ) {
+    return 33;
+  } else if (
+    (index < messages.length - 1 &&
+      messages[index + 1].sender._id !== message.sender._id &&
+      messages[index].sender._id !== userId) ||
+    (index === messages.length - 1 && messages[index].sender._id !== userId)
+  ) {
+    return 0;
+  } else {
+    return "auto";
+  }
+};
+
+const isSameSender = (messages, message, index, userId) => {
+  return (
+    index < messages.length - 1 &&
+    (messages[index + 1].sender._id !== message.sender._id ||
+      messages[index + 1].sender._id === undefined) &&
+    messages[index].sender._id !== userId
+  );
+};
+
+const isLastMessage = (messages, index, userId) => {
+  return (
+    index === messages.length - 1 &&
+    messages[messages.length - 1].sender._id !== userId &&
+    messages[messages.length - 1].sender._id
+  );
+};
+
+const isSameUser = (messages, message, index) => {
+  return index > 0 && messages[index - 1].sender._id === message.sender._id;
+};
+
+const getSenderName = (loggedUser, users) => {
+  if (!users || users.length < 2) return "";
+  return users[0]?._id === loggedUser?._id
+    ? users[1].firstName
+    : users[0].firstName;
+};
+
 const Chat = () => {
   const [chats, setChats] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
@@ -305,7 +352,7 @@ const Chat = () => {
               </div>
               {!selectedChat.isGroupChat && showUserDetails && (
                 <div className="user-details visible">
-                  <h3>Receiver Details</h3>
+                  <h3>Receiver Details:</h3>
                   <p>
                     {selectedChat.users[1]?.firstName}{" "}
                     {selectedChat.users[1]?.lastName}
@@ -317,7 +364,7 @@ const Chat = () => {
               <div
                 className={`user-details ${showUserDetails ? "visible" : ""}`}
               >
-                <h3>User Details</h3>
+                <h3>User Details:</h3>
                 {selectedChat.users.map((user) => (
                   <div key={user._id}>
                     <p>
@@ -331,15 +378,21 @@ const Chat = () => {
                 {isLoadingChat ? (
                   <Skeleton count={10} />
                 ) : (
-                  messages.map((msg) => (
+                  messages.map((msg, index) => (
                     <div
                       key={msg._id}
-                      className={classNames("message", {
+                      className={classNames("message-container", {
                         sent: msg.sender._id === currentUser?._id,
                         received: msg.sender._id !== currentUser?._id,
                       })}
                     >
-                      {msg.content}
+                      {(isSameSender(messages, msg, index, currentUser?._id) ||
+                        isLastMessage(messages, index, currentUser?._id)) && (
+                        <div className="sender-name">
+                          {msg.sender.firstName}
+                        </div>
+                      )}
+                      <div className="message-content">{msg.content}</div>
                     </div>
                   ))
                 )}
