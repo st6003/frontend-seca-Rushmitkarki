@@ -8,6 +8,7 @@
     align-items: center;
     justify-content: center;
     background: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
   }
   
   .modal-content {
@@ -15,6 +16,18 @@
     padding: 20px;
     border-radius: 10px;
     width: 300px;
+    position: relative;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
   }
   
   .group-users {
@@ -25,8 +38,60 @@
   }
   
   .user-tag {
-    background: #e0e0e0;
+    display: flex;
+    align-items: center;
+    background: #6200ea;
+    color: white;
     padding: 5px 10px;
     border-radius: 20px;
+    font-size: 14px;
+  }
+  
+  .remove-user-btn {
+    background: none;
+    border: none;
+    color: white;
+    margin-left: 5px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  
+  .input-field {
+    width: calc(100% - 40px);
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 14px;
+  }
+  
+  .update-btn, .add-user-btn, .leave-group-btn {
+    width: calc(100% - 40px);
+    padding: 10px;
+    margin: 10px 0;
+    border: none;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+  }
+  
+  .update-btn {
+    background: #007bff;
+    color: white;
+  }
+  
+  .add-user-btn {
+    background: #28a745;
+    color: white;
+  }
+  
+  .leave-group-btn {
+    background: #dc3545;
+    color: white;
+  }
+  
+  .error-message {
+    color: red;
+    font-size: 14px;
   }
   
