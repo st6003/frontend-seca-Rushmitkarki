@@ -1,29 +1,24 @@
-import React, { useEffect, useState } from "react";
-import {
-  allMessages,
-  createChat,
-  getChat,
-  getSingleUser,
-  searchUsers,
-  sendMessage,
-} from "../../apis/api";
-import GroupModal from "./GroupModal";
-import "./chat.css";
-import Skeleton from "react-loading-skeleton";
-import classNames from "classnames";
+import React, { useState, useEffect } from 'react';
+import { getChat, createChat, getSingleUser, searchUsers, sendMessage, allMessages } from '../../apis/api';
+import GroupModal from './GroupModal';
+import './chat.css';
+import Skeleton from 'react-loading-skeleton';
+import classNames from 'classnames';
+import GroupDetailsModal from './GroupDetailsModal';
 
 const Chat = () => {
   const [chats, setChats] = useState([]);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [searchResults, setSearchResults] = useState([]);
-  const [showGroupModal, setShowGroupModal] = useState(false);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [searchResults, setSearchResults] = useState([]); // Ensure searchResults is used or remove if not needed
+  const [showGroupModal, setShowGroupModal] = useState(false); // Ensure showGroupModal is used or remove if not needed
   const [selectedChat, setSelectedChat] = useState(null);
   const [messages, setMessages] = useState([]);
-  const [newMessage, setNewMessage] = useState("");
+  const [newMessage, setNewMessage] = useState('');
   const [currentUser, setCurrentUser] = useState(null);
-  const [isSearching, setIsSearching] = useState(false);
+  const [isSearching, setIsSearching] = useState(false); // Ensure isSearching is used or remove if not needed
   const [isLoadingChat, setIsLoadingChat] = useState(false);
   const [showUserDetails, setShowUserDetails] = useState(false);
+  const [showGroupDetails, setShowGroupDetails] = useState(false);
 
   useEffect(() => {
     fetchChats();
@@ -35,7 +30,7 @@ const Chat = () => {
       const response = await getSingleUser();
       setCurrentUser(response.data);
     } catch (error) {
-      console.error("Failed to fetch current user", error);
+      console.error('Failed to fetch current user', error);
     }
   };
 
@@ -48,7 +43,7 @@ const Chat = () => {
         setChats([]);
       }
     } catch (error) {
-      console.error("Failed to fetch chats", error);
+      console.error('Failed to fetch chats', error);
       setChats([]);
     }
   };
@@ -56,28 +51,28 @@ const Chat = () => {
   const fetchMessages = async (chatId) => {
     try {
       setIsLoadingChat(true);
-      const response = await allMessages(chatId);
+      const response = await allMessages(chatId); 
       setMessages(response.data);
       setIsLoadingChat(false);
     } catch (error) {
-      console.error("Failed to fetch messages", error);
+      console.error('Failed to fetch messages', error);
       setIsLoadingChat(false);
     }
   };
 
   const handleSearch = async () => {
-    if (searchTerm.trim() === "") {
+    if (searchTerm.trim() === '') {
       setSearchResults([]);
       return;
     }
 
     try {
       setIsSearching(true);
-      const response = await searchUsers(searchTerm);
+      const response = await searchUsers(searchTerm); 
       setSearchResults(response.data.users);
       setIsSearching(false);
     } catch (error) {
-      console.error("Failed to search users", error);
+      console.error('Failed to search users', error);
       setIsSearching(false);
     }
   };
@@ -93,8 +88,7 @@ const Chat = () => {
   const handleUserSelect = async (user) => {
     try {
       const existingChat = chats.find(
-        (chat) =>
-          !chat.isGroupChat && chat.users.some((u) => u._id === user._id)
+        (chat) => !chat.isGroupChat && chat.users.some((u) => u._id === user._id)
       );
 
       if (existingChat) {
@@ -109,15 +103,15 @@ const Chat = () => {
       }
 
       setSearchResults([]);
-      setSearchTerm("");
+      setSearchTerm('');
     } catch (error) {
-      console.error("Failed to create chat", error);
+      console.error('Failed to create chat', error);
     }
   };
 
   const handleChatSelect = async (chat) => {
     setSelectedChat(chat);
-    setShowUserDetails(false);  // Reset user details visibility
+    setShowUserDetails(false);
     await fetchMessages(chat._id);
   };
 
@@ -129,14 +123,30 @@ const Chat = () => {
         chatId: selectedChat._id,
       });
       setMessages([...messages, response.data]);
-      setNewMessage("");
+      setNewMessage('');
     } catch (error) {
-      console.error("Failed to send message", error);
+      console.error('Failed to send message', error);
     }
   };
 
   const toggleUserDetails = () => {
     setShowUserDetails((prevShowUserDetails) => !prevShowUserDetails);
+  };
+
+  const handleEyeButtonClick = () => {
+    if (selectedChat.isGroupChat) {
+      setShowGroupDetails(true);
+    } else {
+      setShowUserDetails(!showUserDetails);
+    }
+  };
+
+  const handleGroupUpdate = async () => {
+    await fetchChats();
+    if (selectedChat) {
+      const updatedChat = chats.find(chat => chat._id === selectedChat._id);
+      setSelectedChat(updatedChat);
+    }
   };
 
   return (
@@ -168,7 +178,7 @@ const Chat = () => {
                 <li
                   key={chat._id}
                   onClick={() => handleChatSelect(chat)}
-                  className={classNames("chat-item", {
+                  className={classNames('chat-item', {
                     active: selectedChat && selectedChat._id === chat._id,
                   })}
                 >
@@ -178,7 +188,7 @@ const Chat = () => {
                   <small className="chat-item-preview">
                     {chat.latestMessage
                       ? `${chat.latestMessage.sender?.firstName}: ${chat.latestMessage.content}`
-                      : "No messages yet"}
+                      : 'No messages yet'}
                   </small>
                 </li>
               ))
@@ -192,22 +202,40 @@ const Chat = () => {
             <div className="chat-box">
               <div className="chat-box-header">
                 <button className="back-btn" onClick={() => setSelectedChat(null)}>
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-6 w-6"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7" />
                   </svg>
                 </button>
                 <h2 className="chat-box-title">
                   {selectedChat.isGroupChat ? selectedChat.chatName : selectedChat.users[1]?.firstName}
                 </h2>
-                <button className="eye-btn" onClick={toggleUserDetails}>
+                <button className="eye-btn" onClick={handleEyeButtonClick}>
                   👁️
                 </button>
               </div>
-              <div className={`user-details ${showUserDetails ? "visible" : ""}`}>
+              {!selectedChat.isGroupChat && showUserDetails && (
+                <div className="user-details visible">
+                  <h3>Receiver Details</h3>
+                  <p>
+                    {selectedChat.users[1]?.firstName} {selectedChat.users[1]?.lastName}
+                  </p>
+                  <p>{selectedChat.users[1]?.email}</p>
+                </div>
+              )}
+
+              <div className={`user-details ${showUserDetails ? 'visible' : ''}`}>
                 <h3>User Details</h3>
                 {selectedChat.users.map((user) => (
                   <div key={user._id}>
-                    <p>{user.firstName} {user.lastName}</p>
+                    <p>
+                      {user.firstName} {user.lastName}
+                    </p>
                     <p>{user.email}</p>
                   </div>
                 ))}
@@ -219,7 +247,7 @@ const Chat = () => {
                   messages.map((msg) => (
                     <div
                       key={msg._id}
-                      className={classNames("message", {
+                      className={classNames('message', {
                         sent: msg.sender._id === currentUser?._id,
                         received: msg.sender._id !== currentUser?._id,
                       })}
@@ -247,7 +275,19 @@ const Chat = () => {
           )}
         </div>
       </div>
-      {showGroupModal && <GroupModal closeModal={closeGroupModal} />}
+      {showGroupDetails && selectedChat && selectedChat.isGroupChat && (
+        <GroupDetailsModal
+          selectedChat={selectedChat}
+          currentUser={currentUser}
+          closeModal={() => setShowGroupDetails(false)}
+          onGroupUpdate={handleGroupUpdate} 
+        />
+      )}
+      {showGroupModal && (
+        <GroupModal
+          closeGroupModal={closeGroupModal} 
+        />
+      )}
     </div>
   );
 };
