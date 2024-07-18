@@ -1,6 +1,4 @@
-import classNames from "classnames";
 import React, { useEffect, useState } from "react";
-import Skeleton from "react-loading-skeleton";
 import socketIOClient from "socket.io-client";
 import {
   allMessages,
@@ -13,6 +11,7 @@ import {
 import GroupDetailsModal from "./GroupDetailsModal";
 import GroupModal from "./GroupModal";
 import "./chat.css";
+
 const ENDPOINT = "http://localhost:5000";
 
 const Chat = () => {
@@ -58,6 +57,7 @@ const Chat = () => {
       socket.off("updateChatList");
     };
   }, [socket]);
+
   const fetchCurrentUser = async () => {
     try {
       const response = await getSingleUser();
@@ -102,7 +102,8 @@ const Chat = () => {
     try {
       setIsSearching(true);
       const response = await searchUsers(searchTerm);
-      setSearchResults(response.data.users);
+      const results = response.data.users.filter(user => user._id !== currentUser._id);
+      setSearchResults(results);
       setIsSearching(false);
     } catch (error) {
       console.error("Failed to search users", error);
@@ -151,13 +152,13 @@ const Chat = () => {
 
   const handleSendMessage = async () => {
     if (!newMessage.trim() || !selectedChat) return;
-  
+
     try {
       const response = await sendMessage({
         content: newMessage,
         chatId: selectedChat._id,
       });
-  
+
       if (response.data) {
         if (socket && socket.connected) {
           socket.emit("sendMessage", { chatId: selectedChat._id, message: response.data });
@@ -169,12 +170,7 @@ const Chat = () => {
       }
     } catch (error) {
       console.error('Failed to send message', error);
-      // You could add a user-facing error message here
     }
-  };
-
-  const toggleUserDetails = () => {
-    setShowUserDetails((prevShowUserDetails) => !prevShowUserDetails);
   };
 
   const handleEyeButtonClick = () => {
@@ -208,6 +204,19 @@ const Chat = () => {
           <button className="search-btn" onClick={handleSearch}>
             🔍
           </button>
+          {searchResults.length > 0 && (
+            <ul className="search-results">
+              {searchResults.map((user) => (
+                <li
+                  key={user._id}
+                  onClick={() => handleUserSelect(user)}
+                  className="search-result-item"
+                >
+                  {user.firstName} {user.lastName}
+                </li>
+              ))}
+            </ul>
+          )}
         </div>
       </div>
       <div className="chat-content">
@@ -222,9 +231,7 @@ const Chat = () => {
                 <li
                   key={chat._id}
                   onClick={() => handleChatSelect(chat)}
-                  className={classNames("chat-item", {
-                    active: selectedChat && selectedChat._id === chat._id,
-                  })}
+                  className={`chat-item ${selectedChat && selectedChat._id === chat._id ? 'active' : ''}`}
                 >
                   <div className="chat-item-info">
                     {chat.isGroupChat
@@ -251,20 +258,7 @@ const Chat = () => {
                   className="back-btn"
                   onClick={() => setSelectedChat(null)}
                 >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-6 w-6"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M15 19l-7-7 7-7"
-                    />
-                  </svg>
+                  ←
                 </button>
                 <h2 className="chat-box-title">
                   {selectedChat.isGroupChat
@@ -285,31 +279,14 @@ const Chat = () => {
                   <p>{selectedChat.users[1]?.email}</p>
                 </div>
               )}
-
-              <div
-                className={`user-details ${showUserDetails ? "visible" : ""}`}
-              >
-                <h3>User Details</h3>
-                {selectedChat.users.map((user) => (
-                  <div key={user._id}>
-                    <p>
-                      {user.firstName} {user.lastName}
-                    </p>
-                    <p>{user.email}</p>
-                  </div>
-                ))}
-              </div>
               <div className="messages">
                 {isLoadingChat ? (
-                  <Skeleton count={10} />
+                  <p>Loading messages...</p>
                 ) : (
                   messages.map((msg) => (
                     <div
                       key={msg._id}
-                      className={classNames("message", {
-                        sent: msg.sender._id === currentUser?._id,
-                        received: msg.sender._id !== currentUser?._id,
-                      })}
+                      className={`message ${msg.sender._id === currentUser?._id ? 'sent' : 'received'}`}
                     >
                       {msg.content}
                     </div>

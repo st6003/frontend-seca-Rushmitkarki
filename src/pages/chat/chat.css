@@ -6,7 +6,7 @@
 }
 
 .chat-header {
-  background-color:#0c4a6e ;
+  background-color: #0c4a6e;
   color: white;
   padding: 10px 20px;
   display: flex;
@@ -22,6 +22,7 @@
 .search-container {
   display: flex;
   align-items: center;
+  position: relative;
 }
 
 .search-input {
@@ -29,6 +30,8 @@
   padding: 8px;
   border-radius: 20px;
   border: none;
+  text-decoration: solid;
+  color: black;
 }
 
 .search-btn {
@@ -37,6 +40,33 @@
   color: white;
   font-size: 20px;
   cursor: pointer;
+}
+
+.search-results {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background-color: rgb(12 74 110);
+  border: 1px solid #ccc;
+  border-top: none;
+  max-height: 200px;
+  overflow-y: auto;
+  z-index: 1000;
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.search-result-item {
+  padding: 10px;
+  cursor: pointer;
+  transition: rgb(12 74 110);
+}
+
+.search-result-item:hover {
+  background-color: #4CAF50;
+  color: rgb(24, 31, 108);
 }
 
 .chat-content {
@@ -52,14 +82,27 @@
   overflow-y: auto;
 }
 
-.chat-list ul li:hover {
+.chat-list ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.chat-item {
+  padding: 10px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.chat-item:hover, .chat-item.active {
   background-color: rgb(12, 74, 110);
+  color: rgb(52, 47, 96);
 }
 
 .new-group-btn {
   width: 100%;
   padding: 10px;
-  background-color: #0c4a6e ;
+  background-color: #0c4a6e;
   color: white;
   border: none;
   cursor: pointer;
@@ -102,6 +145,8 @@
   border: none;
   font-size: 20px;
   cursor: pointer;
+  padding: 5px 10px;
+  border-radius: 5px;
 }
 
 .messages {
@@ -118,7 +163,6 @@
   border-radius: 18px;
   margin-bottom: 10px;
   max-width: 70%;
-  background-color: rgb(235, 236, 238);
 }
 
 .message.sent {
@@ -157,17 +201,9 @@
 
 .user-details {
   display: none;
-  background-color: white;
+  background-color: rgb(12 74 110);
+  color: rgb(16, 2, 2);
   padding: 10px;
   border: 1px solid #ccc;
-  position: absolute;
-  top: 50px;
-  right: 20px;
-  width: 200px;
-  z-index: 1000;
-  border-radius: 10px;
-}
-
-.user-details.visible {
-  display: block;
+  position: absolute
 }
