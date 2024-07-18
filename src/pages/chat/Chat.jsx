@@ -9,13 +9,13 @@ import GroupDetailsModal from './GroupDetailsModal';
 const Chat = () => {
   const [chats, setChats] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
-  const [searchResults, setSearchResults] = useState([]); 
-  const [showGroupModal, setShowGroupModal] = useState(false); 
+  const [searchResults, setSearchResults] = useState([]); // Ensure searchResults is used or remove if not needed
+  const [showGroupModal, setShowGroupModal] = useState(false); // Ensure showGroupModal is used or remove if not needed
   const [selectedChat, setSelectedChat] = useState(null);
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState('');
   const [currentUser, setCurrentUser] = useState(null);
-  const [isSearching, setIsSearching] = useState(false); 
+  const [isSearching, setIsSearching] = useState(false); // Ensure isSearching is used or remove if not needed
   const [isLoadingChat, setIsLoadingChat] = useState(false);
   const [showUserDetails, setShowUserDetails] = useState(false);
   const [showGroupDetails, setShowGroupDetails] = useState(false);
@@ -24,7 +24,6 @@ const Chat = () => {
     fetchChats();
     fetchCurrentUser();
   }, []);
-
 
   const fetchCurrentUser = async () => {
     try {
@@ -284,8 +283,14 @@ const Chat = () => {
           onGroupUpdate={handleGroupUpdate} 
         />
       )}
-      {showGroupModal && <GroupModal closeModal={closeGroupModal} />}
-      
+       {showGroupModal && (
+        <GroupModal
+          currentUser={currentUser}
+          closeModal={closeGroupModal}
+          onGroupCreate={fetchChats}
+          onChatSelect={handleChatSelect}
+        />
+      )}
     </div>
   );
 };
