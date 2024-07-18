@@ -3,15 +3,21 @@ import { renameGroup, addToGroup, removeFromGroup, leaveGroup, searchUsers } fro
 import './groupDetailsModal.css';
 
 const GroupDetailsModal = ({ selectedChat, currentUser, closeModal, onGroupUpdate }) => {
-  const [groupName, setGroupName] = useState(selectedChat.chatName);
+  const [groupName, setGroupName] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const [selectedUsers, setSelectedUsers] = useState([]);
   const [error, setError] = useState('');
 
   useEffect(() => {
-    setGroupName(selectedChat.chatName);
+    if (selectedChat) {
+      setGroupName(selectedChat.chatName || '');
+    }
   }, [selectedChat]);
+
+  if (!selectedChat) {
+    return null; // or some placeholder UI
+  }
 
   const handleGroupNameChange = (e) => {
     setGroupName(e.target.value);
@@ -80,7 +86,7 @@ const GroupDetailsModal = ({ selectedChat, currentUser, closeModal, onGroupUpdat
   return (
     <div className="group-details-modal">
       <div className="modal-content">
-        <h2>Pals</h2>
+        <h2>Group List</h2>
         <div className="group-users">
           {selectedChat.users.map(user => (
             <span key={user._id} className="user-tag">
