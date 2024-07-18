@@ -74,22 +74,11 @@ const GroupModal = ({ closeModal }) => {
       });
 
       toast.success("Group created successfully!");
-      closeModal();
+      closeModal(); // Closing the modal after successful creation
     } catch (error) {
       console.error("Failed to create group", error);
     }
   };
-  <button onClick={closeModal} className="text-gray-500 hover:text-gray-700">
-    ×
-  </button>;
-
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
-  if (error) {
-    return <div>Error: {error}</div>;
-  }
 
   return (
     <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full flex items-center justify-center">
@@ -97,10 +86,7 @@ const GroupModal = ({ closeModal }) => {
         <ToastContainer />
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-xl font-bold">Create Group Chat</h2>
-          <button
-            onClick={closeModal}
-            className="text-gray-500 hover:text-gray-700"
-          >
+          <button onClick={closeModal} className="text-gray-500 hover:text-gray-700">
             ×
           </button>
         </div>
