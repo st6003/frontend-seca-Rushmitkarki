@@ -79,17 +79,6 @@ const GroupModal = ({ closeModal }) => {
       console.error("Failed to create group", error);
     }
   };
-  <button onClick={closeModal} className="text-gray-500 hover:text-gray-700">
-    ×
-  </button>;
-
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
-  if (error) {
-    return <div>Error: {error}</div>;
-  }
 
   return (
     <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full flex items-center justify-center">
