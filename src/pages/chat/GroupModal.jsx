@@ -137,12 +137,6 @@ const GroupModal = ({ closeModal }) => {
               key={user._id}
               onClick={() => handleUserSelect(user)}
               className="flex items-center p-2 hover:bg-gray-100 cursor-pointer"
-              style={{
-                backgroundColor:
-                  selectedUsers.find((u) => u._id === user._id)
-                    ? "#6ee7b7"
-                    : "transparent", // Adjust color as needed
-              }}
             >
               <div>
                 <div>

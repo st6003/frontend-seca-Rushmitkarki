@@ -23,6 +23,7 @@ import Insurance from "./pages/admin/insurance/Insurance";
 import Chat from "./pages/chat/Chat";
 
 
+
 function App() {
   return (
     
@@ -42,6 +43,7 @@ function App() {
           <Route path="/Homepage" element={<Homepage />} />
           <Route path="/Login" element={<Login />} />
           <Route path="/Register" element={<Register />} />
+        
           <Route element={<AdminRoutes />}>
             <Route path="/Admin/Dashboard" element={<AdminDashboard />} />
             <Route path="/DoctorsList" element={<DoctorsList />} />

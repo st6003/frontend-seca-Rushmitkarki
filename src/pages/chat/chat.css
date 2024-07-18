@@ -6,7 +6,7 @@
 }
 
 .chat-header {
-  background-color: #0c4a6e;
+  background-color:#0c4a6e ;
   color: white;
   padding: 10px 20px;
   display: flex;
@@ -22,16 +22,14 @@
 .search-container {
   display: flex;
   align-items: center;
-  position: relative;
 }
 
 .search-input {
   width: 190px;
   padding: 8px;
   border-radius: 20px;
-  border: none;
-  text-decoration: solid;
   color: black;
+  border: none;
 }
 
 .search-btn {
@@ -40,33 +38,6 @@
   color: white;
   font-size: 20px;
   cursor: pointer;
-}
-
-.search-results {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  right: 0;
-  background-color: rgb(12 74 110);
-  border: 1px solid #ccc;
-  border-top: none;
-  max-height: 200px;
-  overflow-y: auto;
-  z-index: 1000;
-  list-style-type: none;
-  padding: 0;
-  margin: 0;
-}
-
-.search-result-item {
-  padding: 10px;
-  cursor: pointer;
-  transition: rgb(12 74 110);
-}
-
-.search-result-item:hover {
-  background-color: #4CAF50;
-  color: rgb(24, 31, 108);
 }
 
 .chat-content {
@@ -82,27 +53,14 @@
   overflow-y: auto;
 }
 
-.chat-list ul {
-  list-style-type: none;
-  padding: 0;
-  margin: 0;
-}
-
-.chat-item {
-  padding: 10px;
-  cursor: pointer;
-  transition: background-color 0.2s;
-}
-
-.chat-item:hover, .chat-item.active {
+.chat-list ul li:hover {
   background-color: rgb(12, 74, 110);
-  color: rgb(52, 47, 96);
 }
 
 .new-group-btn {
   width: 100%;
   padding: 10px;
-  background-color: #0c4a6e;
+  background-color: #0c4a6e ;
   color: white;
   border: none;
   cursor: pointer;
@@ -145,8 +103,6 @@
   border: none;
   font-size: 20px;
   cursor: pointer;
-  padding: 5px 10px;
-  border-radius: 5px;
 }
 
 .messages {
@@ -163,6 +119,7 @@
   border-radius: 18px;
   margin-bottom: 10px;
   max-width: 70%;
+  background-color: rgb(235, 236, 238);
 }
 
 .message.sent {
@@ -201,9 +158,65 @@
 
 .user-details {
   display: none;
-  background-color: rgb(12 74 110);
-  color: rgb(16, 2, 2);
+  background-color: white;
   padding: 10px;
   border: 1px solid #ccc;
-  position: absolute
+  position: absolute;
+  top: 50px;
+  right: 20px;
+  width: 200px;
+  z-index: 1000;
+  border-radius: 10px;
+}
+
+.user-details.visible {
+  display: block;
+}
+.search-results {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  background-color: rgb(12 74 110);
+  border: 1px solid #ab5959;
+  border-top: none;
+  border-radius: 0 0 4px 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.search-results h3 {
+  padding: 10px;
+  margin: 0;
+  background-color: #0e764c;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.search-results ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.search-results li {
+  padding: 10px;
+  border-bottom: 1px solid #e0e0e0;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.search-results li:last-child {
+  border-bottom: none;
+}
+
+.search-results li:hover {
+  background-color: #265ca8;
+  color: white;
+}
+
+
+.search-container {
+  position: relative;
 }
