@@ -376,25 +376,52 @@ const Chat = () => {
               </div>
               <div className="messages">
                 {isLoadingChat ? (
-                  <Skeleton count={10} />
+                  <Skeleton count={5} height={40} />
                 ) : (
-                  messages.map((msg, index) => (
-                    <div
-                      key={msg._id}
-                      className={classNames("message-container", {
-                        sent: msg.sender._id === currentUser?._id,
-                        received: msg.sender._id !== currentUser?._id,
-                      })}
-                    >
-                      {(isSameSender(messages, msg, index, currentUser?._id) ||
-                        isLastMessage(messages, index, currentUser?._id)) && (
-                        <div className="sender-name">
-                          {msg.sender.firstName}
-                        </div>
-                      )}
-                      <div className="message-content">{msg.content}</div>
-                    </div>
-                  ))
+                  <div className="chat-box-messages">
+                    {messages.map((message, index) => (
+                      <div
+                        key={message._id}
+                        className={classNames("message", {
+                          "my-message": message.sender._id === currentUser?._id,
+                          "their-message":
+                            message.sender._id !== currentUser?._id,
+                        })}
+                        style={{
+                          marginLeft:
+                            message.sender._id === currentUser._id
+                              ? "auto"
+                              : "0",
+                          marginRight:
+                            message.sender._id !== currentUser._id
+                              ? "auto"
+                              : "0",
+                          marginBottom: isSameSenderMargin(
+                            messages,
+                            message,
+                            index,
+                            currentUser._id
+                          ),
+                          marginTop: isSameUser(messages, message, index)
+                            ? 3
+                            : 10,
+                        }}
+                      >
+                        {(isSameSender(
+                          messages,
+                          message,
+                          index,
+                          currentUser._id
+                        ) ||
+                          isLastMessage(messages, index, currentUser._id)) && (
+                          <div className="message-sender">
+                            {message.sender.firstName}
+                          </div>
+                        )}
+                        <div className="message-content">{message.content}</div>
+                      </div>
+                    ))}
+                  </div>
                 )}
               </div>
               <div className="chat-input">
