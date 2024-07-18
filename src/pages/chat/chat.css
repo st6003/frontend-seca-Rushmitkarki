@@ -28,6 +28,7 @@
   width: 190px;
   padding: 8px;
   border-radius: 20px;
+  color: black;
   border: none;
 }
 
@@ -170,4 +171,52 @@
 
 .user-details.visible {
   display: block;
+}
+.search-results {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  background-color: rgb(12 74 110);
+  border: 1px solid #ab5959;
+  border-top: none;
+  border-radius: 0 0 4px 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.search-results h3 {
+  padding: 10px;
+  margin: 0;
+  background-color: #0e764c;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.search-results ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.search-results li {
+  padding: 10px;
+  border-bottom: 1px solid #e0e0e0;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.search-results li:last-child {
+  border-bottom: none;
+}
+
+.search-results li:hover {
+  background-color: #265ca8;
+  color: white;
+}
+
+
+.search-container {
+  position: relative;
 }

@@ -151,25 +151,27 @@ const Chat = () => {
 
   const handleSendMessage = async () => {
     if (!newMessage.trim() || !selectedChat) return;
-  
+
     try {
       const response = await sendMessage({
         content: newMessage,
         chatId: selectedChat._id,
       });
-  
+
       if (response.data) {
         if (socket && socket.connected) {
-          socket.emit("sendMessage", { chatId: selectedChat._id, message: response.data });
+          socket.emit("sendMessage", {
+            chatId: selectedChat._id,
+            message: response.data,
+          });
         }
         setMessages((prevMessages) => [...prevMessages, response.data]);
-        setNewMessage('');
+        setNewMessage("");
       } else {
-        console.error('Invalid response from server');
+        console.error("Invalid response from server");
       }
     } catch (error) {
-      console.error('Failed to send message', error);
-      // You could add a user-facing error message here
+      console.error("Failed to send message", error);
     }
   };
 
@@ -208,7 +210,33 @@ const Chat = () => {
           <button className="search-btn" onClick={handleSearch}>
             🔍
           </button>
+          {isSearching && <div className="searching">Searching...</div>}
+          {searchResults.length > 0 && (
+            <div className="search-results">
+              <h3>Search Results</h3>
+              <ul>
+                {searchResults.map((user) => (
+                  <li key={user._id} onClick={() => handleUserSelect(user)}>
+                    {user.firstName} {user.lastName}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
         </div>
+        {isSearching && <div className="searching">Searching...</div>}
+        {searchResults.length > 0 && (
+          <div className="search-results">
+            <h3>Search Results</h3>
+            <ul>
+              {searchResults.map((user) => (
+                <li key={user._id} onClick={() => handleUserSelect(user)}>
+                  {user.firstName} {user.lastName}
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
       </div>
       <div className="chat-content">
         <div className="chat-list">
