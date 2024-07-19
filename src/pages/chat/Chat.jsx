@@ -1,7 +1,10 @@
 import classNames from "classnames";
+import Lottie from "lottie-react";
 import React, { useEffect, useState } from "react";
 import Skeleton from "react-loading-skeleton";
 import socketIOClient from "socket.io-client";
+import typingAnimation from "./typing-animation.json";
+
 import {
   allMessages,
   createChat,
@@ -76,6 +79,9 @@ const Chat = () => {
   const [showUserDetails, setShowUserDetails] = useState(false);
   const [showGroupDetails, setShowGroupDetails] = useState(false);
   const [socket, setSocket] = useState(null);
+  const [isTyping, setIsTyping] = useState(false);
+  const [unreadCount, setUnreadCount] = useState(0);
+  const [unreadMessages, setUnreadMessages] = useState({});
 
   useEffect(() => {
     const socket = socketIOClient(ENDPOINT);
@@ -105,6 +111,71 @@ const Chat = () => {
       socket.off("updateChatList");
     };
   }, [socket]);
+  // notification
+  useEffect(() => {
+    if (!socket) return;
+
+    socket.on("receiveMessage", (message) => {
+      setMessages((prevMessages) => [...prevMessages, message]);
+
+      if (!selectedChat || message.chat !== selectedChat._id) {
+        setUnreadMessages((prev) => ({
+          ...prev,
+          [message.chat]: (prev[message.chat] || 0) + 1,
+        }));
+        setUnreadCount((prev) => prev + 1);
+      }
+    });
+
+    socket.on("updateChatList", () => {
+      fetchChats();
+    });
+
+    return () => {
+      socket.off("receiveMessage");
+      socket.off("updateChatList");
+    };
+  }, [socket, selectedChat]);
+
+  useEffect(() => {
+    if (!socket) return;
+
+    socket.on("typing", ({ chatId }) => {
+      if (selectedChat && selectedChat._id === chatId) {
+        setIsTyping(true);
+      }
+    });
+
+    socket.on("stopTyping", ({ chatId }) => {
+      if (selectedChat && selectedChat._id === chatId) {
+        setIsTyping(false);
+      }
+    });
+
+    return () => {
+      socket.off("typing");
+      socket.off("stopTyping");
+    };
+  }, [socket, selectedChat]);
+
+  const handleTyping = () => {
+    if (!socket || !selectedChat) return;
+
+    socket.emit("typing", { chatId: selectedChat._id });
+
+    let lastTypingTime = new Date().getTime();
+    const timerLength = 3000;
+
+    setTimeout(() => {
+      const timeNow = new Date().getTime();
+      const timeDiff = timeNow - lastTypingTime;
+
+      if (timeDiff >= timerLength) {
+        socket.emit("stopTyping", { chatId: selectedChat._id });
+      }
+    }, timerLength);
+  };
+  // fetch user
   const fetchCurrentUser = async () => {
     try {
       const response = await getSingleUser();
@@ -118,7 +189,10 @@ const Chat = () => {
     try {
       const response = await getChat();
       if (response.data && Array.isArray(response.data)) {
-        setChats(response.data);
+        const sortedChats = response.data.sort((a, b) => {
+          return new Date(b.updatedAt) - new Date(a.updatedAt);
+        });
+        setChats(sortedChats);
       } else {
         setChats([]);
       }
@@ -189,11 +263,19 @@ const Chat = () => {
       console.error("Failed to create chat", error);
     }
   };
-
   const handleChatSelect = async (chat) => {
     setSelectedChat(chat);
     setShowUserDetails(false);
     await fetchMessages(chat._id);
+
+    setUnreadMessages((prev) => {
+      const newUnreadMessages = { ...prev };
+      delete newUnreadMessages[chat._id];
+      return newUnreadMessages;
+    });
+    setUnreadCount((prev) =>
+      Math.max(0, prev - (unreadMessages[chat._id] || 0))
+    );
   };
 
   const handleSendMessage = async () => {
@@ -246,44 +328,39 @@ const Chat = () => {
     <div className="chat-interface">
       <div className="chat-header">
         <h1 className="chat-title">Connect in Memory Guardian</h1>
-        <div className="search-container">
-          <input
-            type="text"
-            placeholder="Search User"
-            className="search-input"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
-          <button className="search-btn" onClick={handleSearch}>
-            🔍
-          </button>
-          {isSearching && <div className="searching">Searching...</div>}
-          {searchResults.length > 0 && (
-            <div className="search-results">
-              <h3>Search Results</h3>
-              <ul>
-                {searchResults.map((user) => (
-                  <li key={user._id} onClick={() => handleUserSelect(user)}>
-                    {user.firstName} {user.lastName}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
-        </div>
-        {isSearching && <div className="searching">Searching...</div>}
-        {searchResults.length > 0 && (
-          <div className="search-results">
-            <h3>Search Results</h3>
-            <ul>
-              {searchResults.map((user) => (
-                <li key={user._id} onClick={() => handleUserSelect(user)}>
-                  {user.firstName} {user.lastName}
-                </li>
-              ))}
-            </ul>
+        <div className="header-actions">
+          <div className="notification-bell">
+            <span className="bell-icon">🔔</span>
+            {unreadCount > 0 && (
+              <span className="notification-count">{unreadCount}</span>
+            )}
           </div>
-        )}
+          <div className="search-container">
+            <input
+              type="text"
+              placeholder="Search User"
+              className="search-input"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+            <button className="search-btn" onClick={handleSearch}>
+              🔍
+            </button>
+            {isSearching && <div className="searching">Searching...</div>}
+            {searchResults.length > 0 && (
+              <div className="search-results">
+                <h3>Search Results</h3>
+                <ul>
+                  {searchResults.map((user) => (
+                    <li key={user._id} onClick={() => handleUserSelect(user)}>
+                      {user.firstName} {user.lastName}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </div>
+        </div>
       </div>
       <div className="chat-content">
         <div className="chat-list">
@@ -292,30 +369,29 @@ const Chat = () => {
           </button>
           <h3 className="font-bold">Chat History</h3>
           <ul>
-            {chats.length > 0 ? (
-              chats.map((chat) => (
-                <li
-                  key={chat._id}
-                  onClick={() => handleChatSelect(chat)}
-                  className={classNames("chat-item", {
-                    active: selectedChat && selectedChat._id === chat._id,
-                  })}
-                >
-                  <div className="chat-item-info">
-                    {chat.isGroupChat
-                      ? chat.chatName
-                      : chat.users[1]?.firstName}
-                  </div>
-                  <small className="chat-item-preview">
-                    {chat.latestMessage
-                      ? `${chat.latestMessage.sender?.firstName}: ${chat.latestMessage.content}`
-                      : "No messages yet"}
-                  </small>
-                </li>
-              ))
-            ) : (
-              <li>No chats available</li>
-            )}
+            {chats.map((chat) => (
+              <li
+                key={chat._id}
+                onClick={() => handleChatSelect(chat)}
+                className={classNames("chat-item", {
+                  active: selectedChat && selectedChat._id === chat._id,
+                })}
+              >
+                <div className="chat-item-info">
+                  {chat.isGroupChat ? chat.chatName : chat.users[1]?.firstName}
+                  {unreadMessages[chat._id] > 0 && (
+                    <span className="unread-count">
+                      {unreadMessages[chat._id]}
+                    </span>
+                  )}
+                </div>
+                <small className="chat-item-preview">
+                  {chat.latestMessage
+                    ? `${chat.latestMessage.sender?.firstName}: ${chat.latestMessage.content}`
+                    : "No messages yet"}
+                </small>
+              </li>
+            ))}
           </ul>
         </div>
         <div className="chat-area">
@@ -357,7 +433,6 @@ const Chat = () => {
                     {selectedChat.users[1]?.firstName}{" "}
                     {selectedChat.users[1]?.lastName}
                   </p>
-                  <p>{selectedChat.users[1]?.email}</p>
                 </div>
               )}
 
@@ -370,7 +445,6 @@ const Chat = () => {
                     <p>
                       {user.firstName} {user.lastName}
                     </p>
-                    <p>{user.email}</p>
                   </div>
                 ))}
               </div>
@@ -430,8 +504,16 @@ const Chat = () => {
                   placeholder="Type a message"
                   className="message-input"
                   value={newMessage}
-                  onChange={(e) => setNewMessage(e.target.value)}
+                  onChange={(e) => {
+                    setNewMessage(e.target.value);
+                    handleTyping();
+                  }}
                 />
+                {isTyping && (
+                  <div className="typing-indicator">
+                    <Lottie animationData={typingAnimation} loop={true} />
+                  </div>
+                )}
                 <button className="send-btn" onClick={handleSendMessage}>
                   Send
                 </button>
