@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { doctorPagination, getDoctorCount } from '../../apis/api';
 import DoctorCard from '../../components/DoctorCard';
+import UserNavbar from '../../components/UserNavbar';  
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const Doctor = () => {
   const [doctors, setDoctors] = useState([]);
@@ -10,10 +14,9 @@ const Doctor = () => {
   const [doctorCount, setDoctorCount] = useState(0);
   const [searchQuery, setSearchQuery] = useState("");
   const [sortOrder, setSortOrder] = useState("asc");
-  const limit = 4;
+  const limit = 8;
 
   useEffect(() => {
-    // Fetch doctor count
     getDoctorCount()
       .then((res) => {
         const count = res.data.doctorCount;
@@ -24,7 +27,6 @@ const Doctor = () => {
         setError(err.response?.data?.message || "An error occurred");
       });
 
-    // Fetch doctors for the current page
     fetchDoctors(page, searchQuery, sortOrder);
   }, [page, searchQuery, sortOrder]);
 
@@ -54,119 +56,87 @@ const Doctor = () => {
   };
 
   return (
-    <>
-    <div className="container mt-5">
-    
-      <div className="container" style={{ marginLeft: "20rem" }}>
-        <div className="flex flex-col">
-          <div>
-            <div className="flex justify-between items-center my-4">
-              <input
-                type="text"
-                placeholder="Search doctors..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="p-2 border rounded"
-              />
-              <button
-                onClick={handleSearch}
-                className="p-2 bg-blue-500 text-white rounded"
-              >
-                Search
-              </button>
-              <div>
-                <button
-                  onClick={() => handleSort("asc")}
-                  className={`p-2 mx-1 ${
-                    sortOrder === "asc" ? "bg-blue-500 text-white" : "bg-gray-200"
-                  } rounded`}
-                >
-                  Sort by Price: Low to High
-                </button>
-                <button
-                  onClick={() => handleSort("desc")}
-                  className={`p-2 mx-1 ${
-                    sortOrder === "desc" ? "bg-blue-500 text-white" : "bg-gray-200"
-                  } rounded`}
-                >
-                  Sort by Price: High to Low
-                </button>
-              </div>
-            </div>
+    <div className="flex min-h-screen bg-gray-100">
+      <UserNavbar /> 
+
+      {/* Main Content */}
+      <div className="ml-64 flex-1 p-8">
+        <div className="flex justify-between items-center mb-8">
+          <div className="flex-1 mr-4">
+            <input
+              type="text"
+              placeholder="Search doctors..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full p-3 border rounded-lg"
+            />
           </div>
-          <div>
-            {/* Doctors List */}
-            <h2 className="mt-5 text-2xl font-bold">Meet our Professional Doctors</h2>
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mt-4">
-              {error ? (
-                <h1>{error}</h1>
-              ) : (
-                doctors.map((singleDoctor, index) => (
-                  <div key={singleDoctor._id || index}>
-                    <DoctorCard doctorInformation={singleDoctor} color={"red"} />
-                  </div>
-                ))
-              )}
-            </div>
-            {/* Pagination */}
-            <nav aria-label="Page navigation example" className="mt-5">
-              <ul className="pagination justify-content-center">
-                <li className={`page-item ${page === 1 ? "disabled" : ""}`}>
-                  <button
-                    className="page-link"
-                    onClick={() => handlePagination(1)}
-                  >
-                    First
-                  </button>
-                </li>
-                <li className={`page-item ${page === 1 ? "disabled" : ""}`}>
-                  <button
-                    className="page-link"
-                    onClick={() => handlePagination(page - 1)}
-                  >
-                    Previous
-                  </button>
-                </li>
-                {Array.from({ length: totalPages }, (_, i) => (
-                  <li
-                    key={i}
-                    className={`page-item ${page === i + 1 ? "active" : ""}`}
-                  >
-                    <button
-                      className="page-link"
-                      onClick={() => handlePagination(i + 1)}
-                    >
-                      {i + 1}
-                    </button>
-                  </li>
-                ))}
-                <li
-                  className={`page-item ${page === totalPages ? "disabled" : ""}`}
-                >
-                  <button
-                    className="page-link"
-                    onClick={() => handlePagination(page + 1)}
-                  >
-                    Next
-                  </button>
-                </li>
-                <li
-                  className={`page-item ${page === totalPages ? "disabled" : ""}`}
-                >
-                  <button
-                    className="page-link"
-                    onClick={() => handlePagination(totalPages)}
-                  >
-                    Last
-                  </button>
-                </li>
-              </ul>
-            </nav>
+          <button
+            onClick={handleSearch}
+            className="bg-blue-500 text-white px-6 py-3 rounded-lg"
+          >
+            Search
+          </button>
+          <div className="ml-4">
+            <button
+              onClick={() => handleSort("asc")}
+              className={`px-4 py-2 rounded-lg ${sortOrder === "asc" ? "bg-blue-500 text-white" : "bg-gray-200"}`}
+            >
+              Price: Low to High
+            </button>
+            <button
+              onClick={() => handleSort("desc")}
+              className={`px-4 py-2 rounded-lg ml-2 ${sortOrder === "desc" ? "bg-blue-500 text-white" : "bg-gray-200"}`}
+            >
+              Price: High to Low
+            </button>
           </div>
         </div>
+
+        <h2 className="text-3xl font-bold mb-6">Meet our Professional Doctors</h2>
+
+        {error ? (
+          <p className="text-red-500">{error}</p>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {doctors.map((doctor) => (
+              <DoctorCard key={doctor._id} doctorInformation={doctor} />
+            ))}
+          </div>
+        )}
+
+        <div className="mt-8 flex justify-center">
+          <nav>
+            <ul className="flex space-x-2">
+              <li>
+                <button onClick={() => handlePagination(1)} className="px-4 py-2 bg-gray-200 rounded-lg" disabled={page === 1}>First</button>
+              </li>
+              <li>
+                <button onClick={() => handlePagination(page - 1)} className="px-4 py-2 bg-gray-200 rounded-lg" disabled={page === 1}>Previous</button>
+              </li>
+              {Array.from({ length: totalPages }, (_, i) => (
+                <li key={i}>
+                  <button
+                    onClick={() => handlePagination(i + 1)}
+                    className={`px-4 py-2 rounded-lg ${page === i + 1 ? "bg-blue-500 text-white" : "bg-gray-200"}`}
+                  >
+                    {i + 1}
+                  </button>
+                </li>
+              ))}
+              <li>
+                <button onClick={() => handlePagination(page + 1)} className="px-4 py-2 bg-gray-200 rounded-lg" disabled={page === totalPages}>Next</button>
+              </li>
+              <li>
+                <button onClick={() => handlePagination(totalPages)} className="px-4 py-2 bg-gray-200 rounded-lg" disabled={page === totalPages}>Last</button>
+              </li>
+            </ul>
+          </nav>
+        </div>
+
+        <ToastContainer />
       </div>
-      </div>
-    </>
+    </div>
   );
 };
 

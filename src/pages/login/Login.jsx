@@ -1,12 +1,9 @@
-import "@fortawesome/fontawesome-free/css/all.min.css";
 import React, { useState } from "react";
 import { toast } from "react-toastify";
-import {
-  forgotPasswordApi,
-  loginUserApi,
-  resetPasswordApi,
-} from "../../apis/api";
+import { loginUserApi, forgotPasswordApi, resetPasswordApi } from "../../apis/api";
 import "./Login.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEnvelope, faLock, faPhone } from "@fortawesome/free-solid-svg-icons";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -15,33 +12,24 @@ const Login = () => {
   const [otp, setOtp] = useState("");
   const [resetPassword, setResetPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [emailError, setEmailError] = useState("");
-  const [passwordError, setPasswordError] = useState("");
+  const [errors, setErrors] = useState({});
   const [isSentOtp, setIsSentOtp] = useState(false);
 
-  const handleEmail = (e) => {
-    setEmail(e.target.value);
-    if (e.target.value.trim() !== "") setEmailError("");
-  };
-
-  const handlePassword = (e) => {
-    setPassword(e.target.value);
-    if (e.target.value.trim() !== "") setPasswordError("");
-  };
-
   const validate = () => {
+    let validationErrors = {};
     let isValid = true;
 
     if (email.trim() === "" || !email.includes("@")) {
-      setEmailError("Email is empty or invalid");
+      validationErrors.email = "Email is empty or invalid";
       isValid = false;
     }
 
     if (password.trim() === "") {
-      setPasswordError("Password is required");
+      validationErrors.password = "Password is required";
       isValid = false;
     }
 
+    setErrors(validationErrors);
     return isValid;
   };
 
@@ -52,10 +40,7 @@ const Login = () => {
       return;
     }
 
-    const data = {
-      email: email,
-      password: password,
-    };
+    const data = { email, password };
 
     loginUserApi(data)
       .then((res) => {
@@ -63,22 +48,30 @@ const Login = () => {
           toast.error(res.data.message);
         } else {
           toast.success(res.data.message);
-
           localStorage.setItem("token", res.data.token);
           localStorage.setItem("user", JSON.stringify(res.data.user));
-
-          const convertedUser = JSON.stringify(res.data.userData);
-          localStorage.setItem("user", convertedUser);
-
-          if (res.data.userData.isAdmin) {
-            window.location.href = "/admin/dashboard";
-          } else {
-            window.location.href = "/";
-          }
+          window.location.href = res.data.userData.isAdmin ? "/admin/dashboard" : "/";
         }
       })
-      .catch((error) => {
+      .catch(() => {
         toast.error("Login failed");
+      });
+  };
+
+  const handleForgotPassword = (e) => {
+    e.preventDefault();
+    if (phone.trim() === "") {
+      toast.warning("Please enter phone number");
+      return;
+    }
+
+    forgotPasswordApi({ phone })
+      .then((res) => {
+        toast.success(res.data.message);
+        setIsSentOtp(true);
+      })
+      .catch((err) => {
+        toast.error(err.response?.data.message || "Something went wrong");
       });
   };
 
@@ -89,199 +82,138 @@ const Login = () => {
       return;
     }
 
-    resetPasswordApi({ phone: phone, otp: otp, password: resetPassword })
+    resetPasswordApi({ phone, otp, password: resetPassword })
       .then(() => {
         toast.success("Password reset successfully");
       })
       .catch((err) => {
-        toast.error(err.response.data.message);
-      });
-  };
-
-  const handleForgotPassword = (e) => {
-    e.preventDefault();
-
-    if (phone.trim() === "") {
-      toast.warning("Please enter phone number");
-      return;
-    }
-
-    forgotPasswordApi({ phone: phone })
-      .then((res) => {
-        toast.success(res.data.message);
-        setIsSentOtp(true);
-      })
-      .catch((err) => {
-        if (err.response) {
-          toast.error(err.response.data.message);
-        } else {
-          console.log(err);
-          toast.error("Something went wrong");
-        }
+        toast.error(err.response?.data.message || "Reset failed");
       });
   };
 
   return (
-    <div className="container mt-5">
-      <div className="row justify-content-center align-items-center">
-        <div className="col-md-6 d-flex justify-content-center align-items-center logo-container">
-          <img
-            src="/assets/images/logo.png"
-            alt="Logo"
-            className="img-fluid logo"
-            height={400}
-            width={400}
-          />
+    <div className="login-container">
+      <div className="left-side">
+        <h2>Welcome to the Memory Guardian</h2>
+        <p>Connect with our doctors and users</p>
+        <div className="illustration">
+          <img src="/assets/images/logo.png" alt="logo" />
         </div>
-        <div className="col-md-6 form-container">
-          <div className="card login-card">
-            <div className="card-body">
-              <h2 className="card-title text-center mb-4">Login</h2>
-              <form onSubmit={handleSubmit}>
-                <div className="mb-4">
-                  <label htmlFor="email" className="form-label">
-                    Email Address:
-                  </label>
-                  <input
-                    type="email"
-                    className="form-control"
-                    id="email"
-                    placeholder="Enter email"
-                    onChange={handleEmail}
-                    required
-                  />
-                  {emailError && <p className="text-danger">{emailError}</p>}
-                </div>
-                <div className="mb-3">
-                  <label htmlFor="password" className="form-label">
-                    Password:
-                  </label>
-                  <input
-                    type="password"
-                    className="form-control"
-                    id="password"
-                    placeholder="Enter password"
-                    onChange={handlePassword}
-                    required
-                  />
-                  {passwordError && (
-                    <p className="text-danger">{passwordError}</p>
-                  )}
-                </div>
-                <button
-                  type="submit"
-                  className="btn btn-primary btn-block w-100 mt-3"
-                >
-                  Login
-                </button>
-                <div className="text-center mt-3">
-                  <button
-                    className="btn btn-link"
-                    data-bs-toggle="modal"
-                    data-bs-target="#forgotPasswordModal"
-                  >
-                    Forgot Password?
-                  </button>
-                </div>
-              </form>
+        <div className="company-name">Memory Guardian</div>
+      </div>
+      <div className="right-side">
+        <h2>Login</h2>
+        <div className="form-box">
+          <form onSubmit={handleSubmit}>
+            <div className="form-group">
+              <label htmlFor="email">
+                <FontAwesomeIcon icon={faEnvelope} className="icon" />
+                <span className="separator">||</span>
+                Email
+              </label>
+              <input
+                type="email"
+                id="email"
+                value={email}
+                placeholder="Email"
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
+              {errors.email && <span className="error">{errors.email}</span>}
             </div>
-          </div>
+
+            <div className="form-group">
+              <label htmlFor="password">
+                <FontAwesomeIcon icon={faLock} className="icon" />
+                <span className="separator">||</span>
+                Password
+              </label>
+              <input
+                type="password"
+                id="password"
+                value={password}
+                placeholder="Password"
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
+              {errors.password && <span className="error">{errors.password}</span>}
+            </div>
+
+            <button type="submit" className="login-btn">
+              Login
+            </button>
+          </form>
+          <button
+            className="forgot-password-btn"
+            onClick={() => document.getElementById('forgotPasswordModal').style.display = 'block'}
+          >
+            Forgot Password?
+          </button>
         </div>
       </div>
 
       {/* Forgot Password Modal */}
-      <div
-        className="modal fade"
-        id="forgotPasswordModal"
-        tabIndex="-1"
-        aria-labelledby="forgotPasswordModalLabel"
-        aria-hidden="true"
-      >
-        <div className="modal-dialog">
-          <div className="modal-content">
-            <div className="modal-header">
-              <h5 className="modal-title" id="forgotPasswordModalLabel">
-                Forgot Password
-              </h5>
-              <button
-                type="button"
-                className="btn-close"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-              ></button>
-            </div>
-            <div className="modal-body">
-              {!isSentOtp ? (
-                <form onSubmit={handleForgotPassword}>
-                  <div className="mb-3">
-                    <label htmlFor="phone" className="form-label">
-                      Phone Number:
-                    </label>
-                    <input
-                      type="tel"
-                      className="form-control"
-                      id="phone"
-                      placeholder="Enter phone number"
-                      value={phone}
-                      onChange={(e) => setPhone(e.target.value)}
-                      required
-                    />
-                  </div>
-                  <button type="submit" className="btn btn-primary btn-block">
-                    Send OTP
-                  </button>
-                </form>
-              ) : (
-                <form onSubmit={handleReset}>
-                  <div className="mb-3">
-                    <label htmlFor="otp" className="form-label">
-                      OTP:
-                    </label>
-                    <input
-                      type="number"
-                      className="form-control"
-                      id="otp"
-                      placeholder="Enter OTP"
-                      value={otp}
-                      onChange={(e) => setOtp(e.target.value)}
-                      required
-                    />
-                  </div>
-                  <div className="mb-3">
-                    <label htmlFor="resetPassword" className="form-label">
-                      New Password:
-                    </label>
-                    <input
-                      type="password"
-                      className="form-control"
-                      id="resetPassword"
-                      placeholder="Enter new password"
-                      value={resetPassword}
-                      onChange={(e) => setResetPassword(e.target.value)}
-                      required
-                    />
-                  </div>
-                  <div className="mb-3">
-                    <label htmlFor="confirmPassword" className="form-label">
-                      Confirm Password:
-                    </label>
-                    <input
-                      type="password"
-                      className="form-control"
-                      id="confirmPassword"
-                      placeholder="Confirm new password"
-                      value={confirmPassword}
-                      onChange={(e) => setConfirmPassword(e.target.value)}
-                      required
-                    />
-                  </div>
-                  <button type="submit" className="btn btn-primary btn-block">
-                    Reset Password
-                  </button>
-                </form>
-              )}
-            </div>
-          </div>
+      <div id="forgotPasswordModal" className="modal">
+        <div className="modal-content">
+          <span className="close" onClick={() => document.getElementById('forgotPasswordModal').style.display = 'none'}>&times;</span>
+          <h2>Forgot Password</h2>
+          {!isSentOtp ? (
+            <form onSubmit={handleForgotPassword}>
+              <div className="form-group">
+                <label htmlFor="phone">
+                  <FontAwesomeIcon icon={faPhone} className="icon" />
+                  <span className="separator">||</span>
+                  Phone Number
+                </label>
+                <input
+                  type="tel"
+                  id="phone"
+                  value={phone}
+                  placeholder="Enter phone number"
+                  onChange={(e) => setPhone(e.target.value)}
+                  required
+                />
+              </div>
+              <button type="submit" className="send-otp-btn">Send OTP</button>
+            </form>
+          ) : (
+            <form onSubmit={handleReset}>
+              <div className="form-group">
+                <label htmlFor="otp">OTP</label>
+                <input
+                  type="number"
+                  id="otp"
+                  value={otp}
+                  placeholder="Enter OTP"
+                  onChange={(e) => setOtp(e.target.value)}
+                  required
+                />
+              </div>
+              <div className="form-group">
+                <label htmlFor="resetPassword">New Password</label>
+                <input
+                  type="password"
+                  id="resetPassword"
+                  value={resetPassword}
+                  placeholder="Enter new password"
+                  onChange={(e) => setResetPassword(e.target.value)}
+                  required
+                />
+              </div>
+              <div className="form-group">
+                <label htmlFor="confirmPassword">Confirm Password</label>
+                <input
+                  type="password"
+                  id="confirmPassword"
+                  value={confirmPassword}
+                  placeholder="Confirm new password"
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  required
+                />
+              </div>
+              <button type="submit" className="reset-password-btn">Reset Password</button>
+            </form>
+          )}
         </div>
       </div>
     </div>

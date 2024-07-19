@@ -22,7 +22,7 @@ const InsuranceCard = ({ insuranceInformation }) => {
 
       if (response.data.success) {
         // Redirect to the Khalti payment URL
-        window.location.href = response.data.payment_url; 
+        window.location.href = response.data.payment_url;
       } else {
         setError("Failed to initialize payment");
       }

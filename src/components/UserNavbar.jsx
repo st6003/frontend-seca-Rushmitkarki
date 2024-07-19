@@ -1,97 +1,109 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import "./UserNavbar.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faTachometerAlt,
+  faMoneyBillAlt,
+  faUserMd,
+  faCalendarAlt,
+  faInfoCircle,
+  faComments,
+  faUser,
+  faSignInAlt,
+  faUserPlus
+} from "@fortawesome/free-solid-svg-icons";
 
 const UserNavbar = () => {
   const user = JSON.parse(localStorage.getItem("user"));
 
   return (
     <div className="sidebar bg-gray-800 text-white h-screen fixed left-0 top-0 w-64">
-    <div className="sidebar bg-gray-800 text-white h-screen fixed ">
       <div className="sidebar-header border-b border-gray-600 p-4">
-        <h5 className="sidebar-title text-white">Menu</h5>
+        <div className="logo-container">
+          <img src="/assets/images/logo.png" alt="Memory Guardian Logo" className="sidebar-logo" />
+        </div>
+        <h5 className="sidebar-title text-white mt-2">Memory Guardian</h5>
       </div>
       <div className="sidebar-body p-4">
         <nav className="nav flex-column">
           <ul className="nav nav-pills flex-column">
-            <li className="nav-item mb-2">
+            <li className="nav-item mb-3">
               <Link
                 to="/Homepage"
                 className="btn w-full text-left border border-gray-300 text-gray-400 hover:bg-blue-600 hover:text-white flex items-center justify-start p-2 rounded"
               >
-                <i className="fas fa-tachometer-alt mr-2"></i> Dashboard
+                <FontAwesomeIcon icon={faTachometerAlt} className="mr-3" /> Dashboard
               </Link>
             </li>
-            <li className="nav-item mb-2">
+            <li className="nav-item mb-3">
               <Link
                 to="/Payment"
                 className="btn w-full text-left border border-gray-300 text-gray-400 hover:bg-blue-600 hover:text-white flex items-center justify-start p-2 rounded"
               >
-                <i className="fas fa-money-bill-alt mr-2"></i> Payment
+                <FontAwesomeIcon icon={faMoneyBillAlt} className="mr-3" /> Payment
               </Link>
             </li>
-            <li className="nav-item mb-2">
+            <li className="nav-item mb-3">
               <Link
                 to="/doctor"
                 className="btn w-full text-left border border-gray-300 text-gray-400 hover:bg-blue-600 hover:text-white flex items-center justify-start p-2 rounded"
               >
-                <i className="fas fa-user-md mr-2"></i> Doctors
+                <FontAwesomeIcon icon={faUserMd} className="mr-3" /> Doctors
               </Link>
             </li>
-            <li className="nav-item mb-2">
+            <li className="nav-item mb-3">
               <Link
                 to="/appointment"
                 className="btn w-full text-left border border-gray-300 text-gray-400 hover:bg-blue-600 hover:text-white flex items-center justify-start p-2 rounded"
               >
-                <i className="fas fa-calendar-alt mr-2"></i> Make an Appointment
+                <FontAwesomeIcon icon={faCalendarAlt} className="mr-3" /> Make an Appointment
               </Link>
             </li>
-            <li className="nav-item mb-2">
+            <li className="nav-item mb-3">
               <Link
                 to="/About"
                 className="btn w-full text-left border border-gray-300 text-gray-400 hover:bg-blue-600 hover:text-white flex items-center justify-start p-2 rounded"
               >
-                <i className="fas fa-info-circle mr-2"></i> About Us
+                <FontAwesomeIcon icon={faInfoCircle} className="mr-3" /> About Us
               </Link>
             </li>
-            <li className="nav-item mb-2">
+            <li className="nav-item mb-3">
               <Link
                 to="/chat"
                 className="btn w-full text-left border border-gray-300 text-gray-400 hover:bg-blue-600 hover:text-white flex items-center justify-start p-2 rounded"
               >
-                <i className="fas fa-comments mr-2"></i> chat
+                <FontAwesomeIcon icon={faComments} className="mr-3" /> Chat
               </Link>
             </li>
             {user ? (
               <>
-                <li className="nav-item mb-2">
+                <li className="nav-item mb-3">
                   <Link
                     to="/Profile"
                     className="btn w-full text-left border border-gray-300 text-gray-400 hover:bg-blue-600 hover:text-white flex items-center justify-start p-2 rounded"
                   >
-                    <span>
-                      <i className="fas fa-user mr-2"></i>
-                    </span>
+                    <FontAwesomeIcon icon={faUser} className="mr-3" />
                     <strong>{user.firstName}</strong>
                   </Link>
                 </li>
               </>
             ) : (
               <>
-                <li className="nav-item mb-2">
+                <li className="nav-item mb-3">
                   <Link
                     to="/login"
                     className="btn w-full text-left border border-gray-300 text-gray-400 hover:bg-blue-600 hover:text-white flex items-center justify-start p-2 rounded"
                   >
-                    <i className="fas fa-sign-in-alt mr-2"></i> Login
+                    <FontAwesomeIcon icon={faSignInAlt} className="mr-3" /> Login
                   </Link>
                 </li>
-                <li className="nav-item mb-2">
+                <li className="nav-item mb-3">
                   <Link
                     to="/register"
                     className="btn w-full text-left border border-gray-300 text-gray-400 hover:bg-blue-600 hover:text-white flex items-center justify-start p-2 rounded"
                   >
-                    <i className="fas fa-user-plus mr-2"></i> Register
+                    <FontAwesomeIcon icon={faUserPlus} className="mr-3" /> Register
                   </Link>
                 </li>
               </>
@@ -100,8 +112,6 @@ const UserNavbar = () => {
         </nav>
       </div>
     </div>
-    </div>
-    
   );
 };
 

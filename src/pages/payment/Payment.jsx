@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 import { getInsurance } from "../../apis/api";
 import InsuranceCard from "../../components/InsuranceCrad";
 
@@ -22,22 +22,24 @@ const Payment = () => {
 
   return (
     <div className="container mt-5">
-    <div className="container" style={{ marginLeft: "20rem" }}>
-      <div className="flex flex-col">
-        <h2 className="mt-5 text-2xl font-bold">Available Insurances</h2>
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mt-4">
-          {error ? (
-            <h1>{error}</h1>
-          ) : (
-            insurances.map((insurance) => (
-              <div key={insurance._id}>
-                <InsuranceCard insuranceInformation={insurance} />
-              </div>
-            ))
-          )}
+      <div className="container" style={{ marginLeft: "10rem" }}>
+        <div className="flex flex-col">
+          <h2 className="mt-10 text-2xl font-bold text-center">
+            Available Insurances
+          </h2>
+          <div className=" grid grid-cols1 md:grid-cols gap-4 mt-10 ">
+            {error ? (
+              <h1>{error}</h1>
+            ) : (
+              insurances.map((insurance) => (
+                <div key={insurance._id}>
+                  <InsuranceCard insuranceInformation={insurance} />
+                </div>
+              ))
+            )}
+          </div>
         </div>
       </div>
-    </div>
     </div>
   );
 };

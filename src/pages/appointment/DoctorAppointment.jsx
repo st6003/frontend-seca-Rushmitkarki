@@ -104,9 +104,9 @@ const DoctorAppointment = () => {
           <FaClipboard className="mr-2 mt-1 text-gray-600" />
           Why do you want an appointment?
           <textarea
-            name="appointmentDescription" // Changed from description to appointmentDescription
+            name="appointmentDescription" 
             className="ml-2 flex-grow p-2 border rounded h-32"
-            value={formData.appointmentDescription} // Changed from formData.description to formData.appointmentDescription
+            value={formData.appointmentDescription} 
             onChange={handleChange}
             required
           />
