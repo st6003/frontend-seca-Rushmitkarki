@@ -5,41 +5,6 @@ body, html {
   font-family: Arial, sans-serif;
   box-sizing: border-box;
 }
-.header-actions {
-  display: flex;
-  align-items: center;
-}
-
-.notification-bell {
-  position: relative;
-  margin-right: 15px;
-  cursor: pointer;
-}
-
-.bell-icon {
-  font-size: 24px;
-}
-
-.notification-count {
-  position: absolute;
-  top: -8px;
-  right: -8px;
-  background-color: red;
-  color: white;
-  border-radius: 50%;
-  padding: 2px 6px;
-  font-size: 12px;
-}
-
-.unread-count {
-  background-color: red;
-  color: white;
-  border-radius: 50%;
-  padding: 2px 6px;
-  font-size: 12px;
-  margin-left: 5px;
-}
-
 
 /* Chat interface container */
 .chat-interface {
@@ -123,7 +88,7 @@ body, html {
   padding: 15px;
   overflow-y: auto;
   height: 100%;
-  background-color: #b5c9e3;
+  background-color: #dbdfe4;
 }
 
 /* Chat box */

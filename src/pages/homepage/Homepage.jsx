@@ -45,7 +45,7 @@ const Homepage = () => {
     <div
       className="container"
       style={{
-        marginLeft: "20rem",
+        marginLeft: "10rem",
       }}
     >
       <div className="flex flex-col">

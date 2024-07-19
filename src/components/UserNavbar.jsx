@@ -7,7 +7,6 @@ const UserNavbar = () => {
 
   return (
     <div className="sidebar bg-gray-800 text-white h-screen fixed left-0 top-0 w-64">
-    <div className="sidebar bg-gray-800 text-white h-screen fixed ">
       <div className="sidebar-header border-b border-gray-600 p-4">
         <h5 className="sidebar-title text-white">Menu</h5>
       </div>
@@ -17,7 +16,7 @@ const UserNavbar = () => {
             <li className="nav-item mb-2">
               <Link
                 to="/Homepage"
-                className="btn w-full text-left border border-gray-300 text-gray-400 hover:bg-blue-600 hover:text-white flex items-center justify-start p-2 rounded"
+                className="btn w-full text-left border border-gray-300 text-white hover:bg-blue-600 hover:text-white flex items-center justify-start p-2 rounded"
               >
                 <i className="fas fa-tachometer-alt mr-2"></i> Dashboard
               </Link>
@@ -25,7 +24,7 @@ const UserNavbar = () => {
             <li className="nav-item mb-2">
               <Link
                 to="/Payment"
-                className="btn w-full text-left border border-gray-300 text-gray-400 hover:bg-blue-600 hover:text-white flex items-center justify-start p-2 rounded"
+                className="btn w-full text-left border border-gray-300 text-white hover:bg-blue-600 hover:text-white flex items-center justify-start p-2 rounded"
               >
                 <i className="fas fa-money-bill-alt mr-2"></i> Payment
               </Link>
@@ -33,7 +32,7 @@ const UserNavbar = () => {
             <li className="nav-item mb-2">
               <Link
                 to="/doctor"
-                className="btn w-full text-left border border-gray-300 text-gray-400 hover:bg-blue-600 hover:text-white flex items-center justify-start p-2 rounded"
+                className="btn w-full text-left border border-gray-300 text-white hover:bg-blue-600 hover:text-white flex items-center justify-start p-2 rounded"
               >
                 <i className="fas fa-user-md mr-2"></i> Doctors
               </Link>
@@ -41,7 +40,7 @@ const UserNavbar = () => {
             <li className="nav-item mb-2">
               <Link
                 to="/appointment"
-                className="btn w-full text-left border border-gray-300 text-gray-400 hover:bg-blue-600 hover:text-white flex items-center justify-start p-2 rounded"
+                className="btn w-full text-left border border-gray-300 text-white hover:bg-blue-600 hover:text-white flex items-center justify-start p-2 rounded"
               >
                 <i className="fas fa-calendar-alt mr-2"></i> Make an Appointment
               </Link>
@@ -49,7 +48,7 @@ const UserNavbar = () => {
             <li className="nav-item mb-2">
               <Link
                 to="/About"
-                className="btn w-full text-left border border-gray-300 text-gray-400 hover:bg-blue-600 hover:text-white flex items-center justify-start p-2 rounded"
+                className="btn w-full text-left border border-gray-300 text-white hover:bg-blue-600 hover:text-white flex items-center justify-start p-2 rounded"
               >
                 <i className="fas fa-info-circle mr-2"></i> About Us
               </Link>
@@ -57,7 +56,7 @@ const UserNavbar = () => {
             <li className="nav-item mb-2">
               <Link
                 to="/chat"
-                className="btn w-full text-left border border-gray-300 text-gray-400 hover:bg-blue-600 hover:text-white flex items-center justify-start p-2 rounded"
+                className="btn w-full text-left border border-gray-300 text-white hover:bg-blue-600 hover:text-white flex items-center justify-start p-2 rounded"
               >
                 <i className="fas fa-comments mr-2"></i> chat
               </Link>
@@ -67,7 +66,7 @@ const UserNavbar = () => {
                 <li className="nav-item mb-2">
                   <Link
                     to="/Profile"
-                    className="btn w-full text-left border border-gray-300 text-gray-400 hover:bg-blue-600 hover:text-white flex items-center justify-start p-2 rounded"
+                    className="btn w-full text-left border border-gray-300 text-white hover:bg-blue-600 hover:text-white flex items-center justify-start p-2 rounded"
                   >
                     <span>
                       <i className="fas fa-user mr-2"></i>
@@ -81,7 +80,7 @@ const UserNavbar = () => {
                 <li className="nav-item mb-2">
                   <Link
                     to="/login"
-                    className="btn w-full text-left border border-gray-300 text-gray-400 hover:bg-blue-600 hover:text-white flex items-center justify-start p-2 rounded"
+                    className="btn w-full text-left border border-gray-300 text-white hover:bg-blue-600 hover:text-white flex items-center justify-start p-2 rounded"
                   >
                     <i className="fas fa-sign-in-alt mr-2"></i> Login
                   </Link>
@@ -89,7 +88,7 @@ const UserNavbar = () => {
                 <li className="nav-item mb-2">
                   <Link
                     to="/register"
-                    className="btn w-full text-left border border-gray-300 text-gray-400 hover:bg-blue-600 hover:text-white flex items-center justify-start p-2 rounded"
+                    className="btn w-full text-left border border-gray-300 text-white hover:bg-blue-600 hover:text-white flex items-center justify-start p-2 rounded"
                   >
                     <i className="fas fa-user-plus mr-2"></i> Register
                   </Link>
@@ -100,8 +99,6 @@ const UserNavbar = () => {
         </nav>
       </div>
     </div>
-    </div>
-    
   );
 };
 
