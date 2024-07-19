@@ -9,6 +9,7 @@ import React, { useState } from "react";
 import { toast } from "react-toastify";
 import { registerUserApi } from "../../apis/api";
 import "./Register.css";
+import "./AuthStyles.css";
 
 const Register = () => {
   const [firstName, setFirstName] = useState("");
@@ -188,6 +189,7 @@ const Register = () => {
                 placeholder="Password"
                 onChange={(e) => setPassword(e.target.value)}
                 required
+            
               />
               {errors.password && (
                 <span className="error">{errors.password}</span>
@@ -207,11 +209,7 @@ const Register = () => {
                 placeholder="Confirm Password"
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 required
-                style={
-                  errors.confirmPassword
-                    ? { border: "1px solid red" }
-                    : { border: "1px solid #ccc" }
-                }
+              
               />
               {errors.confirmPassword && (
                 <span className="error">{errors.confirmPassword}</span>

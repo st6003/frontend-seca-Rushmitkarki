@@ -27,7 +27,7 @@ const Payment = () => {
           <h2 className="mt-10 text-2xl font-bold text-center">
             Available Insurances
           </h2>
-          <div className=" grid grid-cols1 md:grid-cols gap-4 mt-10 ">
+          <div className=" grid grid-cols1 md:grid-cols gap-4 mt-1 ">
             {error ? (
               <h1>{error}</h1>
             ) : (

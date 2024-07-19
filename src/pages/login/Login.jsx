@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { toast } from "react-toastify";
 import { loginUserApi, forgotPasswordApi, resetPasswordApi } from "../../apis/api";
 import "./Login.css";
+import "./AuthStyles.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEnvelope, faLock, faPhone } from "@fortawesome/free-solid-svg-icons";
 
