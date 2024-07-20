@@ -9,7 +9,7 @@ const Api = axios.create({
     "Content-Type": "application/json",
     // "Content-Type": "multipart/form-data",
   },
-});
+}); 
 
 // Make a config for authorization headers
 const config = {

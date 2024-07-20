@@ -1,9 +1,9 @@
 import React from "react";
+import { Navigate, Outlet } from "react-router-dom";
 
-function userRoutes() {
+const UserRoutes = () => {
   const user = JSON.parse(localStorage.getItem("user"));
+  return user ? <Outlet /> : <Navigate to="/login" />;
+};
 
-  return user != null ? <Outlet /> : <Navigate to={"/login"} />;
-}
-
-export default userRoutes;
+export default UserRoutes;

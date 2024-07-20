@@ -1,55 +1,56 @@
-import React, { useState } from "react";
-import { toast } from "react-toastify";
-import { registerUserApi } from "../../apis/api";
-import "./Register.css";
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import { registerUserApi } from '../../apis/api';
+import './Auth.css';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Register = () => {
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [email, setEmail] = useState('');
+  const [phone, setPhone] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [errors, setErrors] = useState({});
 
   const validate = () => {
     let validationErrors = {};
     let isValid = true;
 
-    if (firstName.trim() === "") {
-      validationErrors.firstName = "First name is required";
+    if (firstName.trim() === '') {
+      validationErrors.firstName = 'First name is required';
       isValid = false;
     }
 
-    if (lastName.trim() === "") {
-      validationErrors.lastName = "Last name is required";
+    if (lastName.trim() === '') {
+      validationErrors.lastName = 'Last name is required';
       isValid = false;
     }
 
-    if (email.trim() === "") {
-      validationErrors.email = "Email is required";
+    if (email.trim() === '') {
+      validationErrors.email = 'Email is required';
       isValid = false;
-    } else if (!email.includes("@")) {
-      validationErrors.email = "Email is invalid";
-      isValid = false;
-    }
-    if (phone.trim() === "") {
-      validationErrors.phone = "Phone number is required";
+    } else if (!email.includes('@')) {
+      validationErrors.email = 'Email is invalid';
       isValid = false;
     }
 
-    if (password.trim() === "") {
-      validationErrors.password = "Password is required";
+    if (phone.trim() === '') {
+      validationErrors.phone = 'Phone number is required';
       isValid = false;
     }
 
-    if (confirmPassword.trim() === "") {
-      validationErrors.confirmPassword = "Confirm Password is required";
+    if (password.trim() === '') {
+      validationErrors.password = 'Password is required';
       isValid = false;
-    } else if (confirmPassword !== password) {
-      validationErrors.confirmPassword =
-        "Password and Confirm Password do not match";
+    }
+
+    if (confirmPassword.trim() === '') {
+      validationErrors.confirmPassword = 'Confirm password is required';
+      isValid = false;
+    } else if (password !== confirmPassword) {
+      validationErrors.confirmPassword = 'Passwords do not match';
       isValid = false;
     }
 
@@ -64,156 +65,122 @@ const Register = () => {
       return;
     }
 
-    const data = {
-      firstName,
-      lastName,
-      email,
-      phone,
-      password,
-    };
+    const data = { firstName, lastName, email, phone, password };
 
     registerUserApi(data)
       .then((res) => {
-        toast.success(res.data.message);
+        if (!res.data.success) {
+          toast.error(res.data.message);
+        } else {
+          toast.success(res.data.message);
+          window.location.href = '/login';
+        }
       })
-      .catch((error) => {
-        toast.error(error.response.data.message);
+      .catch(() => {
+        toast.error('Registration failed');
       });
   };
 
   return (
-    <div className="container mt-5">
-      <div className="row justify-content-center align-items-center">
-        <div className="col-md-6 d-flex justify-content-center align-items-center logo-container">
-          <img
-            src="/assets/images/logo.png"
-            alt="Register"
-            className="img-fluid logo"
-            height={400}
-            width={400}
-          />
-        </div>
-        <div className="col-md-6 form-container">
-          <div className="card register-card">
-            <div className="card-body">
-              <h2 className="card-title text-center mb-6">Register Now</h2>
-              <form onSubmit={handleSubmit}>
-                <div className="mb-3 input-group">
-                  <span className="input-group-text">
-                    <i className="fas fa-user"></i>
-                  </span>
-                  <input
-                    type="text"
-                    className="form-control"
-                    id="firstName"
-                    placeholder="Enter your first name"
-                    onChange={(e) => setFirstName(e.target.value)}
-                    required
-                  />
-                </div>
-                {errors.firstName && (
-                  <p className="text-danger">{errors.firstName}</p>
-                )}
-
-                <div style={{ marginBottom: "25px" }}></div>
-
-                <div className="mb-3 input-group">
-                  <span className="input-group-text">
-                    <i className="fas fa-user"></i>
-                  </span>
-                  <input
-                    type="text"
-                    className="form-control"
-                    id="lastName"
-                    placeholder="Enter your last name"
-                    onChange={(e) => setLastName(e.target.value)}
-                    required
-                  />
-                </div>
-                {errors.lastName && (
-                  <p className="text-danger">{errors.lastName}</p>
-                )}
-
-                <div style={{ marginBottom: "25px" }}></div>
-
-                <div className="mb-3 input-group">
-                  <span className="input-group-text">
-                    <i className="fas fa-envelope"></i>
-                  </span>
-                  <input
-                    type="email"
-                    className="form-control"
-                    id="email"
-                    placeholder="Enter your email"
-                    onChange={(e) => setEmail(e.target.value)}
-                    required
-                  />
-                </div>
-                {errors.email && <p className="text-danger">{errors.email}</p>}
-                <div style={{ marginBottom: "25px" }}></div>
-
-                <div className="mb-3 input-group">
-                  <span className="input-group-text">
-                    <i className="fas fa-phone"></i>
-                  </span>
-                  <input
-                    type="number"
-                    className="form-control"
-                    id="phone"
-                    placeholder="Enter your phone"
-                    onChange={(e) => setPhone(e.target.value)}
-                    required
-                  />
-                </div>
-                {errors.phone && <p className="text-danger">{errors.phone}</p>}
-
-                <div style={{ marginBottom: "25px" }}></div>
-
-                <div className="mb-3 input-group">
-                  <span className="input-group-text">
-                    <i className="fas fa-lock"></i>
-                  </span>
-                  <input
-                    type="password"
-                    className="form-control"
-                    id="password"
-                    placeholder="Enter password"
-                    onChange={(e) => setPassword(e.target.value)}
-                    required
-                  />
-                </div>
-                {errors.password && (
-                  <p className="text-danger">{errors.password}</p>
-                )}
-
-                <div style={{ marginBottom: "25px" }}></div>
-
-                <div className="mb-3 input-group">
-                  <span className="input-group-text">
-                    <i className="fas fa-lock"></i>
-                  </span>
-                  <input
-                    type="password"
-                    className="form-control"
-                    id="confirmPassword"
-                    placeholder="Confirm your password"
-                    onChange={(e) => setConfirmPassword(e.target.value)}
-                    required
-                  />
-                </div>
-                {errors.confirmPassword && (
-                  <p className="text-danger">{errors.confirmPassword}</p>
-                )}
-
-                <button
-                  type="submit"
-                  className="btn btn-primary btn-block w-100 mt-3"
-                >
-                  Register
-                </button>
-              </form>
+    <div className="auth-container">
+      <div className="left-side">
+        <img src="assets/images/logo.png" alt="Logo" className="logo" />
+        <h2>Welcome to Memory Guardian</h2>
+        <p>Connect with our doctors and staff</p>
+      </div>
+      <div className="right-side">
+        <div className="form-box">
+          <h2>Register</h2>
+          <form onSubmit={handleSubmit}>
+            <div className="form-group">
+              <label>
+                <i className="fas fa-user input-icon"></i>
+                First Name
+              </label>
+              <input
+                type="text"
+                placeholder="First Name"
+                value={firstName}
+                onChange={(e) => setFirstName(e.target.value)}
+                required
+              />
+              {errors.firstName && <p className="text-danger">{errors.firstName}</p>}
             </div>
-          </div>
+            <div className="form-group">
+              <label>
+                <i className="fas fa-user input-icon"></i>
+                Last Name
+              </label>
+              <input
+                type="text"
+                placeholder="Last Name"
+                value={lastName}
+                onChange={(e) => setLastName(e.target.value)}
+                required
+              />
+              {errors.lastName && <p className="text-danger">{errors.lastName}</p>}
+            </div>
+            <div className="form-group">
+              <label>
+                <i className="fas fa-envelope input-icon"></i>
+                Email
+              </label>
+              <input
+                type="email"
+                placeholder="Email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
+              {errors.email && <p className="text-danger">{errors.email}</p>}
+            </div>
+            <div className="form-group">
+              <label>
+                <i className="fas fa-phone input-icon"></i>
+                Phone Number
+              </label>
+              <input
+                type="tel"
+                placeholder="Phone Number"
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
+                required
+              />
+              {errors.phone && <p className="text-danger">{errors.phone}</p>}
+            </div>
+            <div className="form-group">
+              <label>
+                <i className="fas fa-lock input-icon"></i>
+                Password
+              </label>
+              <input
+                type="password"
+                placeholder="Password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
+              {errors.password && <p className="text-danger">{errors.password}</p>}
+            </div>
+            <div className="form-group">
+              <label>
+                <i className="fas fa-lock input-icon"></i>
+                Confirm Password
+              </label>
+              <input
+                type="password"
+                placeholder="Confirm Password"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                required
+              />
+              {errors.confirmPassword && <p className="text-danger">{errors.confirmPassword}</p>}
+            </div>
+            <button type="submit">Register</button>
+          </form>
+          <p className="auth-link">
+            Already have an account? <Link to="/login">Login</Link>
+          </p>
         </div>
       </div>
     </div>
