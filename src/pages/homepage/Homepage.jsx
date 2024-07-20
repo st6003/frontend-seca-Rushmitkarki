@@ -77,7 +77,7 @@ const Homepage = () => {
         {error ? (
           <div className="text-red-500">{error}</div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
             {doctors.map((doctor) => (
               <DoctorCard
                 key={doctor.id}

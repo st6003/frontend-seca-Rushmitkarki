@@ -1,10 +1,3 @@
-import {
-  faEnvelope,
-  faLock,
-  faPhone,
-  faUser,
-} from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState } from "react";
 import { toast } from "react-toastify";
 import { registerUserApi } from "../../apis/api";
@@ -41,7 +34,6 @@ const Register = () => {
       validationErrors.email = "Email is invalid";
       isValid = false;
     }
-
     if (phone.trim() === "") {
       validationErrors.phone = "Phone number is required";
       isValid = false;
@@ -90,147 +82,138 @@ const Register = () => {
   };
 
   return (
-    <div className="register-container">
-      <div className="left-side">
-        <h2>Welcome to the Memory Guardian</h2>
-        <p>Connect with our doctors and users</p>
-        <div className="illustration">
-          <img src="/assets/images/logo.png" alt="logo" />
+    <div className="container mt-5">
+      <div className="row justify-content-center align-items-center">
+        <div className="col-md-6 d-flex justify-content-center align-items-center logo-container">
+          <img
+            src="/assets/images/logo.png"
+            alt="Register"
+            className="img-fluid logo"
+            height={400}
+            width={400}
+          />
         </div>
-        <div className="company-name">Memory Guardian</div>
-      </div>
-      <div className="right-side">
-        <h2>Register</h2>
-        <div className="form-box">
-          <form onSubmit={handleSubmit}>
-            <div className="form-group">
-              <label htmlFor="firstName">
-                <FontAwesomeIcon icon={faUser} className="icon" />
-                <span className="separator">||</span>
-                First name
-              </label>
-              <input
-                type="text"
-                id="firstName"
-                placeholder="First Name"
-                value={firstName}
-                onChange={(e) => setFirstName(e.target.value)}
-                required
-              />
-              {errors.firstName && (
-                <span className="error">{errors.firstName}</span>
-              )}
-            </div>
+        <div className="col-md-6 form-container">
+          <div className="card register-card">
+            <div className="card-body">
+              <h2 className="card-title text-center mb-6">Register Now</h2>
+              <form onSubmit={handleSubmit}>
+                <div className="mb-3 input-group">
+                  <span className="input-group-text">
+                    <i className="fas fa-user"></i>
+                  </span>
+                  <input
+                    type="text"
+                    className="form-control"
+                    id="firstName"
+                    placeholder="Enter your first name"
+                    onChange={(e) => setFirstName(e.target.value)}
+                    required
+                  />
+                </div>
+                {errors.firstName && (
+                  <p className="text-danger">{errors.firstName}</p>
+                )}
 
-            <div className="form-group">
-              <label htmlFor="lastName">
-                <FontAwesomeIcon icon={faUser} className="icon" />
-                <span className="separator">||</span>
-                Last name
-              </label>
-              <input
-                type="text"
-                id="lastName"
-                placeholder="Last Name"
-                value={lastName}
-                onChange={(e) => setLastName(e.target.value)}
-                required
-              />
-              {errors.lastName && (
-                <span className="error">{errors.lastName}</span>
-              )}
-            </div>
+                <div style={{ marginBottom: "25px" }}></div>
 
-            <div className="form-group">
-              <label htmlFor="email">
-                <FontAwesomeIcon icon={faEnvelope} className="icon" />
-                <span className="separator">||</span>
-                Email
-              </label>
-              <input
-                type="email"
-                id="email"
-                value={email}
-                placeholder="Email"
-                onChange={(e) => setEmail(e.target.value)}
-                required
-              />
-              {errors.email && <span className="error">{errors.email}</span>}
-            </div>
+                <div className="mb-3 input-group">
+                  <span className="input-group-text">
+                    <i className="fas fa-user"></i>
+                  </span>
+                  <input
+                    type="text"
+                    className="form-control"
+                    id="lastName"
+                    placeholder="Enter your last name"
+                    onChange={(e) => setLastName(e.target.value)}
+                    required
+                  />
+                </div>
+                {errors.lastName && (
+                  <p className="text-danger">{errors.lastName}</p>
+                )}
 
-            <div className="form-group">
-              <label htmlFor="phone">
-                <FontAwesomeIcon icon={faPhone} className="icon" />
-                <span className="separator">||</span>
-                Phone
-              </label>
-              <input
-                type="number"
-                id="phone"
-                value={phone}
-                placeholder="Number"
-                onChange={(e) => setPhone(e.target.value)}
-                required
-              />
-              {errors.phone && <span className="error">{errors.phone}</span>}
-            </div>
+                <div style={{ marginBottom: "25px" }}></div>
 
-            <div className="form-group">
-              <label htmlFor="password">
-                <FontAwesomeIcon icon={faLock} className="icon" />
-                <span className="separator">||</span>
-                Password
-              </label>
-              <input
-                type="password"
-                id="password"
-                value={password}
-                placeholder="Password"
-                onChange={(e) => setPassword(e.target.value)}
-                required
-              />
-              {errors.password && (
-                <span className="error">{errors.password}</span>
-              )}
-            </div>
+                <div className="mb-3 input-group">
+                  <span className="input-group-text">
+                    <i className="fas fa-envelope"></i>
+                  </span>
+                  <input
+                    type="email"
+                    className="form-control"
+                    id="email"
+                    placeholder="Enter your email"
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                  />
+                </div>
+                {errors.email && <p className="text-danger">{errors.email}</p>}
+                <div style={{ marginBottom: "25px" }}></div>
 
-            <div className="form-label">
-              <label htmlFor="confirmPassword">
-                <FontAwesomeIcon icon={faLock} className="icon" />
-                <span className="separator">||</span>
-                Confirm Password
-              </label>
-              <input
-                type="password"
-                id="confirmPassword"
-                value={confirmPassword}
-                placeholder="Confirm Password"
-                onChange={(e) => setConfirmPassword(e.target.value)}
-                required
-                style={
-                  errors.confirmPassword
-                    ? { border: "1px solid red" }
-                    : { border: "1px solid #ccc" }
-                }
-              />
-              {errors.confirmPassword && (
-                <span className="error">{errors.confirmPassword}</span>
-              )}
-            </div>
+                <div className="mb-3 input-group">
+                  <span className="input-group-text">
+                    <i className="fas fa-phone"></i>
+                  </span>
+                  <input
+                    type="number"
+                    className="form-control"
+                    id="phone"
+                    placeholder="Enter your phone"
+                    onChange={(e) => setPhone(e.target.value)}
+                    required
+                  />
+                </div>
+                {errors.phone && <p className="text-danger">{errors.phone}</p>}
 
-            <button
-              type="submit"
-              style={{
-                backgroundColor: "blue",
-                color: "white",
-                border: "none",
-                padding: "10px 20px",
-                borderRadius: "5px",
-              }}
-            >
-              Register
-            </button>
-          </form>
+                <div style={{ marginBottom: "25px" }}></div>
+
+                <div className="mb-3 input-group">
+                  <span className="input-group-text">
+                    <i className="fas fa-lock"></i>
+                  </span>
+                  <input
+                    type="password"
+                    className="form-control"
+                    id="password"
+                    placeholder="Enter password"
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                  />
+                </div>
+                {errors.password && (
+                  <p className="text-danger">{errors.password}</p>
+                )}
+
+                <div style={{ marginBottom: "25px" }}></div>
+
+                <div className="mb-3 input-group">
+                  <span className="input-group-text">
+                    <i className="fas fa-lock"></i>
+                  </span>
+                  <input
+                    type="password"
+                    className="form-control"
+                    id="confirmPassword"
+                    placeholder="Confirm your password"
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    required
+                  />
+                </div>
+                {errors.confirmPassword && (
+                  <p className="text-danger">{errors.confirmPassword}</p>
+                )}
+
+                <button
+                  type="submit"
+                  className="btn btn-primary btn-block w-100 mt-3"
+                >
+                  Register
+                </button>
+              </form>
+            </div>
+          </div>
         </div>
       </div>
     </div>
