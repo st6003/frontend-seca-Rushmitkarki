@@ -13,20 +13,17 @@ import Navbar from "./components/Navbar";
 import AdminDashboard from "./pages/admin/adminDashboard/AdminDashboard";
 import Appointmentlist from "./pages/admin/appointmentlist/Appointmentlist";
 import DoctorsList from "./pages/admin/doctorlists/DoctorsList";
+import Insurance from "./pages/admin/insurance/Insurance";
 import UsersList from "./pages/admin/usersList/UsersList";
 import DoctorAppointment from "./pages/appointment/DoctorAppointment";
+import Chat from "./pages/chat/Chat";
 import Doctor from "./pages/doctor/Doctor";
 import About from "./pages/homepage/About";
 import Payment from "./pages/payment/Payment";
 import UserProfile from "./pages/userprofile/UserProfile";
-import Insurance from "./pages/admin/insurance/Insurance";
-import Chat from "./pages/chat/Chat";
-
-
 
 function App() {
   return (
-    
     <Router>
       <div>
         <Navbar />
@@ -34,7 +31,7 @@ function App() {
         <ToastContainer />
         <Routes>
           <Route path="/" element={<Homepage />} />
-          <Route path="/chat" element={<Chat/>}/>
+          <Route path="/chat" element={<Chat />} />
           <Route path="/doctor" element={<Doctor />} />
           <Route path="/payment" element={<Payment />} />
           <Route path="/Appointment" element={<DoctorAppointment />} />
@@ -43,19 +40,18 @@ function App() {
           <Route path="/Homepage" element={<Homepage />} />
           <Route path="/Login" element={<Login />} />
           <Route path="/Register" element={<Register />} />
-        
+
           <Route element={<AdminRoutes />}>
-            <Route path="/Admin/Dashboard" element={<AdminDashboard />} />
+          <Route path="/Admin/Dashboard" element={<AdminDashboard />} />
             <Route path="/DoctorsList" element={<DoctorsList />} />
             <Route path="/UserList" element={<UsersList />} />
             <Route path="/Appointmentlist" element={<Appointmentlist />} />
-            <Route path="/Insurancelist" element={<Insurance/>}/>
+            <Route path="/Insurancelist" element={<Insurance />} />
           </Route>
         </Routes>
         <Footer />
       </div>
     </Router>
-   
   );
 }
 

@@ -1,14 +1,26 @@
 import React, { useState, useEffect } from "react";
 import AdminNavbar from "./AdminNavbar";
 import UserNavbar from "./UserNavbar";
+const getUserFromLocalStorage = () => {
+  const user = localStorage.getItem("user");
+
+  if (user && user !== "undefined") {
+    try {
+      return JSON.parse(user);
+    } catch (error) {
+      console.error("Error parsing user from localStorage", error);
+    }
+  }
+  return null;
+};
 
 const Navbar = () => {
-  const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")));
+  const [user, setUser] = useState(getUserFromLocalStorage());
 
   useEffect(() => {
-    // Listen to storage changes to update user state when localStorage is modified
+    // Update user state when localStorage is modified
     const handleStorageChange = () => {
-      setUser(JSON.parse(localStorage.getItem("user")));
+      setUser(getUserFromLocalStorage());
     };
 
     window.addEventListener("storage", handleStorageChange);
