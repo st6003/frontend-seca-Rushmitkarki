@@ -1,117 +1,122 @@
-.register-container {
+.auth-container {
   display: flex;
-  min-height: 100vh;
-  background-color: #f0f8ff;
+  flex-direction: row;
+  height: 100vh;
+  font-family: 'Arial, sans-serif';
+  background-color: #f8f9fa;
 }
 
 .left-side {
   flex: 1;
-  background-color: #e6f2ff;
-  padding: 40px;
+  background-color: #e0f7fa;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
-  text-align: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.logo {
+  width: 150px;
+  height: auto;
+  margin-bottom: 20px;
 }
 
 .left-side h2 {
   font-size: 24px;
+  color: #00796b;
   margin-bottom: 10px;
 }
 
 .left-side p {
-  font-size: 16px;
-  margin-bottom: 30px;
-}
-
-.illustration {
-  width: 200px;
-  height: 200px;
-  border-radius: 100%;
-  margin-bottom: 30px;
-}
-
-.company-name {
   font-size: 18px;
-  font-weight: bold;
+  color: #004d40;
+  text-align: center;
 }
 
 .right-side {
   flex: 1;
-  padding: 40px;
-  background-color: #fff;
   display: flex;
-  flex-direction: column;
-  justify-content: center;
   align-items: center;
-}
-
-.right-side h2 {
-  font-size: 40px;
-  text-align: center;
-  margin-bottom: 30px;
+  justify-content: center;
+  background-color: #ffffff;
 }
 
 .form-box {
   width: 100%;
-  max-width: 900px;
+  max-width: 400px;
   padding: 20px;
-  border: 2px solid #ccc;
-  border-radius: 10px;
-  background-color: #e7e7ef;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  background-color: #f5f5f5;
 }
 
-form {
-  display: flex;
-  flex-direction: column;
-  align-items: center; /* Centering form elements horizontally */
-  gap: 20px;
+.form-box h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #333;
 }
 
 .form-group {
+  margin-bottom: 20px;
   display: flex;
-  flex-direction: column;
-  height: 100%;
-  width: 100%; /* Ensuring input fields take full width */
-  position: relative;
+  align-items: center;
 }
 
-label {
-  font-size: 17px;
-  margin-bottom: 5px;
+.form-group i {
+  color: #00796b;
+  font-size: 20px;
+  margin-right: 10px;
 }
 
-.input-icon {
-  position: absolute;
-  left: 10px;
-  top: 35px;
-  color: #888;
+.form-group label {
+  font-size: 14px;
+  color: #333;
+  margin-right: 10px;
+  flex: 1;
 }
 
-input {
-  padding: 10px 10px 10px 35px;
-  width: 100%; /* Making input fields take full width */
-  
-  border: 1px solid #ccc;
-  border-radius: 40px;
-  font-size: 30px; /* Making input text a bit larger */
-}
-
-button {
-  padding: 15px 30px; /* Making button larger */
-  background-color: rgb(23, 23, 156); /* Ensuring background is always blue */
-  color: blue;
-  border: none;
+.form-group input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
   border-radius: 4px;
-  cursor: pointer;
-  font-size: 16px; /* Making text size bigger */
-  margin-top: 20px; /* Adding margin to separate from form fields */
-  text-align: center;
+  font-size: 14px;
+  color: #333;
 }
 
-.error {
+.text-danger {
   color: red;
   font-size: 12px;
   margin-top: 5px;
+}
+
+button {
+  width: 100%;
+  padding: 10px;
+  background-color: #00796b;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+button:hover {
+  background-color: #004d40;
+}
+
+.auth-link {
+  text-align: center;
+  margin-top: 10px;
+  color: #00796b;
+}
+
+.auth-link a {
+  color: #00796b;
+  text-decoration: none;
+}
+
+.auth-link a:hover {
+  text-decoration: underline;
 }

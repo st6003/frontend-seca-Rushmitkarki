@@ -6,7 +6,7 @@ import {
   loginUserApi,
   resetPasswordApi,
 } from "../../apis/api";
-import "./Login.css";
+import "./Auth.css"; // Use the same CSS file as the register component
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -122,162 +122,120 @@ const Login = () => {
   };
 
   return (
-    <div className="container mt-5">
-      <div className="row justify-content-center align-items-center">
-        <div className="col-md-6 d-flex justify-content-center align-items-center logo-container">
-          <img
-            src="/assets/images/logo.png"
-            alt="Logo"
-            className="img-fluid logo"
-            height={400}
-            width={400}
-          />
-        </div>
-        <div className="col-md-6 form-container">
-          <div className="card login-card">
-            <div className="card-body">
-              <h2 className="card-title text-center mb-4">Login</h2>
-              <form onSubmit={handleSubmit}>
-                <div className="mb-4">
-                  <label htmlFor="email" className="form-label">
-                    Email Address:
-                  </label>
-                  <input
-                    type="email"
-                    className="form-control"
-                    id="email"
-                    placeholder="Enter email"
-                    onChange={handleEmail}
-                    required
-                  />
-                  {emailError && <p className="text-danger">{emailError}</p>}
-                </div>
-                <div className="mb-3">
-                  <label htmlFor="password" className="form-label">
-                    Password:
-                  </label>
-                  <input
-                    type="password"
-                    className="form-control"
-                    id="password"
-                    placeholder="Enter password"
-                    onChange={handlePassword}
-                    required
-                  />
-                  {passwordError && (
-                    <p className="text-danger">{passwordError}</p>
-                  )}
-                </div>
-                <button
-                  type="submit"
-                  className="btn btn-primary btn-block w-100 mt-3"
-                >
-                  Login
-                </button>
-                <div className="text-center mt-3">
-                  <button
-                    className="btn btn-link"
-                    data-bs-toggle="modal"
-                    data-bs-target="#forgotPasswordModal"
-                  >
-                    Forgot Password?
-                  </button>
-                </div>
-              </form>
+    <div className="auth-container">
+      <div className="left-side">
+        <img src="assets/images/logo.png" alt="Logo" className="logo" />
+        <h2>Welcome to Memory Guardian</h2>
+        <p>Connect with our doctors and staff</p>
+      </div>
+      <div className="right-side">
+        <div className="form-box">
+          <h2>Login</h2>
+          <form onSubmit={handleSubmit}>
+            <div className="form-group">
+              <label>
+                <i className="fas fa-envelope input-icon"></i>
+                Email
+              </label>
+              <input
+                type="email"
+                placeholder="Enter email"
+                value={email}
+                onChange={handleEmail}
+                required
+              />
+              {emailError && <p className="text-danger">{emailError}</p>}
             </div>
-          </div>
+            <div className="form-group">
+              <label>
+                <i className="fas fa-lock input-icon"></i>
+                Password
+              </label>
+              <input
+                type="password"
+                placeholder="Enter password"
+                value={password}
+                onChange={handlePassword}
+                required
+              />
+              {passwordError && <p className="text-danger">{passwordError}</p>}
+            </div>
+            <button type="submit">Login</button>
+          </form>
+          <p className="auth-link">
+            Forgot Password? <button className="forgot-password-btn" data-bs-toggle="modal" data-bs-target="#forgotPasswordModal">Click here</button>
+          </p>
         </div>
       </div>
 
       {/* Forgot Password Modal */}
-      <div
-        className="modal fade"
-        id="forgotPasswordModal"
-        tabIndex="-1"
-        aria-labelledby="forgotPasswordModalLabel"
-        aria-hidden="true"
-      >
+      <div className="modal fade" id="forgotPasswordModal" tabIndex="-1" aria-labelledby="forgotPasswordModalLabel" aria-hidden="true">
         <div className="modal-dialog">
           <div className="modal-content">
             <div className="modal-header">
-              <h5 className="modal-title" id="forgotPasswordModalLabel">
-                Forgot Password
-              </h5>
-              <button
-                type="button"
-                className="btn-close"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-              ></button>
+              <h5 className="modal-title" id="forgotPasswordModalLabel">Forgot Password</h5>
+              <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div className="modal-body">
               {!isSentOtp ? (
                 <form onSubmit={handleForgotPassword}>
-                  <div className="mb-3">
-                    <label htmlFor="phone" className="form-label">
-                      Phone Number:
+                  <div className="form-group">
+                    <label>
+                      <i className="fas fa-phone input-icon"></i>
+                      Phone Number
                     </label>
                     <input
                       type="tel"
-                      className="form-control"
-                      id="phone"
                       placeholder="Enter phone number"
                       value={phone}
                       onChange={(e) => setPhone(e.target.value)}
                       required
                     />
                   </div>
-                  <button type="submit" className="btn btn-primary btn-block">
-                    Send OTP
-                  </button>
+                  <button type="submit" className="send-otp-btn">Send OTP</button>
                 </form>
               ) : (
                 <form onSubmit={handleReset}>
-                  <div className="mb-3">
-                    <label htmlFor="otp" className="form-label">
-                      OTP:
+                  <div className="form-group">
+                    <label>
+                      <i className="fas fa-key input-icon"></i>
+                      OTP
                     </label>
                     <input
                       type="number"
-                      className="form-control"
-                      id="otp"
                       placeholder="Enter OTP"
                       value={otp}
                       onChange={(e) => setOtp(e.target.value)}
                       required
                     />
                   </div>
-                  <div className="mb-3">
-                    <label htmlFor="resetPassword" className="form-label">
-                      New Password:
+                  <div className="form-group">
+                    <label>
+                      <i className="fas fa-lock input-icon"></i>
+                      New Password
                     </label>
                     <input
                       type="password"
-                      className="form-control"
-                      id="resetPassword"
                       placeholder="Enter new password"
                       value={resetPassword}
                       onChange={(e) => setResetPassword(e.target.value)}
                       required
                     />
                   </div>
-                  <div className="mb-3">
-                    <label htmlFor="confirmPassword" className="form-label">
-                      Confirm Password:
+                  <div className="form-group">
+                    <label>
+                      <i className="fas fa-lock input-icon"></i>
+                      Confirm Password
                     </label>
                     <input
                       type="password"
-                      className="form-control"
-                      id="confirmPassword"
                       placeholder="Confirm new password"
                       value={confirmPassword}
                       onChange={(e) => setConfirmPassword(e.target.value)}
                       required
                     />
                   </div>
-                  <button type="submit" className="btn btn-primary btn-block">
-                    Reset Password
-                  </button>
+                  <button type="submit" className="reset-password-btn">Reset Password</button>
                 </form>
               )}
             </div>

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { getUsersWithAppointments, deleteAppointment } from "../../../apis/api";
 import { FaTrash } from "react-icons/fa";
+import "./appointment.css";
 
 const Appointmentlist = () => {
   const [usersWithAppointments, setUsersWithAppointments] = useState([]);
@@ -22,8 +23,8 @@ const Appointmentlist = () => {
     if (window.confirm("Are you sure you want to delete this appointment?")) {
       try {
         const response = await deleteAppointment(id);
-        console.log(response.data.message); 
-        setUsersWithAppointments(usersWithAppointments.filter(appointment => appointment._id !== id));
+        console.log(response.data.message);
+        setUsersWithAppointments(usersWithAppointments.filter((appointment) => appointment._id !== id));
       } catch (error) {
         console.error("Error deleting appointment:", error);
       }
@@ -31,44 +32,38 @@ const Appointmentlist = () => {
   };
 
   return (
-    <>
-      <div className="p-6">
-        <h2 className="text-4xl mb-4">Users Appointments List</h2>
-        <table className="min-w-full bg-white border">
-          <thead>
-            <tr className="bg-gray-100">
-              <th className="py-3 px-4 border-b border-gray-200">Patient Name</th>
-              <th className="py-3 px-4 border-b border-gray-200">Email</th>
-              <th className="py-3 px-4 border-b border-gray-200">Appointment Date</th>
-              <th className="py-3 px-4 border-b border-gray-200">Appointment Description</th>
-              <th className="py-3 px-4 border-b border-gray-200">Actions</th>
+    <div className="appointmentlist-container">
+      <h2 className="title">Users Appointments List</h2>
+      <table className="appointments-table">
+        <thead>
+          <tr className="table-header">
+            <th className="table-cell">Patient Name</th>
+            <th className="table-cell">Email</th>
+            <th className="table-cell">Appointment Date</th>
+            <th className="table-cell">Appointment Description</th>
+            <th className="table-cell">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {usersWithAppointments.map((appointment) => (
+            <tr key={appointment._id} className="table-row">
+              <td className="table-cell">{appointment.patientName}</td>
+              <td className="table-cell">{appointment.email}</td>
+              <td className="table-cell">{new Date(appointment.appointmentDate).toLocaleDateString()}</td>
+              <td className="table-cell">{appointment.appointmentDescription || "-"}</td>
+              <td className="table-cell">
+                <button
+                  onClick={() => handleDeleteAppointment(appointment._id)}
+                  className="delete-button"
+                >
+                  <FaTrash />
+                </button>
+              </td>
             </tr>
-          </thead>
-          <tbody>
-            {usersWithAppointments.map((appointment) => (
-              <tr key={appointment._id} className="hover:bg-gray-50">
-                <td className="py-3 px-4 border-b border-gray-200">{appointment.patientName}</td>
-                <td className="py-3 px-4 border-b border-gray-200">{appointment.email}</td>
-                <td className="py-3 px-4 border-b border-gray-200">
-                  {new Date(appointment.appointmentDate).toLocaleDateString()}
-                </td>
-                <td className="py-3 px-4 border-b border-gray-200">
-                  {appointment.appointmentDescription || "-"}
-                </td>
-                <td className="py-3 px-4 border-b border-gray-200">
-                  <button
-                    onClick={() => handleDeleteAppointment(appointment._id)}
-                    className="text-red-500 hover:text-red-700"
-                  >
-                    <FaTrash />
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-    </>
+          ))}
+        </tbody>
+      </table>
+    </div>
   );
 };
 
