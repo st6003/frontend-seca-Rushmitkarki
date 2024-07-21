@@ -1,5 +1,4 @@
 import axios from "axios";
-import App from "../App";
 
 // Creating backend config
 const Api = axios.create({
@@ -7,16 +6,22 @@ const Api = axios.create({
   withCredentials: true,
   headers: {
     "Content-Type": "application/json",
-    // "Content-Type": "multipart/form-data",
   },
-}); 
+});
 
-// Make a config for authorization headers
-const config = {
-  headers: {
-    Authorization: `Bearer ${localStorage.getItem("token")}`,
+// Interceptor to add Authorization header to every request
+Api.interceptors.request.use(
+  (config) => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
   },
-};
+  (error) => {
+    return Promise.reject(error);
+  }
+);
 
 export const registerUserApi = (data) => Api.post("/api/user/create", data);
 
@@ -27,113 +32,105 @@ export const loginUserApi = (data) => Api.post("/api/user/login", data);
 export const createDoctor = (data) => Api.post("/api/doctor/create", data);
 
 // Route to fetch all doctors
-export const getAllDoctors = () =>
-  Api.get("/api/doctor/get_all_doctors", config);
+export const getAllDoctors = () => Api.get("/api/doctor/get_all_doctors");
 
 // For single doctor
 export const getSingleDoctor = (id) =>
-  Api.get(`/api/doctor/get_single_doctor/${id}`, config);
+  Api.get(`/api/doctor/get_single_doctor/${id}`);
 
 // Update doctor
 export const updateDoctor = (id, data) =>
-  Api.put(`/api/doctor/update_doctor/${id}`, data, config);
+  Api.put(`/api/doctor/update_doctor/${id}`, data);
 
 // Delete doctor
 export const deleteDoctor = (id) =>
-  Api.delete(`/api/doctor/delete_doctor/${id}`, config);
+  Api.delete(`/api/doctor/delete_doctor/${id}`);
 
 // Pagination
-export const doctorPagination = (page, limit, searchQuery = '', sortOrder = 'asc') => {
+export const doctorPagination = (
+  page,
+  limit,
+  searchQuery = "",
+  sortOrder = "asc"
+) => {
   const query = `?page=${page}&limit=${limit}&q=${searchQuery}&sort=${sortOrder}`;
-  return Api.get(`/api/doctor/pagination${query}`, config);
+  return Api.get(`/api/doctor/pagination${query}`);
 };
 
 // Get doctor count
-export const getDoctorCount = () => {
-  return Api.get("/api/doctor/get_doctor_count", config);
-};
+export const getDoctorCount = () => Api.get("/api/doctor/get_doctor_count");
 
 // Forget password API
-export const forgotPasswordApi = (data) => {
-  return Api.post("/api/user/forget_password", data);
-};
+export const forgotPasswordApi = (data) =>
+  Api.post("/api/user/forget_password", data);
 
 // Reset password API
-export const resetPasswordApi = (data) => {
-  return Api.post("/api/user/reset_password", data);
-};
+export const resetPasswordApi = (data) =>
+  Api.post("/api/user/reset_password", data);
 
 // Fetch single user
-export const getSingleUser = () => Api.get(`/api/user/get_single_user`, config);
+export const getSingleUser = () => Api.get(`/api/user/get_single_user`);
 
 // Fetch all users
-export const getAllUsers = () => Api.get("/api/user/get_all_users",config);
-// delete user
-export const deleteUser = (id) => Api.delete(`/api/user/delete_user/${id}`,config);
+export const getAllUsers = () => Api.get("/api/user/get_all_users");
+export const deleteUser = (userId) =>
+  Api.delete(`/api/user/delete_user/${userId}`);
 
 // Update user profile
 export const updateUserProfile = (id, userData) =>
-  Api.put(`/api/user/update_profile`, userData, config);
+  Api.put(`/api/user/update_profile`, userData);
 
-// favorites
-export const addToFavoriteApi = (data) =>
-  Api.post("/api/favourite/add", data, config);
-
-// appointment doctors
+// Favorites
+export const addFavoriteApi = (data) => Api.post("/api/favourite/add", data);
+export const getUserFavoritesApi = () => Api.get("/api/favourite/all");
+export const removeFavoriteApi = (id) => Api.delete(`/api/favourite/delete/${id}`);
+// Appointment doctors
 export const appointmentDoctor = (data) =>
   Api.post("/api/booking/create_appointments", data);
-// fetch all user data
 export const getUsersWithAppointments = () =>
   Api.get("/api/booking/users_with_appointments");
-// delete appointment
 export const deleteAppointment = (id) =>
-  Api.delete(`/api/booking/delete_appointments/${id}`, config);
+  Api.delete(`/api/booking/delete_appointments/${id}`);
 
-// for adminchart
-export const getDashboardStats = async()=>{
-  return Api.get("/api/admin/dashboard_stats");
-}
-// search
+export const approveAppointment = (id) =>
+  Api.put(`/api/booking/approve_appointment/${id}`);
+export const getUserAppointments = () =>
+  Api.get("/api/booking/user_appointments");
+
+export const cancelAppointment = (id) =>
+  Api.delete(`/api/booking/cancel_appointment/${id}`);
+
+// For admin chart
+export const getDashboardStats = () => Api.get("/api/admin/dashboard_stats");
+
+// Search
 export const searchDoctor = (query) =>
-  Api.get(`/api/doctor/search?query=${query}`, config);
+  Api.get(`/api/doctor/search?query=${query}`);
+export const searchUsers = (query) =>
+  Api.get(`/api/user/search_users?query=${query}`);
 
-// search user
-export const searchUsers = (query)=>
-  Api.get(`/api/user/search_users?query=${query}`, config);
+// Insurance
+export const createInsurance = (data) =>
+  Api.post("/api/insurance/create", data);
+export const getInsurance = () => Api.get("/api/insurance/get_all_insurances");
+export const deleteInsurance = (id) =>
+  Api.delete(`/api/insurance/delete_insurance/${id}`);
+export const updateInsurance = (id, data) =>
+  Api.put(`/api/insurance/update_insurance/${id}`, data);
+export const getSingleInsurance = (id) =>
+  Api.get(`/api/insurance/get_single_insurance/${id}`);
 
-
-// insurance
-export const createInsurance = (data) => Api.post("/api/insurance/create", data, config);
-export const getInsurance = () => Api.get("/api/insurance/get_all_insurances", config);
-export const deleteInsurance = (id) => Api.delete(`/api/insurance/delete_insurance/${id}`, config);
-export const updateInsurance = (id, data) => Api.put(`/api/insurance/update_insurance/${id}`, data, config);
-export const getSingleInsurance = (id) => Api.get(`/api/insurance/get_single_insurance/${id}`, config);
-
-
-// khalti
+// Khalti
 export const initializeKhaltiPayment = (data) =>
   Api.post("/api/khalti/initialize-khalti", data);
 
-
-// chat
-// create chat
-export const createChat = (data) => Api.post("/api/chat/create", data, config);
-// get all chat
-export const getChat = () => Api.get("/api/chat/fetch", config);
-// groupchat
-export const createGroupChat = (data) => Api.post("/api/chat/group", data, config);
-// rename group
-export const renameGroup = (data) => Api.put("/api/chat/rename", data, config);
-// add to group
-export const addToGroup = (data) => Api.put("/api/chat/groupadd", data, config);
-// remove from group
-export const removeFromGroup = (data) => Api.put("/api/chat/groupremove", data, config);
-
-// leave group
-export const leaveGroup = (data) => Api.post("/api/chat/groupleave", data, config);
-
-// sendMessage function
-export const sendMessage = (data) => Api.post("/api/message/send", data, config);
-
-// allMessages function
-export const allMessages = (id) => Api.get(`/api/message/${id}`, config);
+// Chat
+export const createChat = (data) => Api.post("/api/chat/create", data);
+export const getChat = () => Api.get("/api/chat/fetch");
+export const createGroupChat = (data) => Api.post("/api/chat/group", data);
+export const renameGroup = (data) => Api.put("/api/chat/rename", data);
+export const addToGroup = (data) => Api.put("/api/chat/groupadd", data);
+export const removeFromGroup = (data) => Api.put("/api/chat/groupremove", data);
+export const leaveGroup = (data) => Api.post("/api/chat/groupleave", data);
+export const sendMessage = (data) => Api.post("/api/message/send", data);
+export const allMessages = (id) => Api.get(`/api/message/${id}`);

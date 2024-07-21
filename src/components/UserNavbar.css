@@ -25,21 +25,27 @@
 .sidebar-title {
   font-size: 1.25rem;
   font-weight: 700;
+  
 }
 
 .sidebar-body {
   padding: 1rem;
+  color: #37291f;
+ 
 }
 
 .nav-item a {
   display: flex;
   align-items: center;
+  background-color: #f1ebeb;
+  row-gap: 10;
   
 }
 
 .nav-item svg {
   width: 20px;
   height: 20px;
+  
 }
 
 .chat-interface {
@@ -49,24 +55,6 @@
   height: 100vh;
 }
 
-.chat-header {
-  background-color: #f0f0f0;
-  padding: 10px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.search-input {
-  padding: 5px;
-  border-radius: 5px;
-  border: 1px solid #ccc;
-}
-
-.chat-content {
-  display: flex;
-  flex: 1;
-}
 
 .chat-list {
   width: 300px;
@@ -74,19 +62,9 @@
   padding: 10px;
 }
 
-.new-group-btn {
-  background-color: #4299e1;
-  color: white;
-  border: none;
-  padding: 5px 10px;
-  border-radius: 5px;
-  margin-bottom: 10px;
-}
 
-.chat-list ul {
-  list-style-type: none;
-  padding: 0;
-}
+
+
 
 .chat-list li {
   background-color: #f0f0f0;
@@ -95,9 +73,3 @@
   border-radius: 5px;
 }
 
-.chat-area {
-  flex: 1;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}

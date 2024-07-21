@@ -84,9 +84,12 @@ const Register = () => {
   return (
     <div className="auth-container">
       <div className="left-side">
+        <h1>Memory_Guardian</h1>
+        <p>________________________</p>
         <img src="assets/images/logo.png" alt="Logo" className="logo" />
         <h2>Welcome to Memory Guardian</h2>
         <p>Connect with our doctors and staff</p>
+        <p>_______________________________________ </p>
       </div>
       <div className="right-side">
         <div className="form-box">

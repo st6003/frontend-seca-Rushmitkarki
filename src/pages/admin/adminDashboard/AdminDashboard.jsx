@@ -1,8 +1,8 @@
-
 import React, { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
-import { getDashboardStats } from '../../../apis/api'; 
+import { getDashboardStats } from '../../../apis/api';
 import DashboardChart from '../../../components/DashboardChart';
+import AdminNavbar from '../../../components/AdminNavbar';
 
 const AdminDashboard = () => {
   const [stats, setStats] = useState({
@@ -35,7 +35,15 @@ const AdminDashboard = () => {
   }
 
   return (
-    <DashboardChart data={stats} />
+    <div className="flex">
+      <AdminNavbar />
+      <div className="flex-1 p-10 ml-64">
+        <h2 className="text-2xl font-bold mb-4">Admin Dashboard</h2>
+        <div className="w-full max-w-3xl mx-auto">
+          <DashboardChart data={stats} />
+        </div>
+      </div>
+    </div>
   );
 };
 

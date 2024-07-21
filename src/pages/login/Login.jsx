@@ -124,9 +124,13 @@ const Login = () => {
   return (
     <div className="auth-container">
       <div className="left-side">
+        <h1> Memory_Guardian</h1>
+        <p>-----------------------  </p>
         <img src="assets/images/logo.png" alt="Logo" className="logo" />
         <h2>Welcome to Memory Guardian</h2>
         <p>Connect with our doctors and staff</p>
+        <p>-----------------------------------------</p>
+
       </div>
       <div className="right-side">
         <div className="form-box">
@@ -163,7 +167,7 @@ const Login = () => {
             <button type="submit">Login</button>
           </form>
           <p className="auth-link">
-            Forgot Password? <button className="forgot-password-btn" data-bs-toggle="modal" data-bs-target="#forgotPasswordModal">Click here</button>
+             <button className="forgot-password-btn" data-bs-toggle="modal" data-bs-target="#forgotPasswordModal">Forgot Password?</button>
           </p>
         </div>
       </div>

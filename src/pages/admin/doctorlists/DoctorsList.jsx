@@ -6,6 +6,7 @@ import {
   getAllDoctors,
   updateDoctor,
 } from "../../../apis/api";
+import AdminNavbar from "../../../components/AdminNavbar";
 
 const DoctorsList = () => {
   const [doctors, setDoctors] = useState([]);
@@ -66,7 +67,6 @@ const DoctorsList = () => {
     formData.append("doctorFee", fee);
     formData.append("doctorImage", imageFile);
 
-    // Update the doctor in the backend
     updateDoctor(currentDoctor._id, formData)
       .then((res) => {
         if (res.status === 201) {
@@ -84,7 +84,6 @@ const DoctorsList = () => {
       "Are you sure you want to delete this doctor?"
     );
     if (confirm) {
-      // Delete the doctor from the backend
       deleteDoctor(id)
         .then((res) => {
           if (res.status === 201) {
@@ -110,75 +109,65 @@ const DoctorsList = () => {
   };
 
   return (
-    <>
-      <div className="container-fluid  flex flex-column">
-        <header>
-          <h1 className="mb-4 text-center">Doctor List Admin Panel</h1>
-        </header>
-        <main>
-          <div className="card">
-            <div className="card-body">
-              <div className="d-flex justify-content-between align-items-center mb-4">
-                <h2 className="card-title">Doctor List</h2>
-                <button
-                  className="btn btn-success"
-                  data-bs-toggle="modal"
-                  data-bs-target="#addDoctorModal"
-                  id="openModalButton"
-                >
-                  Add New Doctor
-                </button>
-              </div>
-              <div className="table-responsive">
-                <table className="table table-bordered">
-                  <thead className="thead-light">
-                    <tr>
-                      <th scope="col">Doctor Image</th>
-                      <th scope="col">Doctor Name</th>
-                      <th scope="col">Doctor Field</th>
-                      <th scope="col">Experience</th>
-                      <th scope="col">Fee</th>
-                      <th scope="col">Actions</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {doctors.map((doctor) => (
-                      <tr key={doctor._id}>
-                        <td>
-                          <img
-                            src={`http://localhost:5000/doctors/${doctor.doctorImage}`}
-                            alt={doctor.doctorName}
-                            style={{ width: "50px" }}
-                          />
-                        </td>
-                        <td>{doctor.doctorName}</td>
-                        <td>{doctor.doctorField}</td>
-                        <td>{doctor.doctorExperience}</td>
-                        <td>{doctor.doctorFee}</td>
-                        <td>
-                          <button
-                            className="btn btn-warning "
-                            onClick={() => openEditModal(doctor)}
-                            data-bs-toggle="modal"
-                            data-bs-target="#addDoctorModal"
-                          >
-                            Edit
-                          </button>
-                          <button
-                            className="btn btn-danger"
-                            onClick={() => handleDeleteDoctor(doctor._id)}
-                          >
-                            Delete
-                          </button>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-        </main>
+    <div className="flex">
+      <AdminNavbar />
+      <div className="flex-1 p-10 ml-64">
+        <h2 className="text-2xl font-bold mb-4">Doctor List</h2>
+        <button
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded text-sm mb-4"
+          data-bs-toggle="modal"
+          data-bs-target="#addDoctorModal"
+          id="openModalButton"
+        >
+          Add New Doctor
+        </button>
+        <div className="overflow-x-auto">
+          <table className="min-w-full bg-white">
+            <thead className="bg-gray-800 text-white">
+              <tr>
+                <th className="py-2 px-4 text-left">Doctor Image</th>
+                <th className="py-2 px-4 text-left">Doctor Name</th>
+                <th className="py-2 px-4 text-left">Doctor Field</th>
+                <th className="py-2 px-4 text-left">Experience</th>
+                <th className="py-2 px-4 text-left">Fee</th>
+                <th className="py-2 px-4 text-left">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {doctors.map((doctor) => (
+                <tr key={doctor._id} className="border-b">
+                  <td className="py-2 px-4">
+                    <img
+                      src={`http://localhost:5000/doctors/${doctor.doctorImage}`}
+                      alt={doctor.doctorName}
+                      className="w-12 h-12 object-cover rounded-full"
+                    />
+                  </td>
+                  <td className="py-2 px-4">{doctor.doctorName}</td>
+                  <td className="py-2 px-4">{doctor.doctorField}</td>
+                  <td className="py-2 px-4">{doctor.doctorExperience}</td>
+                  <td className="py-2 px-4">{doctor.doctorFee}</td>
+                  <td className="py-2 px-4">
+                    <button
+                      className="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-1 px-2 rounded text-xs mr-2"
+                      onClick={() => openEditModal(doctor)}
+                      data-bs-toggle="modal"
+                      data-bs-target="#addDoctorModal"
+                    >
+                      Edit
+                    </button>
+                    <button
+                      className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded text-xs"
+                      onClick={() => handleDeleteDoctor(doctor._id)}
+                    >
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
 
         {/* Add/Edit Doctor Modal */}
         <div
@@ -270,7 +259,7 @@ const DoctorsList = () => {
                       className="btn btn-secondary"
                       data-bs-dismiss="modal"
                     >
-                      Cancel
+                      Close
                     </button>
                     <button type="submit" className="btn btn-primary">
                       {currentDoctor ? "Update Doctor" : "Add Doctor"}
@@ -282,7 +271,7 @@ const DoctorsList = () => {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
