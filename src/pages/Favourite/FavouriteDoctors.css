@@ -1,0 +1,24 @@
+.icon-button {
+    background-color: transparent;
+    border: none;
+    padding: 5px;
+    margin: 0 5px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .icon-button .fa-eye, 
+  .icon-button .fa-trash {
+    color: #ab1d1f;/* Set the color you prefer */
+   
+    font-size: 1rem; /* Adjust the size of the icons */
+  }
+  
+  .table-actions {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  

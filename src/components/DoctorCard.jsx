@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Button, Modal } from "react-bootstrap";
 import { toast } from "react-toastify";
-import { addToFavoriteApi } from "../apis/api";
+import { addFavoriteApi } from "../apis/api";
 
 const DoctorCard = ({ doctorInformation }) => {
   const [show, setShow] = useState(false);
@@ -10,7 +10,7 @@ const DoctorCard = ({ doctorInformation }) => {
   const handleShow = () => setShow(true);
 
   const addToFavorites = () => {
-    addToFavoriteApi({ doctorId: doctorInformation._id })
+    addFavoriteApi({ doctorId: doctorInformation._id })
       .then((res) => {
         console.log(res);
         toast.success(res.data.message);

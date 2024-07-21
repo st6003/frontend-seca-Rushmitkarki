@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react';
-import { doctorPagination, getDoctorCount } from '../../apis/api';
-import DoctorCard from '../../components/DoctorCard';
-import UserNavbar from '../../components/UserNavbar';  
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import "bootstrap/dist/css/bootstrap.min.css";
+import React, { useEffect, useState } from "react";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { doctorPagination, getDoctorCount } from "../../apis/api";
+import DoctorCard from "../../components/DoctorCard";
+import UserNavbar from "../../components/UserNavbar";
 
 const Doctor = () => {
   const [doctors, setDoctors] = useState([]);
@@ -57,43 +57,50 @@ const Doctor = () => {
 
   return (
     <div className="flex min-h-screen bg-gray-100">
-      <UserNavbar /> 
+      <UserNavbar />
 
       {/* Main Content */}
       <div className="ml-64 flex-1 p-8">
         <div className="flex justify-between items-center mb-8">
-          <div className="flex-1 mr-4">
+          <div className="flex-grow mr-2">
             <input
               type="text"
               placeholder="Search doctors..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full p-3 border rounded-lg"
+              className="w-full p-4 text-lg border rounded-lg"
             />
           </div>
           <button
             onClick={handleSearch}
-            className="bg-blue-500 text-white px-6 py-3 rounded-lg"
+            className="bg-blue-500 text-white px-4 py-2 rounded-lg text-sm"
+            style={{ width: '100px' }}
           >
             Search
           </button>
-          <div className="ml-4">
+          <div className="ml-2 flex">
             <button
               onClick={() => handleSort("asc")}
-              className={`px-4 py-2 rounded-lg ${sortOrder === "asc" ? "bg-blue-500 text-white" : "bg-gray-200"}`}
+              className={`px-3 py-1 rounded-lg text-xs ${
+                sortOrder === "asc" ? "bg-blue-500 text-white" : "bg-gray-200"
+              }`}
             >
-              Price: Low to High
+              Low to High
             </button>
             <button
               onClick={() => handleSort("desc")}
-              className={`px-4 py-2 rounded-lg ml-2 ${sortOrder === "desc" ? "bg-blue-500 text-white" : "bg-gray-200"}`}
+              className={`px-3 py-1 rounded-lg text-xs ml-1 ${
+                sortOrder === "desc" ? "bg-blue-500 text-white" : "bg-gray-200"
+              }`}
             >
-              Price: High to Low
+              High to Low
             </button>
           </div>
         </div>
 
-        <h2 className="text-3xl font-bold mb-6">Meet our Professional Doctors</h2>
+        <h2 className="text-3xl font-bold mb-6">
+          Meet our Professional Doctors
+        </h2>
 
         {error ? (
           <p className="text-red-500">{error}</p>
@@ -109,26 +116,52 @@ const Doctor = () => {
           <nav>
             <ul className="flex space-x-2">
               <li>
-                <button onClick={() => handlePagination(1)} className="px-4 py-2 bg-gray-200 rounded-lg" disabled={page === 1}>First</button>
+                <button
+                  onClick={() => handlePagination(1)}
+                  className="px-4 py-2 bg-gray-200 rounded-lg"
+                  disabled={page === 1}
+                >
+                  First
+                </button>
               </li>
               <li>
-                <button onClick={() => handlePagination(page - 1)} className="px-4 py-2 bg-gray-200 rounded-lg" disabled={page === 1}>Previous</button>
+                <button
+                  onClick={() => handlePagination(page - 1)}
+                  className="px-4 py-2 bg-gray-200 rounded-lg"
+                  disabled={page === 1}
+                >
+                  Previous
+                </button>
               </li>
               {Array.from({ length: totalPages }, (_, i) => (
                 <li key={i}>
                   <button
                     onClick={() => handlePagination(i + 1)}
-                    className={`px-4 py-2 rounded-lg ${page === i + 1 ? "bg-blue-500 text-white" : "bg-gray-200"}`}
+                    className={`px-4 py-2 rounded-lg ${
+                      page === i + 1 ? "bg-blue-500 text-white" : "bg-gray-200"
+                    }`}
                   >
                     {i + 1}
                   </button>
                 </li>
               ))}
               <li>
-                <button onClick={() => handlePagination(page + 1)} className="px-4 py-2 bg-gray-200 rounded-lg" disabled={page === totalPages}>Next</button>
+                <button
+                  onClick={() => handlePagination(page + 1)}
+                  className="px-4 py-2 bg-gray-200 rounded-lg"
+                  disabled={page === totalPages}
+                >
+                  Next
+                </button>
               </li>
               <li>
-                <button onClick={() => handlePagination(totalPages)} className="px-4 py-2 bg-gray-200 rounded-lg" disabled={page === totalPages}>Last</button>
+                <button
+                  onClick={() => handlePagination(totalPages)}
+                  className="px-4 py-2 bg-gray-200 rounded-lg"
+                  disabled={page === totalPages}
+                >
+                  Last
+                </button>
               </li>
             </ul>
           </nav>

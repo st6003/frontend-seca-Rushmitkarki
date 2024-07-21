@@ -82,7 +82,7 @@ const UserNavbar = () => {
               <>
                 <li className="nav-item mb-2">
                   <Link
-                    to="/Profile"
+                    to="/Profilelist"
                     className="btn w-full text-left border border-gray-300 text-gray-400 hover:bg-blue-600 hover:text-white flex items-center justify-start p-2 rounded"
                   >
                     <span>
