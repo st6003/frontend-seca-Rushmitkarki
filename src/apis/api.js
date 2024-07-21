@@ -82,11 +82,8 @@ export const updateUserProfile = (id, userData) =>
 
 // Favorites
 export const addFavoriteApi = (data) => Api.post("/api/favourite/add", data);
-export const getUserFavoritesApi = () =>
-  Api.get("/api/favourite/user_Favourite");
-export const removeFavoriteApi = (id) =>
-  Api.delete(`/api/favourite/delete/${id}`);
-
+export const getUserFavoritesApi = () => Api.get("/api/favourite/all");
+export const removeFavoriteApi = (id) => Api.delete(`/api/favourite/delete/${id}`);
 // Appointment doctors
 export const appointmentDoctor = (data) =>
   Api.post("/api/booking/create_appointments", data);

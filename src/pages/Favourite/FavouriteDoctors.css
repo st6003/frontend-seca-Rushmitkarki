@@ -1,24 +1,45 @@
 .icon-button {
-    background-color: transparent;
-    border: none;
-    padding: 5px;
-    margin: 0 5px;
-    cursor: pointer;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  .icon-button .fa-eye, 
-  .icon-button .fa-trash {
-    color: #ab1d1f;/* Set the color you prefer */
-   
-    font-size: 1rem; /* Adjust the size of the icons */
-  }
-  
-  .table-actions {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  
+  background-color: transparent;
+  border: none;
+  padding: 5px;
+  margin: 0 5px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon-button .fa-eye, 
+.icon-button .fa-trash {
+  color: #ab1d1f; /* Set the color you prefer */
+  font-size: 1rem; /* Adjust the size of the icons */
+}
+
+.table-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.table {
+  background-color: #f8f9fa; /* Light background color for the table */
+}
+
+.table thead th {
+  background-color: #e9ecef; /* Light background color for table headers */
+  color: #333; /* Dark text color for table headers */
+}
+
+.table tbody tr {
+  background-color: #3d0808; /* White background for table rows */
+  color: #3d0808; 
+}
+
+.table tbody td {
+  color: #872626; /* Dark text color for table cells */
+}
+
+.table-actions .icon-button .fa-eye, 
+.table-actions .icon-button .fa-trash {
+  color: #ab1d1f; /* Color for the icons */
+}

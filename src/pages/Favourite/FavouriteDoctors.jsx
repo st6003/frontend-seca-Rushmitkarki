@@ -41,7 +41,7 @@ const FavouriteDoctors = () => {
   };
 
   return (
-    <div style={{ marginLeft: "250px", padding: "20px" }}>
+    <div style={{ marginLeft: "250px", padding: "20px", }}>
       <h1>Your Favourite Doctors</h1>
       {favorites.length === 0 ? (
         <Alert variant="info">No favorite doctors found.</Alert>
@@ -57,8 +57,8 @@ const FavouriteDoctors = () => {
           <tbody>
             {favorites.map((item) => (
               <tr key={item._id}>
-                <td>{item.doctorId?.doctorName || ""}</td>
-                <td>{item.doctorId?.doctorField || ""}</td>
+                <td >{item.doctorId?.doctorName || ""}</td>
+                <td >{item.doctorId?.doctorField || ""}</td>
                 <td className="table-actions">
                   <Button
                     variant=""
