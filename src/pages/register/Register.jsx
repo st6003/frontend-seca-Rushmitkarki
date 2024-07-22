@@ -179,7 +179,7 @@ const Register = () => {
               />
               {errors.confirmPassword && <p className="text-danger">{errors.confirmPassword}</p>}
             </div>
-            <button type="submit">Register</button>
+            <button >Register</button>
           </form>
           <p className="auth-link">
             Already have an account? <Link to="/login">Login</Link>

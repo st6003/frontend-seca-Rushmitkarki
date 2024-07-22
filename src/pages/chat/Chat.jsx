@@ -1,7 +1,7 @@
-import classNames from "classnames";
 import React, { useEffect, useState } from "react";
 import Skeleton from "react-loading-skeleton";
 import socketIOClient from "socket.io-client";
+import classNames from "classnames";
 import {
   allMessages,
   createChat,
@@ -12,55 +12,8 @@ import {
 } from "../../apis/api";
 import GroupDetailsModal from "./GroupDetailsModal";
 import GroupModal from "./GroupModal";
-import "./chat.css";
+
 const ENDPOINT = "http://localhost:5000";
-
-const isSameSenderMargin = (messages, message, index, userId) => {
-  if (
-    index < messages.length - 1 &&
-    messages[index + 1].sender._id === message.sender._id &&
-    messages[index].sender._id !== userId
-  ) {
-    return 33;
-  } else if (
-    (index < messages.length - 1 &&
-      messages[index + 1].sender._id !== message.sender._id &&
-      messages[index].sender._id !== userId) ||
-    (index === messages.length - 1 && messages[index].sender._id !== userId)
-  ) {
-    return 0;
-  } else {
-    return "auto";
-  }
-};
-
-const isSameSender = (messages, message, index, userId) => {
-  return (
-    index < messages.length - 1 &&
-    (messages[index + 1].sender._id !== message.sender._id ||
-      messages[index + 1].sender._id === undefined) &&
-    messages[index].sender._id !== userId
-  );
-};
-
-const isLastMessage = (messages, index, userId) => {
-  return (
-    index === messages.length - 1 &&
-    messages[messages.length - 1].sender._id !== userId &&
-    messages[messages.length - 1].sender._id
-  );
-};
-
-const isSameUser = (messages, message, index) => {
-  return index > 0 && messages[index - 1].sender._id === message.sender._id;
-};
-
-const getSenderName = (loggedUser, users) => {
-  if (!users || users.length < 2) return "";
-  return users[0]?._id === loggedUser?._id
-    ? users[1].firstName
-    : users[0].firstName;
-};
 
 const Chat = () => {
   const [chats, setChats] = useState([]);
@@ -105,6 +58,7 @@ const Chat = () => {
       socket.off("updateChatList");
     };
   }, [socket]);
+
   const fetchCurrentUser = async () => {
     try {
       const response = await getSingleUser();
@@ -243,223 +197,136 @@ const Chat = () => {
   };
 
   return (
-    <div className="chat-interface">
-      <div className="chat-header">
-        <h1 className="chat-title">Connect in Memory Guardian</h1>
-        <div className="search-container">
+    <div className="flex h-screen" style={{ marginLeft: '250px' }}>
+      {/* Sidebar */}
+      <div className="w-1/4 bg-white border-r overflow-y-auto">
+        <button
+          className="w-full py-3 px-4 bg-blue-600 text-white font-bold uppercase hover:bg-blue-700"
+          onClick={handleGroupChatClick}
+        >
+          New Group Chat +
+        </button>
+        <h3 className="font-bold text-lg mt-4 mb-2 px-4">Chat History</h3>
+        <ul>
+          {chats.length > 0 ? (
+            chats.map((chat) => (
+              <li
+                key={chat._id}
+                onClick={() => handleChatSelect(chat)}
+                className={classNames("cursor-pointer px-4 py-2", {
+                  "bg-blue-200": selectedChat && selectedChat._id === chat._id,
+                })}
+              >
+                <div className="text-sm font-semibold">
+                  {chat.isGroupChat ? chat.chatName : chat.users[1]?.firstName}
+                </div>
+                <small className="text-xs">
+                  {chat.latestMessage
+                    ? `${chat.latestMessage.sender?.firstName}: ${chat.latestMessage.content}`
+                    : "No messages yet"}
+                </small>
+              </li>
+            ))
+          ) : (
+            <li className="px-4 py-2">No chats available</li>
+          )}
+        </ul>
+      </div>
+
+      {/* Main Chat Area */}
+      <div className="flex-1 flex flex-col">
+        {/* Chat Header */}
+        <div className="bg-blue-700 text-white py-2 px-4 flex justify-between items-center">
+          <h1 className="text-xl font-bold">Connect in Memory Guardian</h1>
+          <div className="relative">
+            <input
+              type="text"
+              placeholder="Search User"
+              className="px-4 py-2 rounded-lg border-none"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+            <button
+              className="absolute right-0 top-0 bottom-0 bg-blue-700 text-white px-4 cursor-pointer"
+              onClick={handleSearch}
+            >
+              {isSearching ? <Skeleton width={20} height={20} /> : "Search"}
+            </button>
+          </div>
+        </div>
+
+        {/* Chat Messages */}
+        <div className="flex-1 overflow-y-auto bg-gray-100">
+          {isLoadingChat ? (
+            <Skeleton count={5} />
+          ) : (
+            messages.map((message, index) => (
+              <div
+                key={index}
+                className={`flex ${message.sender._id === currentUser?._id ? "justify-end" : "justify-start"
+                  }`}
+              >
+                <div
+                  className={`max-w-xs rounded-lg p-2 m-2 ${message.sender._id === currentUser?._id ? "bg-blue-500 text-white" : "bg-gray-200 text-black"
+                    }`}
+                >
+                  <p className="text-sm">{message.content}</p>
+                </div>
+              </div>
+            ))
+          )}
+        </div>
+
+        {/* Message Input */}
+        <div className="p-4 border-t flex items-center">
           <input
             type="text"
-            placeholder="Search User"
-            className="search-input"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
+            placeholder="Type your message..."
+            className="flex-1 px-4 py-2 rounded-lg border"
+            value={newMessage}
+            onChange={(e) => setNewMessage(e.target.value)}
           />
-          <button className="search-btn" onClick={handleSearch}>
-            🔍
+          <button
+            className="ml-4 bg-blue-700 text-white py-2 px-4 rounded-lg"
+            onClick={handleSendMessage}
+          >
+            Send
           </button>
-          {isSearching && <div className="searching">Searching...</div>}
-          {searchResults.length > 0 && (
-            <div className="search-results">
-              <h3>Search Results</h3>
-              <ul>
-                {searchResults.map((user) => (
-                  <li key={user._id} onClick={() => handleUserSelect(user)}>
-                    {user.firstName} {user.lastName}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
         </div>
-        {isSearching && <div className="searching">Searching...</div>}
-        {searchResults.length > 0 && (
-          <div className="search-results">
-            <h3>Search Results</h3>
-            <ul>
-              {searchResults.map((user) => (
-                <li key={user._id} onClick={() => handleUserSelect(user)}>
-                  {user.firstName} {user.lastName}
-                </li>
-              ))}
-            </ul>
-          </div>
+      </div>
+
+      {/* User or Group Details Sidebar */}
+      <div className="w-1/4 bg-white border-l overflow-y-auto p-4">
+        {selectedChat && (
+          <>
+            <h3 className="font-bold text-lg">{selectedChat.chatName}</h3>
+            {selectedChat.isGroupChat ? (
+              <GroupDetailsModal
+                groupChat={selectedChat}
+                onClose={() => setShowGroupDetails(false)}
+                onGroupUpdate={handleGroupUpdate}
+              />
+            ) : (
+              showUserDetails && (
+                <div>
+                  <h4>User Details</h4>
+                  {/* Display user details here */}
+                </div>
+              )
+            )}
+            <button
+              className="mt-2 bg-blue-700 text-white py-2 px-4 rounded-lg"
+              onClick={handleEyeButtonClick}
+            >
+              {selectedChat.isGroupChat
+                ? "Show Group Details"
+                : "Show User Details"}
+            </button>
+          </>
         )}
       </div>
-      <div className="chat-content">
-        <div className="chat-list">
-          <button className="new-group-btn" onClick={handleGroupChatClick}>
-            New Group Chat +
-          </button>
-          <h3 className="font-bold">Chat History</h3>
-          <ul>
-            {chats.length > 0 ? (
-              chats.map((chat) => (
-                <li
-                  key={chat._id}
-                  onClick={() => handleChatSelect(chat)}
-                  className={classNames("chat-item", {
-                    active: selectedChat && selectedChat._id === chat._id,
-                  })}
-                >
-                  <div className="chat-item-info">
-                    {chat.isGroupChat
-                      ? chat.chatName
-                      : chat.users[1]?.firstName}
-                  </div>
-                  <small className="chat-item-preview">
-                    {chat.latestMessage
-                      ? `${chat.latestMessage.sender?.firstName}: ${chat.latestMessage.content}`
-                      : "No messages yet"}
-                  </small>
-                </li>
-              ))
-            ) : (
-              <li>No chats available</li>
-            )}
-          </ul>
-        </div>
-        <div className="chat-area">
-          {selectedChat ? (
-            <div className="chat-box">
-              <div className="chat-box-header">
-                <button
-                  className="back-btn"
-                  onClick={() => setSelectedChat(null)}
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-6 w-6"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M15 19l-7-7 7-7"
-                    />
-                  </svg>
-                </button>
-                <h2 className="chat-box-title">
-                  {selectedChat.isGroupChat
-                    ? selectedChat.chatName
-                    : selectedChat.users[1]?.firstName}
-                </h2>
-                <button className="eye-btn" onClick={handleEyeButtonClick}>
-                  👁️
-                </button>
-              </div>
-              {!selectedChat.isGroupChat && showUserDetails && (
-                <div className="user-details visible">
-                  <h3>Receiver Details:</h3>
-                  <p>
-                    {selectedChat.users[1]?.firstName}{" "}
-                    {selectedChat.users[1]?.lastName}
-                  </p>
-                  <p>{selectedChat.users[1]?.email}</p>
-                </div>
-              )}
 
-              <div
-                className={`user-details ${showUserDetails ? "visible" : ""}`}
-              >
-                <h3>User Details:</h3>
-                {selectedChat.users.map((user) => (
-                  <div key={user._id}>
-                    <p>
-                      {user.firstName} {user.lastName}
-                    </p>
-                    <p>{user.email}</p>
-                  </div>
-                ))}
-              </div>
-              <div className="messages">
-                {isLoadingChat ? (
-                  <Skeleton count={5} height={40} />
-                ) : (
-                  <div className="chat-box-messages">
-                    {messages.map((message, index) => (
-                      <div
-                        key={message._id}
-                        className={classNames("message", {
-                          "my-message": message.sender._id === currentUser?._id,
-                          "their-message":
-                            message.sender._id !== currentUser?._id,
-                        })}
-                        style={{
-                          marginLeft:
-                            message.sender._id === currentUser._id
-                              ? "auto"
-                              : "0",
-                          marginRight:
-                            message.sender._id !== currentUser._id
-                              ? "auto"
-                              : "0",
-                          marginBottom: isSameSenderMargin(
-                            messages,
-                            message,
-                            index,
-                            currentUser._id
-                          ),
-                          marginTop: isSameUser(messages, message, index)
-                            ? 3
-                            : 10,
-                        }}
-                      >
-                        {(isSameSender(
-                          messages,
-                          message,
-                          index,
-                          currentUser._id
-                        ) ||
-                          isLastMessage(messages, index, currentUser._id)) && (
-                          <div className="message-sender">
-                            {message.sender.firstName}
-                          </div>
-                        )}
-                        <div className="message-content">{message.content}</div>
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </div>
-              <div className="chat-input">
-                <input
-                  type="text"
-                  placeholder="Type a message"
-                  className="message-input"
-                  value={newMessage}
-                  onChange={(e) => setNewMessage(e.target.value)}
-                />
-                <button className="send-btn" onClick={handleSendMessage}>
-                  Send
-                </button>
-              </div>
-            </div>
-          ) : (
-            <div className="welcome-message">
-              Select a chat to start messaging
-            </div>
-          )}
-        </div>
-      </div>
-      {showGroupDetails && selectedChat && selectedChat.isGroupChat && (
-        <GroupDetailsModal
-          selectedChat={selectedChat}
-          currentUser={currentUser}
-          closeModal={() => setShowGroupDetails(false)}
-          onGroupUpdate={handleGroupUpdate}
-        />
-      )}
-      {showGroupModal && (
-        <GroupModal
-          currentUser={currentUser}
-          closeModal={closeGroupModal}
-          onGroupCreate={fetchChats}
-          onChatSelect={handleChatSelect}
-        />
-      )}
+      {showGroupModal && <GroupModal onClose={closeGroupModal} />}
     </div>
   );
 };

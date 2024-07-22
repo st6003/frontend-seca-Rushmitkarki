@@ -56,14 +56,14 @@ const AdminNavbar = () => {
                 <FaUsers className="mr-3" /> Users List
               </button>
             </li>
-            <li className="nav-item">
+            {/* <li className="nav-item">
               <button
                 className="btn w-full flex items-center justify-start p-3 rounded text-white hover:bg-gray-700 transition-colors duration-200 border-white border"
                 onClick={() => handleNavigation("/payment")}
               >
                 <FaCreditCard className="mr-3" /> Payment
               </button>
-            </li>
+            </li> */}
             <li className="nav-item">
               <button
                 className="btn w-full flex items-center justify-start p-3 rounded text-white hover:bg-gray-700 transition-colors duration-200 border-white border"

@@ -82,16 +82,17 @@ const GroupModal = ({ closeModal }) => {
 
   return (
     <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full flex items-center justify-center">
-      <div className="bg-white p-5 rounded-lg shadow-lg w-96">
+      <div className="bg-white p-5 rounded-lg shadow-lg w-80">
         <ToastContainer />
         <div className="flex justify-between items-center mb-4">
-          <h2 className="text-xl font-bold">Create Group Chat</h2>
           <button
             onClick={closeModal}
             className="text-gray-500 hover:text-gray-700"
           >
-            ×
+            ←
           </button>
+          <h1 className="text-xl font-bold">Create Group Chat</h1>
+
         </div>
         <input
           type="text"
@@ -122,10 +123,10 @@ const GroupModal = ({ closeModal }) => {
             placeholder="Add Users e.g. John, Piyush, Jane"
             value={searchTerm}
             onChange={handleSearch}
-            className="w-full p-2 border rounded"
+            className="w-full p-2 border rounded pr-8"
           />
           <button
-            className="absolute top-0 right-0 mt-2 mr-2"
+            className="absolute top-10 right-1 mt-2 mr-2 text-sm"
             onClick={handleSearch}
           >
             🔍
@@ -152,12 +153,6 @@ const GroupModal = ({ closeModal }) => {
           className="w-full bg-blue-500 text-white p-2 rounded mt-4 hover:bg-blue-600"
         >
           Create Chat
-        </button>
-        <button
-          onClick={closeModal}
-          className="w-full bg-gray-300 text-gray-700 p-2 rounded mt-2 hover:bg-gray-400"
-        >
-          Cancel
         </button>
       </div>
     </div>

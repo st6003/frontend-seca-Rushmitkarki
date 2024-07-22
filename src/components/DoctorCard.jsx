@@ -1,10 +1,44 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button, Modal } from "react-bootstrap";
 import { toast } from "react-toastify";
-import { addFavoriteApi } from "../apis/api";
+import Rating from 'react-rating-stars-component';
+import { addFavoriteApi, getDoctorReviews, addReviewApi } from "../apis/api";
 
 const DoctorCard = ({ doctorInformation, refreshFavorites }) => {
   const [show, setShow] = useState(false);
+  const [reviews, setReviews] = useState([]);
+  const [rating, setRating] = useState(0);
+  const [comment, setComment] = useState("");
+  const [averageRating, setAverageRating] = useState(0);
+
+  useEffect(() => {
+    fetchReviews();
+  }, []);
+
+  useEffect(() => {
+    if (show) {
+      fetchReviews();
+    }
+  }, [show]);
+
+  const fetchReviews = async () => {
+    try {
+      const res = await getDoctorReviews(doctorInformation._id);
+      setReviews(res.data.reviews);
+      calculateAverageRating(res.data.reviews);
+    } catch (err) {
+      toast.error("Failed to fetch reviews");
+    }
+  };
+
+  const calculateAverageRating = (reviews) => {
+    if (reviews.length === 0) {
+      setAverageRating(0);
+      return;
+    }
+    const totalRating = reviews.reduce((sum, review) => sum + review.rating, 0);
+    setAverageRating(totalRating / reviews.length);
+  };
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -22,7 +56,32 @@ const DoctorCard = ({ doctorInformation, refreshFavorites }) => {
     } catch (err) {
       if (err.response && err.response.data && err.response.data.message) {
         toast.error(err.response.data.message);
-      } 
+      }
+    }
+  };
+
+  const handleRatingChange = (newRating) => {
+    setRating(newRating);
+  };
+
+  const submitReview = async () => {
+    if (!rating || !comment) {
+      toast.error("Please provide both rating and comment");
+      return;
+    }
+
+    try {
+      const res = await addReviewApi({ doctorId: doctorInformation._id, rating, comment });
+      toast.success(res.data.message);
+      fetchReviews(); // Refresh reviews after submitting a new one
+      setRating(0); // Reset rating
+      setComment(""); // Reset comment
+    } catch (err) {
+      if (err.response && err.response.data && err.response.data.message) {
+        toast.error(err.response.data.message);
+      } else {
+        toast.error("Failed to submit review");
+      }
     }
   };
 
@@ -46,22 +105,39 @@ const DoctorCard = ({ doctorInformation, refreshFavorites }) => {
               : "No Field Info"}
           </p>
           <div className="flex justify-between items-center mb-2">
-            <span className="text-xl font-bold text-blue-600">
-              ${doctorInformation.doctorFee || "0.00"}
+            <span className="text-xl font-bold text-gray-800">
+              {doctorInformation.doctorExperience || "N/A"} years
             </span>
-            <button
+            <span className="text-sm text-gray-600">
+              {doctorInformation.doctorRating || "No Ratings"}
+            </span>
+          </div>
+          <div className="flex justify-between items-center">
+            <Button
+              variant="primary"
+              size="sm"
+              className="mr-2"
+              onClick={addFavorites}
+            >
+              Add to Favorites
+            </Button>
+            <Button
+              variant="secondary"
+              size="sm"
               onClick={handleShow}
-              className="px-3 py-1 bg-blue-500 text-white rounded-md text-sm hover:bg-blue-600 transition"
             >
               View More
-            </button>
+            </Button>
           </div>
-          <button
-            onClick={addFavorites}
-            className="w-full py-2 bg-yellow-500 text-white rounded-md hover:bg-yellow-600 transition"
-          >
-            Add to Favorites
-          </button>
+          {averageRating > 0 && (
+            <Rating
+              value={averageRating}
+              edit={false}
+              size={24}
+              activeColor="#ffd700"
+              className="mt-2"
+            />
+          )}
         </div>
       </div>
 
@@ -72,24 +148,53 @@ const DoctorCard = ({ doctorInformation, refreshFavorites }) => {
         <Modal.Body>
           <img
             src={`http://localhost:5000/doctors/${doctorInformation.doctorImage}`}
-            className="img-fluid mb-3"
+            className="w-full h-48 object-cover mb-4"
             alt={doctorInformation.doctorName || "Doctor"}
           />
-          <p>{doctorInformation.doctorField || "No Field Info"}</p>
-          <p>Fee: ${doctorInformation.doctorFee || "0.00"}</p>
+          <h5 className="font-semibold">Field: {doctorInformation.doctorField}</h5>
+          <p>Experience: {doctorInformation.doctorExperience} years</p>
+          <Rating
+            value={rating}
+            onChange={handleRatingChange}
+            size={24}
+            activeColor="#ffd700"
+          />
+          <textarea
+            className="w-full mt-2 p-2 border rounded"
+            rows="3"
+            placeholder="Write your review..."
+            value={comment}
+            onChange={(e) => setComment(e.target.value)}
+          ></textarea>
+          <Button
+            variant="primary"
+            className="mt-2"
+            onClick={submitReview}
+          >
+            Submit Review
+          </Button>
+          <div className="mt-4">
+            <h5 className="font-semibold">Reviews:</h5>
+            {reviews.length === 0 ? (
+              <p>No reviews yet.</p>
+            ) : (
+              reviews.map((review, index) => (
+                <div key={index} className="border-t pt-2 mt-2">
+                  <p>{review.comment}</p>
+                  <Rating
+                    value={review.rating}
+                    edit={false}
+                    size={20}
+                    activeColor="#ffd700"
+                  />
+                </div>
+              ))
+            )}
+          </div>
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>
             Close
-          </Button>
-          <Button
-            variant="warning"
-            onClick={() => {
-              addFavorites();
-              handleClose();
-            }}
-          >
-            Add to Favorites
           </Button>
         </Modal.Footer>
       </Modal>

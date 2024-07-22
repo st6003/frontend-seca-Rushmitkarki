@@ -74,6 +74,8 @@ input {
 
 button {
   width: 100%;
+  text-align: center;
+  size: 0%;
   padding: 10px;
   background-color: #003d79;
   color: #ffffff;
@@ -84,7 +86,7 @@ button {
 }
 
 button:hover {
-  background-color: #00254d;
+  background-color: #6f859d;
 }
 
 .auth-link {

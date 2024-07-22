@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import Modal from "react-modal"; // Import react-modal
 import socketIOClient from "socket.io-client";
 import {
   addToGroup,
@@ -11,11 +12,14 @@ import "./groupDetailsModal.css";
 
 const ENDPOINT = "http://localhost:5000"; // Adjust this endpoint as needed
 
+Modal.setAppElement('#root'); // Set the app element for accessibility
+
 const GroupDetailsModal = ({
   selectedChat,
   currentUser,
   closeModal,
   onGroupUpdate,
+  isOpen
 }) => {
   const [groupName, setGroupName] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
@@ -111,9 +115,21 @@ const GroupDetailsModal = ({
   };
 
   return (
-    <div className="group-details-modal">
+    <Modal
+      isOpen={isOpen}
+      onRequestClose={closeModal}
+      contentLabel="Group Details Modal"
+      className="group-details-modal"
+      overlayClassName="group-details-overlay"
+    >
       <div className="modal-content">
-        <h2>Group List</h2>
+        <div className="modal-header">
+          <button onClick={closeModal} className="back-btn">
+            ←
+          </button>
+          <h2>Group Details</h2>
+          
+        </div>
         <div className="group-users">
           {selectedChat.users.map((user) => (
             <span key={user._id} className="user-tag">
@@ -128,11 +144,11 @@ const GroupDetailsModal = ({
           type="text"
           value={groupName}
           onChange={handleGroupNameChange}
-          placeholder="Chat Name"
+          placeholder="Group Name"
           className="input-field"
         />
         <button onClick={handleUpdateGroupName} className="update-btn">
-          Update
+          Update Name
         </button>
 
         <div className="search-container">
@@ -163,7 +179,7 @@ const GroupDetailsModal = ({
             {selectedUsers.map((user) => (
               <span key={user._id} className="user-tag">
                 {user.firstName} {user.lastName}
-                <button onClick={() => handleRemoveUser(user._id)}>×</button>
+                <button onClick={() => setSelectedUsers(selectedUsers.filter(u => u._id !== user._id))}>×</button>
               </span>
             ))}
           </div>
@@ -176,11 +192,8 @@ const GroupDetailsModal = ({
           Leave Group
         </button>
         {error && <p className="error-message">{error}</p>}
-        <button onClick={closeModal} className="close-btn">
-          ×
-        </button>
       </div>
-    </div>
+    </Modal>
   );
 };
 
