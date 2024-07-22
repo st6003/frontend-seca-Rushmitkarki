@@ -134,3 +134,9 @@ export const removeFromGroup = (data) => Api.put("/api/chat/groupremove", data);
 export const leaveGroup = (data) => Api.post("/api/chat/groupleave", data);
 export const sendMessage = (data) => Api.post("/api/message/send", data);
 export const allMessages = (id) => Api.get(`/api/message/${id}`);
+
+
+// review and rating
+// Add these API calls to your api.js file
+export const addReviewApi = (data) => Api.post("/api/rating/add", data);
+export const getDoctorReviews = (doctorId) => Api.get(`/api/rating/doctor/${doctorId}`);

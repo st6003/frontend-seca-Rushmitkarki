@@ -80,9 +80,9 @@ const Homepage = () => {
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
             {doctors.map((doctor) => (
               <DoctorCard
-                key={doctor.id}
+                key={doctor._id}  // Ensure unique key
                 doctorInformation={doctor}
-                color="red"
+                refreshFavorites={fetchDoctors}
               />
             ))}
           </div>
