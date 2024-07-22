@@ -129,11 +129,14 @@ export const createChat = (data) => Api.post("/api/chat/create", data);
 export const getChat = () => Api.get("/api/chat/fetch");
 export const createGroupChat = (data) => Api.post("/api/chat/group", data);
 export const renameGroup = (data) => Api.put("/api/chat/rename", data);
-export const addToGroup = (data) => Api.put("/api/chat/groupadd", data);
-export const removeFromGroup = (data) => Api.put("/api/chat/groupremove", data);
+export const addUserToGroup = (data) => Api.put("/api/chat/groupadd", data);
+export const removeUserFromGroup = (data) => Api.put("/api/chat/groupremove", data);
 export const leaveGroup = (data) => Api.post("/api/chat/groupleave", data);
 export const sendMessage = (data) => Api.post("/api/message/send", data);
 export const allMessages = (id) => Api.get(`/api/message/${id}`);
+// update group
+export const updateGroupChat = (id, data) =>
+  Api.put(`/api/chat/updategroup/${id}`, data);
 
 
 // review and rating

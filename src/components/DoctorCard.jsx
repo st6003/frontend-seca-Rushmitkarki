@@ -52,7 +52,7 @@ const DoctorCard = ({ doctorInformation, refreshFavorites }) => {
     try {
       const res = await addFavoriteApi({ doctorId: doctorInformation._id });
       toast.success(res.data.message);
-      refreshFavorites(); // Call the function to refresh the favorite list
+      refreshFavorites(); 
     } catch (err) {
       if (err.response && err.response.data && err.response.data.message) {
         toast.error(err.response.data.message);
@@ -109,7 +109,7 @@ const DoctorCard = ({ doctorInformation, refreshFavorites }) => {
               {doctorInformation.doctorExperience || "N/A"} years
             </span>
             <span className="text-sm text-gray-600">
-              {doctorInformation.doctorRating || "No Ratings"}
+              {doctorInformation.doctorRating || ""}
             </span>
           </div>
           <div className="flex justify-between items-center">
