@@ -23,8 +23,12 @@ const ChatArea = ({ selectedChat, messages = [], onSendMessage, onShowUserDetail
           <div className="messages">
             {messages.map(message => (
               <div key={message._id} className={`message ${message.sender._id === selectedChat.users[0]._id ? 'sent' : 'received'}`}>
-                {message.sender._id !== selectedChat.users[0]._id && <img src={message.sender.profilePic} alt={message.sender.firstName} className="message-avatar" />}
-                <div className="message-content">{message.content}</div>
+                {message.sender._id === selectedChat.users[0]._id && (
+                  <span className="receiver-name">{selectedChat.users[1]?.firstName}</span>
+                )}
+                <div className="message-content">
+                  {message.content}
+                </div>
               </div>
             ))}
           </div>

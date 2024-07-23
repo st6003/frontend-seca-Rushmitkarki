@@ -8,9 +8,22 @@ const ChatHeader = ({ onCreateChat }) => {
   const handleSearch = async () => {
     try {
       const response = await searchUsers(searchQuery);
+      console.log('Search results:', response.data); // Debugging info
       setSearchResults(response.data.users || []); // Fallback to an empty array if response.data.users is undefined
     } catch (error) {
       console.error('Error searching users:', error);
+    }
+  };
+
+  const handleUserClick = async (userId) => {
+    try {
+      // Clear search results
+      setSearchResults([]);
+      
+      // Initiate chat with selected user
+      await onCreateChat(userId);
+    } catch (error) {
+      console.error('Error handling user click:', error);
     }
   };
 
@@ -24,22 +37,21 @@ const ChatHeader = ({ onCreateChat }) => {
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
         />
-        <button onClick={handleSearch}>Search</button>
+        <button onClick={handleSearch} className="search-btn">Search</button>
       </div>
       {searchResults.length > 0 && (
         <div className="search-results">
           {searchResults.map(user => (
-            <div key={user._id} onClick={() => onCreateChat(user._id)}>
+            <div
+              key={user._id}
+              onClick={() => handleUserClick(user._id)}
+              className="search-result-item"
+            >
               {user.firstName} {user.lastName}
             </div>
           ))}
         </div>
       )}
-      <h1 className="app-title">Talk-A-Tive</h1>
-      <div className="user-info">
-        <div className="notification-badge">2</div>
-        <img src="user-avatar.jpg" alt="User" className="user-avatar" />
-      </div>
     </div>
   );
 };
