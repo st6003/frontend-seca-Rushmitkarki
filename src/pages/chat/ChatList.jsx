@@ -5,7 +5,9 @@ const ChatList = ({ chats = [], onSelectChat, onCreateGroup }) => {
     <div className="chat-list">
       <div className="chat-list-header">
         <h2>My Chats</h2>
-        <button className="new-group-btn" onClick={onCreateGroup}>New Group Chat +</button>
+        <button className="new-group-btn" onClick={onCreateGroup}>
+          New Group Chat +
+        </button>
       </div>
       <div className="chat-items">
         {chats.map(chat => (

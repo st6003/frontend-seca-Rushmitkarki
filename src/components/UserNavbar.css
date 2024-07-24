@@ -28,3 +28,6 @@
   width: 20px;
   height: 20px;
 }
+.main-content {
+  margin-left: 16rem; /* 16rem = 256px, matching the sidebar width */
+}

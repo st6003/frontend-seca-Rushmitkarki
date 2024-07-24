@@ -1,3 +1,4 @@
+/* Existing CSS */
 .chat-container {
     display: flex;
     flex-direction: column;
@@ -28,6 +29,7 @@
     border-radius: 20px;
     font-size: 16px;
 }
+
 .search-btn {
     padding: 5px 10px;
     border: 1px solid #007bff;
@@ -39,9 +41,11 @@
     height: fit-content;
     width: fit-content;
 }
+
 .search-btn:hover {
     background-color: #0056b3;
 }
+
 .search-results {
     margin-top: 10px;
     max-height: 300px; /* Adjust based on your design */
@@ -57,7 +61,6 @@
 .search-result-item:hover {
     background-color: #f0f0f0;
 }
-
 
 .app-title {
     font-size: 24px;
@@ -87,6 +90,7 @@
     display: flex;
     flex: 1;
     overflow: hidden;
+    margin-left: 0; /* Adjusted margin to align with the layout */
 }
 
 .chat-list {
@@ -171,18 +175,18 @@
 }
 
 .message.sent {
+    align-items: flex-end;
+}
+
+.message.received {
     align-items: flex-start;
 }
-.message.received {
-    align-items: flex-end;
-  }
-
-
 
 .message-content {
     padding: 8px 12px;
     border-radius: 18px;
     max-width: 70%;
+    word-wrap: break-word;
 }
 
 .message.sent .message-content {
@@ -192,14 +196,14 @@
 .message.received .message-content {
     background-color: #3475c4;
     color: white;
-
 }
+
 .receiver-name {
     font-size: 0.8em;
     font-weight: bold;
     margin-bottom: 2px;
     align-self: flex-start;
-  }
+}
 
 .message-input {
     padding: 10px;
@@ -211,4 +215,19 @@
     padding: 10px;
     border: 1px solid #e0e0e0;
     border-radius: 20px;
+}
+
+/* New CSS rules for layout adjustments */
+.chat-list {
+    width: 300px;
+    border-right: 1px solid #e0e0e0;
+    display: flex;
+    flex-direction: column;
+}
+
+.chat-body {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+    margin-left: 0; 
 }
