@@ -1,10 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { renameGroup, addUserToGroup, removeUserFromGroup, leaveGroup, searchUsers } from '../../apis/api';
 
-const UserDetailsModal = ({ onClose, chat, onUpdateGroup }) => {
-  const [groupName, setGroupName] = useState(chat.chatName);
+const UserDetailsModal = ({ onClose, chat, onUpdateGroup, currentUser }) => {
+  const [groupName, setGroupName] = useState(chat ? chat.chatName : '');
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState([]);
+
+  useEffect(() => {
+    if (chat) {
+      setGroupName(chat.chatName);
+    }
+  }, [chat]);
 
   const handleSearch = async () => {
     try {
@@ -52,47 +58,55 @@ const UserDetailsModal = ({ onClose, chat, onUpdateGroup }) => {
     }
   };
 
+  if (!chat || !chat.users) {
+    return null;
+  }
+
   return (
     <div className="modal">
-      <div className="modal-content">
-        <h2>Chat Details</h2>
+    <div className="modal-content">
+      <h2>{chat.chatName || 'Chat Details'}</h2>
+      <div className="selected-users">
+        {chat.users.map(user => user && (
+          <span key={user._id} className="user-tag">
+            {user.firstName} {user.lastName}
+            {chat.isGroupChat && user._id !== chat.groupAdmin?._id && user._id !== currentUser?._id && (
+              <button onClick={() => handleRemoveUser(user._id)}>×</button>
+            )}
+          </span>
+        ))}
+      </div>
         {chat.isGroupChat && (
           <>
             <input
               type="text"
+              placeholder="Chat Name"
               value={groupName}
               onChange={(e) => setGroupName(e.target.value)}
             />
-            <button onClick={handleRenameGroup}>Change Group Name</button>
-            <div className="search-users">
-              <input
-                type="text"
-                placeholder="Search Users to Add"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-              />
-              <button onClick={handleSearch}>Search</button>
-            </div>
+            <button className="update-btn" onClick={handleRenameGroup}>Update</button>
+            <input
+              type="text"
+              placeholder="Add User to group"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
+            />
             <div className="search-results">
-              {searchResults.map(user => (
-                <div key={user._id} onClick={() => handleAddUser(user._id)}>
-                  {user.firstName} {user.lastName}
+              {searchResults.map(user => user ? (
+                <div key={user._id} className="search-result-item" onClick={() => handleAddUser(user._id)}>
+                  <img src={user.avatar || 'default-avatar.png'} alt={user.firstName} className="user-avatar" />
+                  <div>
+                    <div>{user.firstName} {user.lastName}</div>
+                    <div className="user-email">Email: {user.email}</div>
+                  </div>
                 </div>
-              ))}
+              ) : null)}
             </div>
-            <h3>Group Members</h3>
-            {chat.users.map(user => (
-              <div key={user._id}>
-                {user.firstName} {user.lastName}
-                {user._id !== chat.groupAdmin._id && (
-                  <button onClick={() => handleRemoveUser(user._id)}>Remove</button>
-                )}
-              </div>
-            ))}
-            <button onClick={handleLeaveGroup}>Leave Group</button>
+            <button className="leave-group-btn" onClick={handleLeaveGroup}>Leave Group</button>
           </>
         )}
-        <button onClick={onClose}>Close</button>
+        <button className="close-btn" onClick={onClose}>×</button>
       </div>
     </div>
   );

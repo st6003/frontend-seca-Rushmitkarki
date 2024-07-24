@@ -24,9 +24,22 @@ import UserProfile from "./pages/userprofile/UserProfile";
 import ProfileList from "./pages/profilelist/ProfileList";
 import UserAppointmentList from "./pages/UserAppointmentList/UserAppointmentList";
 import FavouriteDoctors from "./pages/Favourite/FavouriteDoctors";
+import io from "socket.io-client";
+import { useEffect, useState } from "react";
+
 
 
 function App() {
+  const [socket, setSocket] = useState(null);
+
+  useEffect(() => {
+    const newSocket = io('http://localhost:5000'); 
+    setSocket(newSocket);
+
+    return () => newSocket.close();
+  }, []);
+
+  
   return (
     <Router>
       <div>

@@ -27,9 +27,8 @@ const CreateGroupModal = ({ onClose, onCreateGroup }) => {
   };
 
   const handleCreateGroup = () => {
-    if (groupName && selectedUsers.length >= 2) {
-      onCreateGroup(groupName, selectedUsers.map(user => user._id));
-    }
+    const userIds = selectedUsers.map(user => user._id);
+    onCreateGroup(groupName, userIds);
   };
 
   return (
@@ -42,32 +41,34 @@ const CreateGroupModal = ({ onClose, onCreateGroup }) => {
           value={groupName}
           onChange={(e) => setGroupName(e.target.value)}
         />
-        <div className="search-users">
-          <input
-            type="text"
-            placeholder="Search Users"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-          />
-          <button onClick={handleSearch}>Search</button>
-        </div>
+        <input
+          type="text"
+          placeholder="Search Users"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
+        />
         <div className="search-results">
           {searchResults.map(user => (
-            <div key={user._id} onClick={() => handleSelectUser(user)}>
-              {user.firstName} {user.lastName}
+            <div key={user._id} className="search-result-item" onClick={() => handleSelectUser(user)}>
+              <img src={user.avatar || 'default-avatar.png'} alt={user.firstName} className="user-avatar" />
+              <div>
+                <div>{user.firstName} {user.lastName}</div>
+                <div className="user-email">Email: {user.email}</div>
+              </div>
             </div>
           ))}
         </div>
         <div className="selected-users">
           {selectedUsers.map(user => (
-            <div key={user._id}>
+            <span key={user._id} className="user-tag">
               {user.firstName} {user.lastName}
-              <button onClick={() => handleRemoveUser(user._id)}>Remove</button>
-            </div>
+              <button onClick={() => handleRemoveUser(user._id)}>×</button>
+            </span>
           ))}
         </div>
-        <button onClick={handleCreateGroup}>Create Group</button>
-        <button onClick={onClose}>Cancel</button>
+        <button className="create-btn" onClick={handleCreateGroup}>Create Group</button>
+        <button className="close-btn" onClick={onClose}>×</button>
       </div>
     </div>
   );
