@@ -51,7 +51,7 @@ const UserDetailsModal = ({ onClose, chat, onUpdateGroup, currentUser }) => {
   const handleLeaveGroup = async () => {
     try {
       await leaveGroup({ chatId: chat._id });
-      onUpdateGroup();
+      onUpdateGroup(chat._id);
       onClose();
     } catch (error) {
       console.error('Error leaving group:', error);
@@ -63,19 +63,19 @@ const UserDetailsModal = ({ onClose, chat, onUpdateGroup, currentUser }) => {
   }
 
   return (
-    <div className="modal">
-    <div className="modal-content">
-      <h2>{chat.chatName || 'Chat Details'}</h2>
-      <div className="selected-users">
-        {chat.users.map(user => user && (
-          <span key={user._id} className="user-tag">
-            {user.firstName} {user.lastName}
-            {chat.isGroupChat && user._id !== chat.groupAdmin?._id && user._id !== currentUser?._id && (
-              <button onClick={() => handleRemoveUser(user._id)}>×</button>
-            )}
-          </span>
-        ))}
-      </div>
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-900 bg-opacity-50">
+      <div className="bg-white rounded-lg shadow-lg w-full max-w-lg p-6">
+        <h2 className="text-2xl font-semibold mb-4">{chat.chatName || 'Chat Details'}</h2>
+        <div className="mb-4">
+          {chat.users.map(user => user && (
+            <span key={user._id} className="inline-block bg-gray-200 text-gray-700 rounded-full px-3 py-1 text-sm font-semibold mr-2 mb-2">
+              {user.firstName} {user.lastName}
+              {chat.isGroupChat && user._id !== chat.groupAdmin?._id && user._id !== currentUser?._id && (
+                <button onClick={() => handleRemoveUser(user._id)} className="ml-2 text-red-500">&times;</button>
+              )}
+            </span>
+          ))}
+        </div>
         {chat.isGroupChat && (
           <>
             <input
@@ -83,30 +83,32 @@ const UserDetailsModal = ({ onClose, chat, onUpdateGroup, currentUser }) => {
               placeholder="Chat Name"
               value={groupName}
               onChange={(e) => setGroupName(e.target.value)}
+              className="w-full mb-4 p-2 border border-gray-300 rounded"
             />
-            <button className="update-btn" onClick={handleRenameGroup}>Update</button>
+            <button className="bg-blue-500 text-white px-4 py-2 rounded mb-4" onClick={handleRenameGroup}>Update</button>
             <input
               type="text"
               placeholder="Add User to group"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
+              className="w-full mb-4 p-2 border border-gray-300 rounded"
             />
-            <div className="search-results">
+            <div className="max-h-40 overflow-y-auto mb-4">
               {searchResults.map(user => user ? (
-                <div key={user._id} className="search-result-item" onClick={() => handleAddUser(user._id)}>
-                  <img src={user.avatar || 'default-avatar.png'} alt={user.firstName} className="user-avatar" />
+                <div key={user._id} className="flex items-center p-2 hover:bg-gray-100 cursor-pointer" onClick={() => handleAddUser(user._id)}>
+                  <img src={user.avatar || 'default-avatar.png'} alt={user.firstName} className="w-10 h-10 rounded-full mr-3" />
                   <div>
                     <div>{user.firstName} {user.lastName}</div>
-                    <div className="user-email">Email: {user.email}</div>
+                    <div className="text-sm text-gray-600">{user.email}</div>
                   </div>
                 </div>
               ) : null)}
             </div>
-            <button className="leave-group-btn" onClick={handleLeaveGroup}>Leave Group</button>
+            <button className="bg-red-500 text-white px-4 py-2 rounded mb-4" onClick={handleLeaveGroup}>Leave Group</button>
           </>
         )}
-        <button className="close-btn" onClick={onClose}>×</button>
+        <button className="bg-gray-300 px-4 py-2 rounded" onClick={onClose}>Close</button>
       </div>
     </div>
   );
