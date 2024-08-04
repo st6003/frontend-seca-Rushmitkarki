@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Modal } from "react-bootstrap";
+import Rating from "react-rating-stars-component";
 import { toast } from "react-toastify";
-import Rating from 'react-rating-stars-component';
-import { addFavoriteApi, getDoctorReviews, addReviewApi } from "../apis/api";
+import { addFavoriteApi, addReviewApi, getDoctorReviews } from "../apis/api";
 
 const DoctorCard = ({ doctorInformation, refreshFavorites }) => {
   const [show, setShow] = useState(false);
@@ -52,7 +52,7 @@ const DoctorCard = ({ doctorInformation, refreshFavorites }) => {
     try {
       const res = await addFavoriteApi({ doctorId: doctorInformation._id });
       toast.success(res.data.message);
-      refreshFavorites(); 
+      refreshFavorites();
     } catch (err) {
       if (err.response && err.response.data && err.response.data.message) {
         toast.error(err.response.data.message);
@@ -71,7 +71,11 @@ const DoctorCard = ({ doctorInformation, refreshFavorites }) => {
     }
 
     try {
-      const res = await addReviewApi({ doctorId: doctorInformation._id, rating, comment });
+      const res = await addReviewApi({
+        doctorId: doctorInformation._id,
+        rating,
+        comment,
+      });
       toast.success(res.data.message);
       fetchReviews(); // Refresh reviews after submitting a new one
       setRating(0); // Reset rating
@@ -104,6 +108,12 @@ const DoctorCard = ({ doctorInformation, refreshFavorites }) => {
               ? doctorInformation.doctorField.slice(0, 30)
               : "No Field Info"}
           </p>
+          <p className="text-sm text-gray-600 mb-2">
+            Rs.
+            {doctorInformation.doctorFee
+              ? doctorInformation.doctorFee
+              : "No Field Info"}
+          </p>
           <div className="flex justify-between items-center mb-2">
             <span className="text-xl font-bold text-gray-800">
               {doctorInformation.doctorExperience || "N/A"} years
@@ -121,11 +131,7 @@ const DoctorCard = ({ doctorInformation, refreshFavorites }) => {
             >
               Add to Favorites
             </Button>
-            <Button
-              variant="secondary"
-              size="sm"
-              onClick={handleShow}
-            >
+            <Button variant="secondary" size="sm" onClick={handleShow}>
               View More
             </Button>
           </div>
@@ -143,7 +149,9 @@ const DoctorCard = ({ doctorInformation, refreshFavorites }) => {
 
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>{doctorInformation.doctorName || "Doctor Details"}</Modal.Title>
+          <Modal.Title>
+            {doctorInformation.doctorName || "Doctor Details"}
+          </Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <img
@@ -151,8 +159,11 @@ const DoctorCard = ({ doctorInformation, refreshFavorites }) => {
             className="w-full h-48 object-cover mb-4"
             alt={doctorInformation.doctorName || "Doctor"}
           />
-          <h5 className="font-semibold">Field: {doctorInformation.doctorField}</h5>
+          <h5 className="font-semibold">
+            Field: {doctorInformation.doctorField}
+          </h5>
           <p>Experience: {doctorInformation.doctorExperience} years</p>
+          <p>Fee: Rs.{doctorInformation.doctorFee} </p>
           <Rating
             value={rating}
             onChange={handleRatingChange}
@@ -166,11 +177,7 @@ const DoctorCard = ({ doctorInformation, refreshFavorites }) => {
             value={comment}
             onChange={(e) => setComment(e.target.value)}
           ></textarea>
-          <Button
-            variant="primary"
-            className="mt-2"
-            onClick={submitReview}
-          >
+          <Button variant="primary" className="mt-2" onClick={submitReview}>
             Submit Review
           </Button>
           <div className="mt-4">

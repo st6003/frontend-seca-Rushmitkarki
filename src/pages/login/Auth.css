@@ -66,19 +66,17 @@
 
 input {
   width: 100%;
-  padding: 10px;
+  padding: 15px; 
   border: 1px solid #ccc;
   border-radius: 4px;
-  font-size: 14px;
+  font-size: 16px; 
 }
 
-button {
-  width: 100%;
-  text-align: center;
-  size: 0%;
-  padding: 10px;
+.login-button {
+ height: fit-content;
+ width: fit-content;
+  padding: 10px 20px;
   background-color: #003d79;
-  color: #ffffff;
   border: none;
   border-radius: 4px;
   font-size: 16px;
@@ -86,7 +84,7 @@ button {
 }
 
 button:hover {
-  background-color: #6f859d;
+  background-color: #5282b7;
 }
 
 .auth-link {

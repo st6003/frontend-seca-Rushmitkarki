@@ -6,12 +6,14 @@ import {
   loginUserApi,
   resetPasswordApi,
 } from "../../apis/api";
-import "./Auth.css"; // Use the same CSS file as the register component
+import "./Auth.css";
+// import "./Login.css ";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [phone, setPhone] = useState("");
+  const [contactMethod, setContactMethod] = useState("phone");
+  const [contactValue, setContactValue] = useState("");
   const [otp, setOtp] = useState("");
   const [resetPassword, setResetPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -89,7 +91,12 @@ const Login = () => {
       return;
     }
 
-    resetPasswordApi({ phone: phone, otp: otp, password: resetPassword })
+    resetPasswordApi({
+      contact: contactValue,
+      otp: otp,
+      password: resetPassword,
+      contactMethod: contactMethod,
+    })
       .then(() => {
         toast.success("Password reset successfully");
       })
@@ -101,12 +108,19 @@ const Login = () => {
   const handleForgotPassword = (e) => {
     e.preventDefault();
 
-    if (phone.trim() === "") {
-      toast.warning("Please enter phone number");
+    if (contactValue.trim() === "") {
+      toast.warning(`Please enter ${contactMethod}`);
       return;
     }
 
-    forgotPasswordApi({ phone: phone })
+    const requestData = {
+      contactMethod,
+      contact: contactValue,
+    };
+
+    console.log("Request Data:", requestData);
+
+    forgotPasswordApi(requestData)
       .then((res) => {
         toast.success(res.data.message);
         setIsSentOtp(true);
@@ -121,16 +135,25 @@ const Login = () => {
       });
   };
 
+  const validateContact = () => {
+    if (contactMethod === "phone") {
+      const phoneRegex = /^[0-9]{10}$/;
+      return phoneRegex.test(contactValue);
+    } else if (contactMethod === "email") {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      return emailRegex.test(contactValue);
+    }
+    return false;
+  };
+
   return (
     <div className="auth-container">
       <div className="left-side">
-        <h1> Memory_Guardian</h1>
-        <p>-----------------------  </p>
-        <img src="assets/images/logo.png" alt="Logo" className="logo" />
         <h2>Welcome to Memory Guardian</h2>
         <p>Connect with our doctors and staff</p>
-        <p>-----------------------------------------</p>
 
+        <img src="assets/images/logo.png" alt="Logo" className="logo" />
+        <h1>Memory_Guardian</h1>
       </div>
       <div className="right-side">
         <div className="form-box">
@@ -164,39 +187,84 @@ const Login = () => {
               />
               {passwordError && <p className="text-danger">{passwordError}</p>}
             </div>
-            <button type="submit">Login</button>
+
+            <div className="button-container">
+              <button type="submit">Login</button>
+            </div>
           </form>
           <p className="auth-link">
-             <button className="forgot-password-btn" data-bs-toggle="modal" data-bs-target="#forgotPasswordModal">Forgot Password?</button>
+            <button
+              className="forgot-password-btn"
+              data-bs-toggle="modal"
+              data-bs-target="#forgotPasswordModal"
+            >
+              Forgot Password?
+            </button>
           </p>
         </div>
       </div>
 
       {/* Forgot Password Modal */}
-      <div className="modal fade" id="forgotPasswordModal" tabIndex="-1" aria-labelledby="forgotPasswordModalLabel" aria-hidden="true">
+      <div
+        className="modal fade"
+        id="forgotPasswordModal"
+        tabIndex="-1"
+        aria-labelledby="forgotPasswordModalLabel"
+        aria-hidden="true"
+      >
         <div className="modal-dialog">
           <div className="modal-content">
             <div className="modal-header">
-              <h5 className="modal-title" id="forgotPasswordModalLabel">Forgot Password</h5>
-              <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              <h5 className="modal-title" id="forgotPasswordModalLabel">
+                Forgot Password
+              </h5>
+              <button
+                type="button"
+                className="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
             </div>
             <div className="modal-body">
               {!isSentOtp ? (
                 <form onSubmit={handleForgotPassword}>
                   <div className="form-group">
+                    <label>Choose contact method</label>
+                    <select
+                      value={contactMethod}
+                      onChange={(e) => setContactMethod(e.target.value)}
+                      className="form-control"
+                    >
+                      <option value="phone">Phone</option>
+                      <option value="email">Email</option>
+                    </select>
+                  </div>
+                  <div className="form-group">
                     <label>
-                      <i className="fas fa-phone input-icon"></i>
-                      Phone Number
+                      <i
+                        className={`fas ${
+                          contactMethod === "phone" ? "fa-phone" : "fa-envelope"
+                        } input-icon`}
+                      ></i>
+                      {contactMethod === "phone" ? "Phone Number" : "Email"}
                     </label>
                     <input
-                      type="tel"
-                      placeholder="Enter phone number"
-                      value={phone}
-                      onChange={(e) => setPhone(e.target.value)}
+                      type={contactMethod === "phone" ? "tel" : "email"}
+                      placeholder={`Enter ${
+                        contactMethod === "phone" ? "phone number" : "email"
+                      }`}
+                      value={contactValue}
+                      onChange={(e) => setContactValue(e.target.value)}
                       required
                     />
                   </div>
-                  <button type="submit" className="send-otp-btn">Send OTP</button>
+                  <button
+                    type="submit"
+                    className="send-otp-btn"
+                    disabled={!validateContact()}
+                  >
+                    Send OTP
+                  </button>
                 </form>
               ) : (
                 <form onSubmit={handleReset}>
@@ -239,7 +307,9 @@ const Login = () => {
                       required
                     />
                   </div>
-                  <button type="submit" className="reset-password-btn">Reset Password</button>
+                  <button type="submit" className="reset-password-btn">
+                    Reset Password
+                  </button>
                 </form>
               )}
             </div>
