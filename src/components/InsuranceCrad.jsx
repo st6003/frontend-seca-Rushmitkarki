@@ -34,7 +34,7 @@ const InsuranceCard = ({ insuranceInformation }) => {
 
   return (
     <>
-      <div className="card">
+      <div className="card m-2 shadow-sm" style={{ width: '18rem' }}>
         <img
           src={`http://localhost:5000/insurance/${insuranceInformation.insuranceImage}`}
           className="card-img-top"
@@ -63,7 +63,7 @@ const InsuranceCard = ({ insuranceInformation }) => {
         <Modal.Body>
           <img
             src={`http://localhost:5000/insurance/${insuranceInformation.insuranceImage}`}
-            className="img-fluid"
+            className="img-fluid mb-3"
             alt={insuranceInformation.insuranceName}
           />
           <p>{insuranceInformation.insuranceDescription}</p>

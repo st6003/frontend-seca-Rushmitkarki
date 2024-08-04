@@ -1,122 +1,109 @@
 .auth-container {
   display: flex;
-  flex-direction: row;
-  height: 100vh;
-  font-family: 'Arial, sans-serif';
-  background-color: #f8f9fa;
+  min-height: 100vh;
+  background-color: #f0f8ff;
 }
 
 .left-side {
   flex: 1;
-  background-color: #e0f7fa;
+  background-color: #bac4c6; 
+  padding: 40px;
+  display: flex; 
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}  
+
+ .right-side {
+  flex: 1;
+  padding: 40px;
+  background-color: #ffffff;
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
-  padding: 20px;
-}
+} 
 
 .logo {
-  width: 150px;
-  height: auto;
+  width: 250px;
+  height: 250px;
   margin-bottom: 20px;
-}
-
-.left-side h2 {
-  font-size: 24px;
-  color: #00796b;
-  margin-bottom: 10px;
-}
-
-.left-side p {
-  font-size: 18px;
-  color: #004d40;
-  text-align: center;
-}
-
-.right-side {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: #ffffff;
-}
+} 
 
 .form-box {
   width: 100%;
   max-width: 400px;
+  margin: 0 auto;
+  background-color: #ffffff;
   padding: 20px;
   border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  background-color: #f5f5f5;
-}
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+} 
 
-.form-box h2 {
+ .form-box h2 {
   text-align: center;
   margin-bottom: 20px;
-  color: #333;
-}
+  color: #003d79;
+} 
 
 .form-group {
   margin-bottom: 20px;
+} 
+
+ .form-group label {
+  font-size: 14px;
+  color: #333;
   display: flex;
   align-items: center;
-}
+  margin-bottom: 8px;  
+} 
+/* Space between title text and input field */
 
-.form-group i {
-  color: #00796b;
+.input-icon {
+  color: #003d79; 
   font-size: 20px;
-  margin-right: 10px;
-}
-
-.form-group label {
-  font-size: 14px;
-  color: #333;
-  margin-right: 10px;
-  flex: 1;
-}
-
-.form-group input {
+  margin-right: 8px; 
+} 
+ 
+input {
   width: 100%;
-  padding: 10px 20px;
-  border: 1px solid #ddd;
+  padding: 10px;
+  border: 1px solid #ccc;
   border-radius: 4px;
-  font-size: 14px;
+  font-size: 16px;
   color: #333;
-}
-
-.text-danger {
-  color: red;
-  font-size: 12px;
-  margin-top: 5px;
-}
+  box-sizing: border-box; /* Include padding in width calculation */
+ }
 
 button {
   width: 100%;
   padding: 10px;
-
-  color: white;
+  background-color: #003d79; 
+   color: rgb(7, 3, 43);
   border: none;
   border-radius: 4px;
-  cursor: pointer;
   font-size: 16px;
-}
+  cursor: pointer;
+  margin-top: 10px;
+} 
 
-button:hover {
-  background-color: #004d40;
-}
+
 
 .auth-link {
   text-align: center;
-  margin-top: 10px;
-  color: #00796b;
+  margin-top: 20px;
 }
 
-.auth-link a {
-  color: #00796b;
-  text-decoration: none;
-}
+ .auth-link a { 
+   color: #003d79; 
+   text-decoration: none;
+} 
 
 .auth-link a:hover {
   text-decoration: underline;
+} 
+
+.text-danger {
+  color: red;
+  font-size: 12px;
 }

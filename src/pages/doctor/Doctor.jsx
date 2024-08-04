@@ -74,7 +74,7 @@ const Doctor = () => {
           <button
             onClick={handleSearch}
             className="bg-blue-500 text-white px-4 py-2 rounded-lg text-sm"
-            style={{ width: '100px' }}
+            style={{ width: "100px" }}
           >
             Search
           </button>

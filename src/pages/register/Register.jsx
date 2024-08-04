@@ -1,56 +1,56 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { toast } from 'react-toastify';
-import { registerUserApi } from '../../apis/api';
-import './Auth.css';
-import 'react-toastify/dist/ReactToastify.css';
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { registerUserApi } from "../../apis/api";
+import "./Register.css";
 
 const Register = () => {
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [email, setEmail] = useState('');
-  const [phone, setPhone] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [errors, setErrors] = useState({});
 
   const validate = () => {
     let validationErrors = {};
     let isValid = true;
 
-    if (firstName.trim() === '') {
-      validationErrors.firstName = 'First name is required';
+    if (firstName.trim() === "") {
+      validationErrors.firstName = "First name is required";
       isValid = false;
     }
 
-    if (lastName.trim() === '') {
-      validationErrors.lastName = 'Last name is required';
+    if (lastName.trim() === "") {
+      validationErrors.lastName = "Last name is required";
       isValid = false;
     }
 
-    if (email.trim() === '') {
-      validationErrors.email = 'Email is required';
+    if (email.trim() === "") {
+      validationErrors.email = "Email is required";
       isValid = false;
-    } else if (!email.includes('@')) {
-      validationErrors.email = 'Email is invalid';
-      isValid = false;
-    }
-
-    if (phone.trim() === '') {
-      validationErrors.phone = 'Phone number is required';
+    } else if (!email.includes("@")) {
+      validationErrors.email = "Email is invalid";
       isValid = false;
     }
 
-    if (password.trim() === '') {
-      validationErrors.password = 'Password is required';
+    if (phone.trim() === "") {
+      validationErrors.phone = "Phone number is required";
       isValid = false;
     }
 
-    if (confirmPassword.trim() === '') {
-      validationErrors.confirmPassword = 'Confirm password is required';
+    if (password.trim() === "") {
+      validationErrors.password = "Password is required";
+      isValid = false;
+    }
+
+    if (confirmPassword.trim() === "") {
+      validationErrors.confirmPassword = "Confirm password is required";
       isValid = false;
     } else if (password !== confirmPassword) {
-      validationErrors.confirmPassword = 'Passwords do not match';
+      validationErrors.confirmPassword = "Passwords do not match";
       isValid = false;
     }
 
@@ -73,23 +73,22 @@ const Register = () => {
           toast.error(res.data.message);
         } else {
           toast.success(res.data.message);
-          window.location.href = '/login';
+          window.location.href = "/login";
         }
       })
       .catch(() => {
-        toast.error('Registration failed');
+        toast.error("Registration failed");
       });
   };
 
   return (
     <div className="auth-container">
       <div className="left-side">
-        <h1>Memory_Guardian</h1>
-        <p>________________________</p>
-        <img src="assets/images/logo.png" alt="Logo" className="logo" />
         <h2>Welcome to Memory Guardian</h2>
         <p>Connect with our doctors and staff</p>
-        <p>_______________________________________ </p>
+
+        <img src="assets/images/logo.png" alt="Logo" className="logo" />
+        <h1>Memory_Guardian</h1>
       </div>
       <div className="right-side">
         <div className="form-box">
@@ -107,7 +106,9 @@ const Register = () => {
                 onChange={(e) => setFirstName(e.target.value)}
                 required
               />
-              {errors.firstName && <p className="text-danger">{errors.firstName}</p>}
+              {errors.firstName && (
+                <p className="text-danger">{errors.firstName}</p>
+              )}
             </div>
             <div className="form-group">
               <label>
@@ -121,7 +122,9 @@ const Register = () => {
                 onChange={(e) => setLastName(e.target.value)}
                 required
               />
-              {errors.lastName && <p className="text-danger">{errors.lastName}</p>}
+              {errors.lastName && (
+                <p className="text-danger">{errors.lastName}</p>
+              )}
             </div>
             <div className="form-group">
               <label>
@@ -163,7 +166,9 @@ const Register = () => {
                 onChange={(e) => setPassword(e.target.value)}
                 required
               />
-              {errors.password && <p className="text-danger">{errors.password}</p>}
+              {errors.password && (
+                <p className="text-danger">{errors.password}</p>
+              )}
             </div>
             <div className="form-group">
               <label>
@@ -177,9 +182,11 @@ const Register = () => {
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 required
               />
-              {errors.confirmPassword && <p className="text-danger">{errors.confirmPassword}</p>}
+              {errors.confirmPassword && (
+                <p className="text-danger">{errors.confirmPassword}</p>
+              )}
             </div>
-            <button >Register</button>
+            <button>Register</button>
           </form>
           <p className="auth-link">
             Already have an account? <Link to="/login">Login</Link>
