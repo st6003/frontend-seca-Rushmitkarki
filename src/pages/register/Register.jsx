@@ -186,11 +186,15 @@ const Register = () => {
                 <p className="text-danger">{errors.confirmPassword}</p>
               )}
             </div>
-            <button>Register</button>
+            <div className="button-container">
+              <button type="submit">Register</button>
+            </div>
+            <div className="auth-link">
+              <p>
+                Already have an account? <Link to="/login">Login</Link>
+              </p>
+            </div>
           </form>
-          <p className="auth-link">
-            Already have an account? <Link to="/login">Login</Link>
-          </p>
         </div>
       </div>
     </div>
