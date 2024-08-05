@@ -1,13 +1,16 @@
 import "@fortawesome/fontawesome-free/css/all.min.css";
+import { GoogleLogin } from "@react-oauth/google";
+import { jwtDecode } from "jwt-decode";
 import React, { useState } from "react";
 import { toast } from "react-toastify";
 import {
   forgotPasswordApi,
+  getUserByGoogleEmail,
+  googleLoginApi,
   loginUserApi,
   resetPasswordApi,
 } from "../../apis/api";
-import "./Auth.css";
-// import "./Login.css ";
+import "./Login.css";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -20,6 +23,9 @@ const Login = () => {
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [isSentOtp, setIsSentOtp] = useState(false);
+  const [googleToken, setGoogleToken] = useState("");
+  const [googleId, setGoogleId] = useState("");
+  const [showModal, setShowModal] = useState(false);
 
   const handleEmail = (e) => {
     setEmail(e.target.value);
@@ -146,6 +152,19 @@ const Login = () => {
     return false;
   };
 
+  const handleGoogleLogin = () => {
+    googleLoginApi({ token: googleToken, googleId, password }).then(
+      (response) => {
+        if (response.status === 201) {
+          toast.success("Login successful");
+          localStorage.setItem("token", response.data.token);
+          localStorage.setItem("user", JSON.stringify(response.data.user));
+          window.location.href = "/Homepage";
+        }
+      }
+    );
+  };
+
   return (
     <div className="auth-container">
       <div className="left-side">
@@ -192,6 +211,37 @@ const Login = () => {
               <button type="submit">Login</button>
             </div>
           </form>
+          <div className="google-login-container">
+            <GoogleLogin
+              className="google-login-btn"
+              onSuccess={(credentialResponse) => {
+                const token = credentialResponse.credential;
+                const details = jwtDecode(token);
+                setGoogleId(details.sub);
+                setGoogleToken(token);
+
+                getUserByGoogleEmail({ token })
+                  .then((response) => {
+                    if (response.status === 200) {
+                      handleGoogleLogin({ token });
+                    } else if (response.status === 201) {
+                      setShowModal(true);
+                    }
+                  })
+                  .catch((error) => {
+                    if (error.response && error.response.satus === 400) {
+                      toast.warning(error.response.data.message);
+                    } else {
+                      toast.error("Something went wrong");
+                    }
+                  });
+              }}
+              onError={() => {
+                console.log("Login Failed");
+              }}
+            />
+          </div>
+
           <p className="auth-link">
             <button
               className="forgot-password-btn"

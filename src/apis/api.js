@@ -25,6 +25,12 @@ Api.interceptors.request.use(
 
 export const registerUserApi = (data) => Api.post("/api/user/create", data);
 
+// login with google
+export const googleLoginApi = (data) => Api.post("/api/user/google", data);
+
+// eget by email
+export const getUserByGoogleEmail = (data)=> Api.post("/api/user/getGoogleUser",data);
+
 // Login API
 export const loginUserApi = (data) => Api.post("/api/user/login", data);
 
