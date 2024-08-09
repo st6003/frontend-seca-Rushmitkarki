@@ -70,7 +70,7 @@ const DoctorsList = () => {
     updateDoctor(currentDoctor._id, formData)
       .then((res) => {
         if (res.status === 201) {
-          toast.success(res.data.message);
+          toast.success("Doctor Updated");
           window.location.reload();
         }
       })

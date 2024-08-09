@@ -10,7 +10,6 @@ const UserProfile = () => {
     lastName: "",
     email: "",
     phone: "",
-
   });
   const [editing, setEditing] = useState(false);
 
@@ -24,7 +23,7 @@ const UserProfile = () => {
           lastName: user.lastName,
           email: user.email,
           phone: user.phone,
-          password: "" 
+          password: "",
         });
       } catch (error) {
         console.error("Error fetching user data:", error);
@@ -39,7 +38,7 @@ const UserProfile = () => {
     const { name, value } = e.target;
     setUserData((prevData) => ({
       ...prevData,
-      [name]: value
+      [name]: value,
     }));
   };
 
@@ -50,7 +49,6 @@ const UserProfile = () => {
       formData.append("lastName", userData.lastName);
       formData.append("email", userData.email);
       formData.append("phone", userData.phone);
-
 
       const response = await updateUserProfile(id, formData);
       if (response.status === 200) {
@@ -74,11 +72,11 @@ const UserProfile = () => {
 
     window.location.href = "/login";
 
-    alert("Logging out..."); 
+    alert("Logging out...");
   };
 
   return (
-    <div className="max-w-md mx-auto mt-8 p-6 bg-white rounded-lg shadow-md">
+    <div className="max-w-md mx-auto  p-6 bg-white rounded-lg shadow-md">
       <h2 className="text-xl font-semibold mb-4">User Profile</h2>
       <div className="mb-4">
         <label className="block text-sm font-medium text-gray-700">
@@ -150,7 +148,7 @@ const UserProfile = () => {
           className="bg-red-500 hover:bg-red-700 text-white py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50"
         >
           Logout
-        </button> 
+        </button>
       </div>
     </div>
   );

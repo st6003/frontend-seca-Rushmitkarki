@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 const ChatList = ({ chats = [], onSelectChat, onCreateGroup }) => {
   return (
@@ -10,10 +10,22 @@ const ChatList = ({ chats = [], onSelectChat, onCreateGroup }) => {
         </button>
       </div>
       <div className="chat-items">
-        {chats.map(chat => (
-          <div key={chat._id} className="chat-item" onClick={() => onSelectChat(chat)}>
-            <h3>{chat.isGroupChat ? chat.chatName : chat.users[1].firstName}</h3>
-            <p>{chat.latestMessage ? `${chat.latestMessage.sender.firstName}: ${chat.latestMessage.content}` : 'No messages yet'}</p>
+        {chats.map((chat) => (
+          <div
+            key={chat._id}
+            className="chat-item"
+            onClick={() => onSelectChat(chat)}
+          >
+            <h3>
+              {chat.isGroupChat
+                ? chat.chatName
+                : chat.users[1]?.firstName ?? "first"}
+            </h3>
+            {/* <p>
+              {chat.latestMessage
+                ? `${chat.latestMessage.sender.firstName}: ${chat.latestMessage.content}`
+                : "No messages yet"}
+            </p> */}
           </div>
         ))}
       </div>

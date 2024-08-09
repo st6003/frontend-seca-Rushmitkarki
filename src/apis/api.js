@@ -146,6 +146,6 @@ export const updateGroupChat = (data) =>
 
 
 // review and rating
-// Add these API calls to your api.js file
+
 export const addReviewApi = (data) => Api.post("/api/rating/add", data);
 export const getDoctorReviews = (doctorId) => Api.get(`/api/rating/doctor/${doctorId}`);
