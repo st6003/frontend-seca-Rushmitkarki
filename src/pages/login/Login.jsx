@@ -81,12 +81,12 @@ const Login = () => {
           if (res.data.userData.isAdmin) {
             window.location.href = "/admin/dashboard";
           } else {
-            window.location.href = "/";
+            window.location.href = "/Homepage";
           }
         }
       })
       .catch((error) => {
-        toast.error("Login failed");
+        toast.error("Invalid Credential");
       });
   };
 
@@ -153,16 +153,18 @@ const Login = () => {
   };
 
   const handleGoogleLogin = () => {
-    googleLoginApi({ token: googleToken, googleId, password }).then(
-      (response) => {
-        if (response.status === 201) {
+    googleLoginApi({ token: googleToken, googleId, password })
+      .then((response) => {
+        if (response.status === 200) {
           toast.success("Login successful");
           localStorage.setItem("token", response.data.token);
           localStorage.setItem("user", JSON.stringify(response.data.user));
           window.location.href = "/Homepage";
         }
-      }
-    );
+      })
+      .catch(() => {
+        toast.error("Something went wrong");
+      });
   };
 
   return (

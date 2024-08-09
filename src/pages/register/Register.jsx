@@ -72,7 +72,7 @@ const Register = () => {
         if (!res.data.success) {
           toast.error(res.data.message);
         } else {
-          toast.success(res.data.message);
+          toast.success("user created successfuly");
           window.location.href = "/login";
         }
       })
