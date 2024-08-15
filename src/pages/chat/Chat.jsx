@@ -14,9 +14,8 @@ import ChatList from "./ChatList";
 import CreateGroupModal from "./CreateGroupModal";
 import UserDetailsModal from "./UserDetailsModal";
 
-const socket = io("http://localhost:5000");
-
 const Chat = () => {
+  const socket = io("http://localhost:5000");
   const [selectedChat, setSelectedChat] = useState(null);
   const [chats, setChats] = useState([]);
   const [messages, setMessages] = useState([]);
@@ -27,26 +26,37 @@ const Chat = () => {
   const currentUser = JSON.parse(localStorage.getItem("user"));
 
   useEffect(() => {
+    socket.emit("newUser", currentUser?.id ?? "Guest");
+
+    return () => {
+      socket.off("newUser");
+    };
+  }, [socket, currentUser]);
+
+  useEffect(() => {
     fetchChats();
-    socket.on("messageReceived", (newMessage) => {
-      if (selectedChat && selectedChat._id === newMessage.chatId) {
-        setMessages((prevMessages) => [...prevMessages, newMessage]);
-      }
-      setChats((prevChats) => {
-        return prevChats.map((chat) =>
-          chat._id === newMessage.chatId
-            ? { ...chat, latestMessage: newMessage }
-            : chat
-        );
-      });
-      if (selectedChat && selectedChat._id === newMessage.chatId) {
+
+    socket.on("receiveMessage", (newMessage) => {
+      // if (selectedChat && selectedChat._id === newMessage.chat._id) {
+      //   setMessages((prevMessages) => [...prevMessages, newMessage]);
+      // }
+      // setChats((prevChats) => {
+      //   return prevChats.map((chat) =>
+      //     chat._id === newMessage.chat._id
+      //       ? { ...chat, latestMessage: newMessage }
+      //       : chat
+      //   );
+      // });
+      if (selectedChat && selectedChat._id === newMessage.chat._id) {
         // Fetch latest messages for the currently selected chat
-        fetchMessages(newMessage.chatId);
+        fetchMessages(newMessage.chat._id);
       }
     });
 
     return () => {
-      socket.off("messageReceived");
+      socket.off("newMessage");
+
+      socket.off("receiveMessage");
     };
   }, [selectedChat]);
 
@@ -67,7 +77,7 @@ const Chat = () => {
   const fetchChats = async () => {
     try {
       const response = await getChat();
-      setChats(response.data || []);
+      setChats(response.data.results || []);
     } catch (error) {
       console.error("Error fetching chats:", error);
       setChats([]);
@@ -77,7 +87,7 @@ const Chat = () => {
   const fetchMessages = async (chatId) => {
     try {
       const response = await allMessages(chatId);
-      setMessages(response.data || []);
+      setMessages(response.data.messages || []);
     } catch (error) {
       console.error("Error fetching messages:", error);
       setMessages([]);
@@ -102,7 +112,7 @@ const Chat = () => {
   const handleCreateGroup = async (groupName, users) => {
     try {
       const response = await createGroupChat({ name: groupName, users });
-      setChats([...chats, response.data]);
+      setChats([...chats, response.data.chat]);
       setSelectedChat(response.data);
       setShowCreateGroupModal(false);
     } catch (error) {
@@ -113,8 +123,8 @@ const Chat = () => {
   const handleSendMessage = async (content) => {
     try {
       const response = await sendMessage({ content, chatId: selectedChat._id });
-      setMessages([...messages, response.data]);
-      socket.emit("newMessage", response.data);
+      // setMessages([...messages, response.data]);
+      socket.emit("sendMessage", response.data.message);
     } catch (error) {
       console.error("Error sending message:", error);
     }

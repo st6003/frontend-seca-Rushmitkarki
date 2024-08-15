@@ -41,7 +41,7 @@ const Insurance = () => {
     createInsurance(formData)
       .then((res) => {
         if (res.status === 201) {
-          toast.success(res.data.message);
+          toast.success("insurance created sucessfully");
           // Update state with the new insurance
           setInsurances([...insurances, res.data.data]);
           // Clear form fields
@@ -69,7 +69,7 @@ const Insurance = () => {
     updateInsurance(currentInsurance._id, formData)
       .then((res) => {
         if (res.status === 200) {
-          toast.success(res.data.message);
+          toast.success("insurance update succesfully");
           fetchInsurances();
           // Clear form fields
           setCurrentInsurance(null);
@@ -92,7 +92,7 @@ const Insurance = () => {
       deleteInsurance(id)
         .then((res) => {
           if (res.status === 200) {
-            toast.success(res.data.message);
+            toast.success("insurance delete sucessfully");
             fetchInsurances();
           }
         })
@@ -128,7 +128,7 @@ const Insurance = () => {
 
   return (
     <>
-      <div className="container-fluid flex flex-column">
+      <div className="ml-64 p-6 bg-gray-100 min-h-screen">
         <header>
           <h1 className="mb-4 text-center">Insurance List Admin Panel</h1>
         </header>
@@ -148,7 +148,7 @@ const Insurance = () => {
               </div>
               <div className="table-responsive">
                 <table className="table table-bordered">
-                  <thead className="thead-light">
+                  <thead className="thead-black">
                     <tr>
                       <th scope="col">Insurance Image</th>
                       <th scope="col">Insurance Name</th>

@@ -1,14 +1,14 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
 import {
+  FaComments,
+  FaCreditCard,
+  FaList,
+  FaSignOutAlt,
   FaTachometerAlt,
   FaUserMd,
   FaUsers,
-  FaCreditCard,
-  FaList,
-  FaComments,
-  FaSignOutAlt,
 } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
 const AdminNavbar = () => {
   const navigate = useNavigate();
@@ -56,14 +56,14 @@ const AdminNavbar = () => {
                 <FaUsers className="mr-3" /> Users List
               </button>
             </li>
-            {/* <li className="nav-item">
+            <li className="nav-item">
               <button
                 className="btn w-full flex items-center justify-start p-3 rounded text-white hover:bg-gray-700 transition-colors duration-200 border-white border"
-                onClick={() => handleNavigation("/payment")}
+                onClick={() => handleNavigation("/Insurancelist")}
               >
-                <FaCreditCard className="mr-3" /> Payment
+                <FaCreditCard className="mr-3" /> Insurance
               </button>
-            </li> */}
+            </li>
             <li className="nav-item">
               <button
                 className="btn w-full flex items-center justify-start p-3 rounded text-white hover:bg-gray-700 transition-colors duration-200 border-white border"

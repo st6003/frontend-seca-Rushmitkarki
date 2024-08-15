@@ -15,7 +15,7 @@ const DoctorsList = () => {
   const [field, setField] = useState("");
   const [experience, setExperience] = useState("");
   const [fee, setFee] = useState("");
-  const [imageFile, setImageFile] = useState(null);
+  const [imageFile, setImageFile] = useState("");
 
   useEffect(() => {
     getAllDoctors()

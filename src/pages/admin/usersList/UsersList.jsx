@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
+import { FaEye, FaTrash } from "react-icons/fa";
+import Modal from "react-modal";
 import { toast } from "react-toastify";
 import { deleteUser, getAllUsers } from "../../../apis/api";
-import { FaTrash, FaEye } from "react-icons/fa";
-import Modal from "react-modal";
 
 const UsersList = () => {
   const [users, setUsers] = useState([]);
@@ -35,7 +35,7 @@ const UsersList = () => {
       try {
         const response = await deleteUser(id);
         if (response.status === 200) {
-          toast.success(response.data.message);
+          toast.success("user deleted successfuly");
           setUsers(users.filter((user) => user._id !== id));
         } else {
           toast.error("Failed to delete user");
@@ -62,7 +62,9 @@ const UsersList = () => {
   }
 
   return (
-    <div className="p-6 ml-64"> {/* Added ml-64 to push content to the right */}
+    <div className="p-6 ml-64">
+      {" "}
+      {/* Added ml-64 to push content to the right */}
       <h2 className="text-4xl mb-4">Users List</h2>
       <table className="min-w-full bg-white border">
         <thead>
@@ -103,7 +105,6 @@ const UsersList = () => {
           ))}
         </tbody>
       </table>
-
       <Modal
         isOpen={modalIsOpen}
         onRequestClose={closeModal}
@@ -115,11 +116,22 @@ const UsersList = () => {
         {selectedUser && (
           <div>
             <h2 className="text-2xl mb-4">User Details</h2>
-            <p><strong>First Name:</strong> {selectedUser.firstName}</p>
-            <p><strong>Last Name:</strong> {selectedUser.lastName}</p>
-            <p><strong>Email:</strong> {selectedUser.email}</p>
-            <p><strong>Phone:</strong> {selectedUser.phone}</p>
-            <button onClick={closeModal} className="bg-blue-500 text-white py-2 px-4 rounded mt-4">
+            <p>
+              <strong>First Name:</strong> {selectedUser.firstName}
+            </p>
+            <p>
+              <strong>Last Name:</strong> {selectedUser.lastName}
+            </p>
+            <p>
+              <strong>Email:</strong> {selectedUser.email}
+            </p>
+            <p>
+              <strong>Phone:</strong> {selectedUser.phone}
+            </p>
+            <button
+              onClick={closeModal}
+              className="bg-blue-500 text-white py-2 px-4 rounded mt-4"
+            >
               Close
             </button>
           </div>

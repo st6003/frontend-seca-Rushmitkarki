@@ -21,11 +21,11 @@ const ChatList = ({ chats = [], onSelectChat, onCreateGroup }) => {
                 ? chat.chatName
                 : chat.users[1]?.firstName ?? "first"}
             </h3>
-            {/* <p>
+            <p>
               {chat.latestMessage
                 ? `${chat.latestMessage.sender.firstName}: ${chat.latestMessage.content}`
                 : "No messages yet"}
-            </p> */}
+            </p>
           </div>
         ))}
       </div>

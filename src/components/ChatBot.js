@@ -1,22 +1,51 @@
-import React, { useEffect } from 'react';
+import React, { useEffect } from "react";
 
 const ChatBot = () => {
   useEffect(() => {
-    (function(d, m){
-        var kommunicateSettings = 
-            {"appId":"3f0188b2f711065df492000b8a9443d1c","popupWidget":true,"automaticChatOpenOnNavigation":true};
-        var s = document.createElement("script"); s.type = "text/javascript"; s.async = true;
-        s.src = "https://widget.kommunicate.io/v2/kommunicate.app";
-        var h = document.getElementsByTagName("head")[0]; h.appendChild(s);
-        window.kommunicate = m; m._globals = kommunicateSettings;
-    })(document, window.kommunicate || {});
-  }, []); // Empty dependency array means this runs once when the component mounts.
+    // Function to load Kommunicate script
+    const loadKommunicateScript = () => {
+      // Kommunicate settings
+      const kommunicateSettings = {
+        appId: "3f0188b2f711065df492000b8a9443d1c",
+        popupWidget: true,
+        automaticChatOpenOnNavigation: true,
+      };
+
+      // Create script element
+      const script = document.createElement("script");
+      script.type = "text/javascript";
+      script.async = true;
+      script.src = "https://widget.kommunicate.io/v2/kommunicate.app";
+
+      // Handle script load success
+      script.onload = () => {
+        try {
+          // Ensure kommunicate is defined and set globals
+          window.kommunicate = window.kommunicate || {};
+          window.kommunicate._globals = kommunicateSettings;
+        } catch (error) {
+          console.error("Error setting Kommunicate globals:", error);
+        }
+      };
+
+      // Handle script load error
+      script.onerror = (error) => {
+        console.error("Error loading Kommunicate script:", error);
+      };
+
+      // Append script to head
+      document.head.appendChild(script);
+    };
+
+    // Load Kommunicate script on component mount
+    loadKommunicateScript();
+  }, []);
 
   return (
     <div>
       <h1>This is the chat bot</h1>
     </div>
   );
-}
+};
 
 export default ChatBot;
