@@ -24,6 +24,7 @@ import Doctor from "./pages/doctor/Doctor";
 import FavouriteDoctors from "./pages/Favourite/FavouriteDoctors";
 import About from "./pages/homepage/About";
 import Payment from "./pages/payment/Payment";
+import PaymentSuccess from "./pages/payment/PaymentSuccess";
 import ProfileList from "./pages/profilelist/ProfileList";
 import UserAppointmentList from "./pages/UserAppointmentList/UserAppointmentList";
 import UserProfile from "./pages/userprofile/UserProfile";
@@ -61,6 +62,7 @@ function App() {
           <Route path="/Login" element={<Login />} />
           <Route path="/Register" element={<Register />} />
           <Route path="/chatBot" element={<ChatBot />}></Route>
+          <Route path="/payment/success" element={<PaymentSuccess />}></Route>
 
           <Route element={<AdminRoutes />}>
             <Route path="/Admin/Dashboard" element={<AdminDashboard />} />

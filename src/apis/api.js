@@ -23,19 +23,28 @@ Api.interceptors.request.use(
   }
 );
 
+// form config
+export const formConfig = {
+  headers: {
+    "Content-Type": "multipart/form-data",
+  },
+};
+
 export const registerUserApi = (data) => Api.post("/api/user/create", data);
 
 // login with google
 export const googleLoginApi = (data) => Api.post("/api/user/google", data);
 
 // eget by email
-export const getUserByGoogleEmail = (data)=> Api.post("/api/user/getGoogleUser",data);
+export const getUserByGoogleEmail = (data) =>
+  Api.post("/api/user/getGoogleUser", data);
 
 // Login API
 export const loginUserApi = (data) => Api.post("/api/user/login", data);
 
 // Create doctor
-export const createDoctor = (data) => Api.post("/api/doctor/create", data);
+export const createDoctor = (data) =>
+  Api.post("/api/doctor/create", data, formConfig);
 
 // Route to fetch all doctors
 export const getAllDoctors = () => Api.get("/api/doctor/get_all_doctors");
@@ -46,7 +55,7 @@ export const getSingleDoctor = (id) =>
 
 // Update doctor
 export const updateDoctor = (id, data) =>
-  Api.put(`/api/doctor/update_doctor/${id}`, data);
+  Api.put(`/api/doctor/update_doctor/${id}`, data, formConfig);
 
 // Delete doctor
 export const deleteDoctor = (id) =>
@@ -89,7 +98,8 @@ export const updateUserProfile = (id, userData) =>
 // Favorites
 export const addFavoriteApi = (data) => Api.post("/api/favourite/add", data);
 export const getUserFavoritesApi = () => Api.get("/api/favourite/all");
-export const removeFavoriteApi = (id) => Api.delete(`/api/favourite/delete/${id}`);
+export const removeFavoriteApi = (id) =>
+  Api.delete(`/api/favourite/delete/${id}`);
 // Appointment doctors
 export const appointmentDoctor = (data) =>
   Api.post("/api/booking/create_appointments", data);
@@ -104,7 +114,7 @@ export const getUserAppointments = () =>
   Api.get("/api/booking/user_appointments");
 
 export const cancelAppointment = (id) =>
-  Api.delete(`/api/booking/cancel_appointment/${id}`);
+  Api.put(`/api/booking/cancel_appointment/${id}`);
 
 // For admin chart
 export const getDashboardStats = () => Api.get("/api/admin/dashboard_stats");
@@ -117,18 +127,18 @@ export const searchUsers = (query) =>
 
 // Insurance
 export const createInsurance = (data) =>
-  Api.post("/api/insurance/create", data);
+  Api.post("/api/insurance/create", data, formConfig);
 export const getInsurance = () => Api.get("/api/insurance/get_all_insurances");
 export const deleteInsurance = (id) =>
   Api.delete(`/api/insurance/delete_insurance/${id}`);
 export const updateInsurance = (id, data) =>
-  Api.put(`/api/insurance/update_insurance/${id}`, data);
+  Api.put(`/api/insurance/update_insurance/${id}`, data, formConfig);
 export const getSingleInsurance = (id) =>
   Api.get(`/api/insurance/get_single_insurance/${id}`);
 
 // Khalti
 export const initializeKhaltiPayment = (data) =>
-  Api.post("/api/khalti/initialize-khalti", data);
+  Api.post("/api/payment/initialize_khalti", data);
 
 // Chat
 export const createChat = (data) => Api.post("/api/chat/create", data);
@@ -136,16 +146,16 @@ export const getChat = () => Api.get("/api/chat/fetch");
 export const createGroupChat = (data) => Api.post("/api/chat/group", data);
 export const renameGroup = (data) => Api.put("/api/chat/rename", data);
 export const addUserToGroup = (data) => Api.put("/api/chat/groupadd", data);
-export const removeUserFromGroup = (data) => Api.put("/api/chat/groupremove", data);
+export const removeUserFromGroup = (data) =>
+  Api.put("/api/chat/groupremove", data);
 export const leaveGroup = (data) => Api.put("/api/chat/groupleave", data);
 export const sendMessage = (data) => Api.post("/api/message/send", data);
 export const allMessages = (id) => Api.get(`/api/message/${id}`);
 // update group
-export const updateGroupChat = (data) =>
-  Api.put(`/api/chat/updategroup`, data);
-
+export const updateGroupChat = (data) => Api.put(`/api/chat/updategroup`, data);
 
 // review and rating
 
 export const addReviewApi = (data) => Api.post("/api/rating/add", data);
-export const getDoctorReviews = (doctorId) => Api.get(`/api/rating/doctor/${doctorId}`);
+export const getDoctorReviews = (doctorId) =>
+  Api.get(`/api/rating/doctor/${doctorId}`);
