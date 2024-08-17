@@ -170,18 +170,21 @@
 }
 
 .message {
+    max-width: 70%;
     margin-bottom: 10px;
-    display: flex;
-    flex-direction: column;
-}
+    clear: both;
+  }
+  
 
-.message.sent {
-    align-items: flex-end;
-}
+  .message.sent {
+    text-align: right;
+    background-color: #d1e7dd;
+  }
 
-.message.received {
-    align-items: flex-start;
-}
+  .message.received {
+    float: left;
+    align-self: flex-start;
+  }
 
 .sender-name {
     font-size: 12px;
@@ -192,20 +195,21 @@
 .message-content {
     padding: 8px 12px;
     border-radius: 18px;
-    max-width: 70%;
+   
     word-wrap: break-word;
 }
 
 .message.sent .message-content {
     background-color: #007bff;
     color: white;
-    text-align: right;
+   
+    
 }
 
 .message.received .message-content {
     background-color: #e6e6e6;
     color: black;
-    text-align: left;
+    
 }
 
 .message-input {
@@ -222,6 +226,12 @@
     border-radius: 20px;
     margin-right: 10px;
 }
+.sender-name {
+    font-size: 12px;
+    color: #888;
+    margin-bottom: 2px;
+}
+
 
 .message-input button {
     padding: 8px 16px;
@@ -230,4 +240,20 @@
     border: none;
     border-radius: 20px;
     cursor: pointer;
+}
+.message-timestamp {
+    font-size: 10px;
+    color: #888;
+    margin-top: 2px;
+    clear: both;
+}
+  
+.message.sent .sender-name,
+.message.sent .message-timestamp {
+    text-align: right;
+}
+  
+.message.received .sender-name,
+.message.received .message-timestamp {
+    text-align: left;
 }

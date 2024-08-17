@@ -17,9 +17,17 @@ const FavouriteDoctors = () => {
   const fetchFavorites = async () => {
     try {
       const res = await getUserFavoritesApi();
-      console.log(res.data); // Debugging: Check the structure of the fetched data
-      setFavorites(res.data);
+      console.log("Fetched data:", res.data); // Debugging: Check the structure of the fetched data
+
+      // Ensure the data is an array before setting it
+      if (Array.isArray(res.data.favorites)) {
+        setFavorites(res.data.favorites);
+      } else {
+        console.error("Fetched data is not an array:", res.data);
+        toast.error("Failed to fetch favorite doctors");
+      }
     } catch (err) {
+      console.error("Error fetching favorites:", err);
       toast.error("Failed to fetch favorite doctors");
     }
   };
@@ -36,6 +44,7 @@ const FavouriteDoctors = () => {
       toast.success("Doctor removed from favorites");
       fetchFavorites(); // Refresh the list to automatically update the table
     } catch (err) {
+      console.error("Error removing doctor from favorites:", err);
       toast.error("Failed to remove doctor from favorites");
     }
   };
