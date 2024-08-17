@@ -37,16 +37,17 @@ const Chat = () => {
     fetchChats();
 
     socket.on("receiveMessage", (newMessage) => {
-      // if (selectedChat && selectedChat._id === newMessage.chat._id) {
-      //   setMessages((prevMessages) => [...prevMessages, newMessage]);
-      // }
-      // setChats((prevChats) => {
-      //   return prevChats.map((chat) =>
-      //     chat._id === newMessage.chat._id
-      //       ? { ...chat, latestMessage: newMessage }
-      //       : chat
-      //   );
-      // });
+      // commit after changes....
+      if (selectedChat && selectedChat._id === newMessage.chat._id) {
+        setMessages((prevMessages) => [...prevMessages, newMessage]);
+      }
+      setChats((prevChats) => {
+        return prevChats.map((chat) =>
+          chat._id === newMessage.chat._id
+            ? { ...chat, latestMessage: newMessage }
+            : chat
+        );
+      });
       if (selectedChat && selectedChat._id === newMessage.chat._id) {
         // Fetch latest messages for the currently selected chat
         fetchMessages(newMessage.chat._id);

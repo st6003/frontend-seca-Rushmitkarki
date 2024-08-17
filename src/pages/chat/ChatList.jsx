@@ -23,7 +23,7 @@ const ChatList = ({ chats = [], onSelectChat, onCreateGroup }) => {
             </h3>
             <p>
               {chat.latestMessage
-                ? `${chat.latestMessage.sender.firstName}: ${chat.latestMessage.content}`
+                ? `${chat.latestMessage.sender?.firstName || "Unknown"}: ${chat.latestMessage.content}`
                 : "No messages yet"}
             </p>
           </div>

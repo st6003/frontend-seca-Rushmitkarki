@@ -1,3 +1,4 @@
+import moment from "moment";
 import React, { useEffect, useRef, useState } from "react";
 
 const ChatArea = ({
@@ -20,13 +21,36 @@ const ChatArea = ({
 
   const handleSend = () => {
     if (newMessage.trim()) {
-      onSendMessage(newMessage);
+      onSendMessage(newMessage.trim());
       setNewMessage("");
     }
   };
 
   const getOtherUser = () => {
-    return selectedChat.users.find((user) => user._id !== currentUser._id);
+    if (!selectedChat || !selectedChat.users) return null;
+    return selectedChat.users.find((user) => user.id !== currentUser.id);
+  };
+  const renderMessage = (message) => {
+    console.log(
+      "currentUser.id:",
+      currentUser.id,
+      "message.sender.id:",
+      message.sender.id
+    );
+    const isOwnMessage = message.sender.id === currentUser.id;
+    const messageClass = isOwnMessage ? "message sent" : "message received";
+
+    return (
+      <div key={message._id} className={messageClass}>
+        <span className="sender-name">
+          {isOwnMessage ? "You" : message.sender.firstName}
+        </span>
+        <div className="message-content">{message.content}</div>
+        <div className="message-timestamp">
+          {moment(message.createdAt).format("HH:mm")}
+        </div>
+      </div>
+    );
   };
 
   return (
@@ -46,26 +70,7 @@ const ChatArea = ({
             </div>
           </div>
           <div className="messages">
-            {messages.map((message) => (
-              <div
-                key={message._id}
-                className={`message ${
-                  message.sender._id === currentUser._id ? "sent" : "received"
-                }`}
-              >
-                {message.sender._id !== currentUser._id && (
-                  <span className="sender-name">
-                    {message.sender.firstName}
-                  </span>
-                )}
-                <div className="message-content">{message.content}</div>
-                {message.sender._id === currentUser._id && (
-                  <span className="sender-name">
-                    {currentUser.firstName}
-                  </span>
-                )}
-              </div>
-            ))}
+            {messages.map(renderMessage)}
             <div ref={messagesEndRef} />
           </div>
           <div className="message-input">
